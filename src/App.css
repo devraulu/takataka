@@ -1,0 +1,29 @@
+.words,
+.word {
+	@apply flex flex-wrap;
+}
+
+.word {
+	@apply m-1 leading-5;
+}
+
+.words {
+	@apply px-12 py-6;
+}
+
+.correct {
+	@apply text-blue-500;
+}
+
+.incorrect {
+	@apply text-red-500;
+}
+
+.incomplete {
+	@apply border-b-2 border-red-500;
+}
+
+.extra {
+	@apply text-red-900;
+}
+

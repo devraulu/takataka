@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { isLetter, isPunctuation, isSpace } from './utils';
 import { useInterval } from 'usehooks-ts';
@@ -8,48 +8,64 @@ const text =
 
 function App() {
 	const [typed, setTyped] = useState<string[]>([]);
-	const [history, setHistory] = useState('');
+	const [history, setHistory] = useState<string[]>([]);
 	const [delay] = useState<number>(1000);
 	const [isPlaying, setPlaying] = useState<boolean>(false);
 	const [count, setCount] = useState(0);
 	const [stop, setStop] = useState(true);
+
 	useInterval(async () => {}, isPlaying && !stop ? delay : null);
 
-	const handleKeys = (e: KeyboardEvent) => {
-		const key = e.key;
+	const handleKeys = useCallback(
+		(e: KeyboardEvent) => {
+			const key = e.key;
 
-		setHistory((prev) => prev + key);
-
-		if (isLetter(key) || isPunctuation(key)) {
-			setTyped((prev) => {
-				if (prev.length > 0) {
-					const last = prev.slice(-1)[0] ?? '';
-					return [...prev.slice(0, -1), last + key];
-				}
-				return [key];
-			});
-		} else if (key === 'Backspace') {
-			setTyped((prev) => {
-				if (prev.length > 0) {
-					let last = prev.slice(-1)[0] ?? '';
-					if (last === '') {
-						const typedPrevWord = prev.slice(-2)[0] ?? '';
-						const prevWord = text.split(' ').slice(-2)[0] ?? '';
-						if (typedPrevWord !== prevWord) {
-							last = typedPrevWord;
-						}
-						return [...prev.slice(0, -2), last];
+			if (isLetter(key) || isPunctuation(key)) {
+				setTyped((prev) => {
+					if (prev.length > 0) {
+						const last = prev.slice(-1)[0] ?? '';
+						return [...prev.slice(0, -1), last + key];
 					}
+					return [key];
+				});
+				setHistory((prev) => [...prev, key]);
+			} else if (key === 'Backspace') {
+				setTyped((prev) => {
+					if (prev.length > 0) {
+						// If there are any words typed, we get the last one
+						let last = prev.slice(-1)[0];
 
-					return [...prev.slice(0, -1), last.slice(0, -1)];
-				}
-				return [];
-			});
-		} else if (isSpace(key)) {
-			if (isSpace(history[history.length - 2])) {
-			} else setTyped((prev) => [...prev, '']);
-		}
-	};
+						// If the last word is empty, we get the prev to last word
+						// and only if it is wrongly typed we return it
+						// (which the user will see as moving the cursor back to the previous word)
+
+						if (last === '') {
+							const typedPrevWord = prev.slice(-2)[0] ?? '';
+							const prevWord = text.split(' ')[prev.length - 2] ?? '';
+							console.log('prev to last', typedPrevWord, prevWord);
+
+							if (typedPrevWord !== prevWord)
+								return [...prev.slice(0, -2), typedPrevWord];
+						}
+
+						// Else we return the last word without the last letter
+						return [...prev.slice(0, -1), last.slice(0, -1)];
+					}
+					return prev;
+				});
+				setHistory((prev) => [...prev, key]);
+			} else if (isSpace(key)) {
+				setHistory((prev) => [...prev, 'Space']);
+
+				const prevPrevChar = history.slice(-2)[0];
+				const prevChar = history.slice(-1)[0];
+
+				if (prevChar === 'Space' && prevPrevChar === 'Space') {
+				} else setTyped((prev) => [...prev, '']);
+			}
+		},
+		[text, typed, history]
+	);
 
 	useEffect(() => {
 		window.addEventListener('keyup', handleKeys);
@@ -57,7 +73,7 @@ function App() {
 		return () => {
 			window.removeEventListener('keyup', handleKeys);
 		};
-	}, []);
+	}, [text, typed, history, handleKeys]);
 
 	return (
 		<div className='App' onKeyUpCapture={(e) => console.log('key: ' + e.key)}>
@@ -65,6 +81,8 @@ function App() {
 				{text.split(' ').map((word, i) => {
 					const isTyped = typed.length > 0 && !!typed[i];
 					const isComplete = isTyped && typed[i].length === word.length;
+					const isLastWordBeingTyped = isTyped && typed.length === i + 1;
+					const isWordCorrect = isTyped && typed[i] === word;
 					const isExtra =
 						typed.length > 0 && !!typed[i] && typed[i].length > word.length;
 					const finalWord = isExtra ? word + typed[i].slice(word.length) : word;
@@ -72,7 +90,11 @@ function App() {
 					return (
 						<div
 							className={`word ${
-								isTyped ? (isComplete ? '' : 'incomplete') : ''
+								isTyped
+									? isWordCorrect || isLastWordBeingTyped
+										? ''
+										: 'incomplete'
+									: ''
 							}`}>
 							{finalWord.split('').map((letter, j) => {
 								const isTyped = typed.length > 0 && !!typed[i] && !!typed[i][j];

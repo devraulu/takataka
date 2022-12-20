@@ -7,7 +7,7 @@ const text =
 	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rutrum, quam vitae rhoncus blandit, nisl magna lobortis erat, a interdum ipsum lacus in dui. Donec eget orci sit amet lectus porta placerat ut nec nisi. Duis at purus ex. Quisque dolor lectus, auctor ac tristique vitae, dignissim ac mi. Quisque a suscipit mauris. Maecenas urna nunc, malesuada sit amet finibus sit amet, sollicitudin nec nulla. Nullam at tellus auctor, euismod lectus eu, tincidunt eros.';
 
 function App() {
-	const [typed, setTyped] = useState<string[]>([]);
+	const [typed, setTyped] = useState<string[]>(['']);
 	const [history, setHistory] = useState<string[]>([]);
 	const [delay] = useState<number>(1000);
 	const [isPlaying, setPlaying] = useState<boolean>(false);
@@ -76,40 +76,54 @@ function App() {
 	}, [text, typed, history, handleKeys]);
 
 	return (
-		<div className='App' onKeyUpCapture={(e) => console.log('key: ' + e.key)}>
+		<div className='App'>
 			<div className='words'>
 				{text.split(' ').map((word, i) => {
 					const isTyped = typed.length > 0 && !!typed[i];
 					const isComplete = isTyped && typed[i].length === word.length;
-					const isLastWordBeingTyped = isTyped && typed.length === i + 1;
+					const isLastWordBeingTypedStart = typed.length === i;
+					const isLastWordBeingTyped = typed.length - 1 === i;
+
 					const isWordCorrect = isTyped && typed[i] === word;
 					const isExtra =
 						typed.length > 0 && !!typed[i] && typed[i].length > word.length;
 					const finalWord = isExtra ? word + typed[i].slice(word.length) : word;
 
 					return (
-						<div
-							className={`word ${
-								isTyped
-									? isWordCorrect || isLastWordBeingTyped
-										? ''
-										: 'incomplete'
-									: ''
-							}`}>
-							{finalWord.split('').map((letter, j) => {
-								const isTyped = typed.length > 0 && !!typed[i] && !!typed[i][j];
-								const isCorrect = isTyped && letter === typed[i][j];
-								const isExtraLetter = isExtra && j >= word.length;
-								return (
-									<div
-										className={`letter ${
-											isTyped ? (isCorrect ? 'correct' : 'incorrect') : ''
-										} ${isExtraLetter ? 'extra' : ''}`}>
-										{letter}
-									</div>
-								);
-							})}
-						</div>
+						<>
+							<div
+								className={`word ${
+									isTyped
+										? isWordCorrect || isLastWordBeingTyped
+											? ''
+											: 'incomplete'
+										: ''
+								}`}>
+								{finalWord.split('').map((letter, j) => {
+									const isTyped =
+										typed.length > 0 && !!typed[i] && !!typed[i][j];
+									const isCorrect = isTyped && letter === typed[i][j];
+									const isExtraLetter = isExtra && j >= word.length;
+									const isLastLetterBeingTyped =
+										isLastWordBeingTyped && j === typed[i]?.length;
+
+									return (
+										<>
+											{isLastLetterBeingTyped && <div className='caret'></div>}
+											<div
+												className={`letter ${
+													isTyped ? (isCorrect ? 'correct' : 'incorrect') : ''
+												} ${isExtraLetter ? 'extra' : ''}`}>
+												{letter}
+											</div>
+										</>
+									);
+								})}
+								{isLastWordBeingTyped && isComplete && (
+									<div className='caret'></div>
+								)}
+							</div>
+						</>
 					);
 				})}
 			</div>

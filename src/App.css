@@ -27,3 +27,7 @@
 	@apply text-red-900;
 }
 
+.caret {
+	@apply w-px border-r-2 border-gray-500 py-1 animate-pulse opacity-50;
+}
+

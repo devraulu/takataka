@@ -1,3 +1,7 @@
+.container {
+	@apply px-12 py-6;
+}
+
 .words,
 .word {
 	@apply flex flex-wrap;
@@ -5,10 +9,6 @@
 
 .word {
 	@apply m-1 leading-5;
-}
-
-.words {
-	@apply px-12 py-6;
 }
 
 .correct {

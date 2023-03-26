@@ -1,66 +1,99 @@
 import { useState, useCallback } from 'react';
+import { useInterval } from 'usehooks-ts';
+import useShowResultsStore from '../stores/useShowResultsStore';
+import useTimerStore from '../stores/useTimerStore';
+import useTypingStore from '../stores/useTypingStore';
 import { isLetter, isPunctuation, isSpace } from '../utils';
 
-export const sampleText =
-	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rutrum, quam vitae rhoncus blandit, nisl magna lobortis erat, a interdum ipsum lacus in dui. Donec eget orci sit amet lectus porta placerat ut nec nisi. Duis at purus ex. Quisque dolor lectus, auctor ac tristique vitae, dignissim ac mi. Quisque a suscipit mauris. Maecenas urna nunc, malesuada sit amet finibus sit amet, sollicitudin nec nulla. Nullam at tellus auctor, euismod lectus eu, tincidunt eros.';
-
 const useTyping = () => {
-	const [typed, setTyped] = useState<string[]>(['']);
-	const [history, setHistory] = useState<string[]>([]);
-	const text = sampleText;
+	const { count, isPlaying, setPlaying, setCount, decreaseCount, resetCount } =
+		useTimerStore();
+
+	const { toggleResults, setResults } = useShowResultsStore();
+
+	const { text, initialTyped, typed, history, setTyped, setHistory } =
+		useTypingStore();
+
+	useInterval(
+		async () => {
+			if (count == 1) {
+				setPlaying(false);
+				setCount(0);
+				toggleResults();
+				return;
+			}
+			decreaseCount();
+		},
+		isPlaying && count > 0 ? 1000 : null
+	);
 
 	const handleKeys = useCallback(
 		(e: KeyboardEvent) => {
 			const key = e.key;
 
 			if (isLetter(key) || isPunctuation(key)) {
-				setTyped((prev) => {
-					if (prev.length > 0) {
-						const last = prev.slice(-1)[0] ?? '';
-						return [...prev.slice(0, -1), last + key];
-					}
-					return [key];
-				});
-				setHistory((prev) => [...prev, key]);
+				if (typed == initialTyped) setPlaying(true);
+
+				if (typed.length > 0) {
+					const last = typed.slice(-1)[0] ?? '';
+					setTyped([...typed.slice(0, -1), last + key]);
+				} else setTyped([key]);
+
+				setHistory([...history, key]);
 			} else if (key === 'Backspace') {
-				setTyped((prev) => {
-					if (prev.length > 0) {
-						// If there are any words typed, we get the last one
-						let last = prev.slice(-1)[0];
+				console.log('currently typed after pressing backspaced', typed);
+				if (typed.length > 0) {
+					// If there are any words typed, we get the last one
+					let last = typed.slice(-1)[0];
 
-						// If the last word is empty, we get the prev to last word
-						// and only if it is wrongly typed we return it
-						// (which the user will see as moving the cursor back to the previous word)
+					// If the last word is empty, we get the prev to last word
+					// and only if it is wrongly typed we return it
+					// (which the user will see as moving the cursor back to the previous word)
 
-						if (last === '') {
-							const typedPrevWord = prev.slice(-2)[0] ?? '';
-							const prevWord = text.split(' ')[prev.length - 2] ?? '';
-							console.log('prev to last', typedPrevWord, prevWord);
+					if (last === '') {
+						const typedPrevWord = typed.slice(-2)[0] ?? '';
+						const prevWord = text.split(' ')[typed.length - 2] ?? '';
+						console.log('prev to last', typedPrevWord, prevWord);
 
-							if (typedPrevWord !== prevWord)
-								return [...prev.slice(0, -2), typedPrevWord];
-						}
-
-						// Else we return the last word without the last letter
-						return [...prev.slice(0, -1), last.slice(0, -1)];
+						if (typedPrevWord !== prevWord)
+							setTyped([...typed.slice(0, -2), typedPrevWord]);
+						return;
 					}
-					return prev;
-				});
-				setHistory((prev) => [...prev, key]);
+
+					// Else we return the last word without the last letter
+					setTyped([...typed.slice(0, -1), last.slice(0, -1)]);
+				}
+				//  else setTyped(typed);
+
+				setHistory([...history, key]);
 			} else if (isSpace(key)) {
-				setHistory((prev) => [...prev, 'Space']);
+				setHistory([...history, 'Space']);
 
 				const prevPrevChar = history.slice(-2)[0];
 				const prevChar = history.slice(-1)[0];
 
 				if (prevChar === 'Space' && prevPrevChar === 'Space') {
-				} else setTyped((prev) => [...prev, '']);
+				} else setTyped([...typed, '']);
 			}
 		},
 		[text, typed, history]
 	);
 
-	return { text, typed, handleKeys };
+	const reset = () => {
+		setTyped(initialTyped);
+		resetCount();
+		setPlaying(false);
+		setResults(false);
+	};
+
+	return {
+		text,
+		typed,
+		handleKeys,
+		count,
+		isPlaying,
+		reset,
+	};
 };
 
 export default useTyping;

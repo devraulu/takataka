@@ -1,0 +1,96 @@
+.container {
+	@apply px-12 py-6;
+}
+
+.words,
+.word {
+	@apply flex flex-wrap;
+}
+
+.word {
+	@apply m-1 leading-5;
+}
+
+.correct {
+	@apply text-blue-500;
+}
+
+.incorrect {
+	@apply text-red-500;
+}
+
+.incomplete {
+	@apply border-b-2 border-red-500;
+}
+
+.extra {
+	@apply text-red-900;
+}
+
+/* .caret {
+	@apply w-0.5 bg-gray-500 py-1;
+
+	animation-name: pulse;
+	animation-duration: 1s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+ */
+
+/* Modified caret styles to include transitions */
+.caret {
+	@apply w-0.5 bg-gray-500 py-1;
+
+	/* Use transform to animate the movement of the caret */
+	transform: translateX(-50%);
+	transition: transform 0.2s ease-in-out;
+}
+
+/* Modified styles for the last letter being typed to trigger the transition */
+.letter:last-child {
+	&.correct + .caret,
+	&.incorrect + .caret,
+	&.extra + .caret {
+		/* Move the caret to the next letter */
+		transform: translateX(50%);
+	}
+}
+
+/* Modified styles for the last word being typed to trigger the transition */
+.word:last-child .letter:last-child + .caret {
+	/* Move the caret to the next word */
+	transform: translateX(-50%) translateY(150%);
+}
+
+/* Add keyframe animation to the caret to make it pulse continuously */
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.caret {
+	animation-name: pulse;
+	animation-duration: 1s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+

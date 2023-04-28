@@ -10,3 +10,7 @@ export const isPunctuation = (char: string) => {
 	return char.length === 1 && !!char.match(/[.,\/#!$%\^&\*;:{}=\-_`~()]/);
 };
 
+export function delay(ms: number) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+

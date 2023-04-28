@@ -1,12 +1,16 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@faker-js/faker': ^7.6.0
+  '@heroicons/react': ^2.0.16
+  '@react-spring/web': ^9.7.2
   '@types/react': ^18.0.24
   '@types/react-dom': ^18.0.8
   '@vitejs/plugin-react': ^2.2.0
   autoprefixer: ^10.4.13
   classnames: ^2.3.2
   postcss: ^8.4.19
+  prettier: ^2.8.8
   react: ^18.2.0
   react-dom: ^18.2.0
   sass: ^1.60.0
@@ -17,6 +21,8 @@ specifiers:
   zustand: ^4.2.0
 
 dependencies:
+  '@heroicons/react': 2.0.16_react@18.2.0
+  '@react-spring/web': 9.7.2_biqbaboplfbrettd7655fr4n2y
   classnames: 2.3.2
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -24,11 +30,13 @@ dependencies:
   zustand: 4.2.0_react@18.2.0
 
 devDependencies:
+  '@faker-js/faker': 7.6.0
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.9
   '@vitejs/plugin-react': 2.2.0_vite@3.2.5
   autoprefixer: 10.4.13_postcss@8.4.19
   postcss: 8.4.19
+  prettier: 2.8.8
   sass: 1.60.0
   tailwindcss: 3.2.4_postcss@8.4.19
   typescript: 4.9.3
@@ -321,6 +329,19 @@ packages:
     dev: true
     optional: true
 
+  /@faker-js/faker/7.6.0:
+    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    dev: true
+
+  /@heroicons/react/2.0.16_react@18.2.0:
+    resolution: {integrity: sha512-x89rFxH3SRdYaA+JCXwfe+RkE1SFTo9GcOkZettHer71Y3T7V+ogKmfw5CjTazgS3d0ClJ7p1NA+SP7VQLQcLw==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
     engines: {node: '>=6.0.0'}
@@ -379,6 +400,60 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.14.0
     dev: true
+
+  /@react-spring/animated/9.7.2_react@18.2.0:
+    resolution: {integrity: sha512-ipvleJ99ipqlnHkz5qhSsgf/ny5aW0ZG8Q+/2Oj9cI7LCc7COdnrSO6V/v8MAX3JOoQNzfz6dye2s5Pt5jGaIA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/shared': 9.7.2_react@18.2.0
+      '@react-spring/types': 9.7.2
+      react: 18.2.0
+    dev: false
+
+  /@react-spring/core/9.7.2_react@18.2.0:
+    resolution: {integrity: sha512-fF512edZT/gKVCA90ZRxfw1DmELeVwiL4OC2J6bMUlNr707C0h4QRoec6DjzG27uLX2MvS1CEatf9KRjwZR9/w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/animated': 9.7.2_react@18.2.0
+      '@react-spring/rafz': 9.7.2
+      '@react-spring/shared': 9.7.2_react@18.2.0
+      '@react-spring/types': 9.7.2
+      react: 18.2.0
+    dev: false
+
+  /@react-spring/rafz/9.7.2:
+    resolution: {integrity: sha512-kDWMYDQto3+flkrX3vy6DU/l9pxQ4TVW91DglQEc11iDc7shF4+WVDRJvOVLX+xoMP7zyag1dMvlIgvQ+dvA/A==}
+    dev: false
+
+  /@react-spring/shared/9.7.2_react@18.2.0:
+    resolution: {integrity: sha512-6U9qkno+9DxlH5nSltnPs+kU6tYKf0bPLURX2te13aGel8YqgcpFYp5Av8DcN2x3sukinAsmzHUS/FRsdZMMBA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/rafz': 9.7.2
+      '@react-spring/types': 9.7.2
+      react: 18.2.0
+    dev: false
+
+  /@react-spring/types/9.7.2:
+    resolution: {integrity: sha512-GEflx2Ex/TKVMHq5g5MxQDNNPNhqg+4Db9m7+vGTm8ttZiyga7YQUF24shgRNebKIjahqCuei16SZga8h1pe4g==}
+    dev: false
+
+  /@react-spring/web/9.7.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-7qNc7/5KShu2D05x7o2Ols2nUE7mCKfKLaY2Ix70xPMfTle1sZisoQMBFgV9w/fSLZlHZHV9P0uWJqEXQnbV4Q==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/animated': 9.7.2_react@18.2.0
+      '@react-spring/core': 9.7.2_react@18.2.0
+      '@react-spring/shared': 9.7.2_react@18.2.0
+      '@react-spring/types': 9.7.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -1096,6 +1171,12 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: true
+
+  /prettier/2.8.8:
+    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /queue-microtask/1.2.3:

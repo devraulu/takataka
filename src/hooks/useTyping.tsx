@@ -24,6 +24,7 @@ const useTyping = () => {
         history,
         setTyped,
         setHistory,
+        appendHistory,
         resetBtnRef,
         setResetBtnRef,
     } = useTypingStore();
@@ -57,7 +58,7 @@ const useTyping = () => {
                     setTyped([...typed.slice(0, -1), last + key]);
                 } else setTyped([key]);
 
-                setHistory([...history, key]);
+                appendHistory(key);
 
                 blurResetBtn();
             } else if (key === 'Backspace') {

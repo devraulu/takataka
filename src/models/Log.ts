@@ -1,8 +1,8 @@
 type Log = {
-	timestamp: Date;
-	char: string;
-	isError: boolean;
+    character: string;
+    counterstamp: number;
+    error: boolean;
+    extra: boolean;
 };
 
 export default Log;
-

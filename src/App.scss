@@ -1,30 +1,30 @@
 .container {
-	@apply px-12 py-6;
+    @apply px-12 py-6;
 }
 
 .words,
 .word {
-	@apply flex flex-wrap font-mono;
+    @apply flex flex-wrap font-mono relative;
 }
 
 .word {
-	@apply m-1 leading-5;
+    @apply my-1 leading-5;
 }
 
 .correct {
-	@apply text-blue-500;
+    @apply text-blue-500;
 }
 
 .incorrect {
-	@apply text-red-500;
+    @apply text-red-500;
 }
 
 .incomplete {
-	@apply border-b-2 border-red-500;
+    @apply border-b-2 border-red-500;
 }
 
 .extra {
-	@apply text-red-900;
+    @apply text-red-900;
 }
 
 /* .caret {
@@ -50,24 +50,27 @@
  */
 
 .caret {
-	transition: transform 10s ease-out;
-	animation: blink 1.5s linear infinite;
-	@apply w-0.5 bg-black;
+    @apply w-0.5 h-5 bg-black absolute;
+}
+
+.blinking-caret {
+    @extend .caret;
+    transition: transform 10s ease-out;
+    animation: blink 1.5s linear infinite;
 }
 
 @keyframes blink {
-	0% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-	}
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 .restart {
-	@apply px-1.5 rounded transition delay-100 duration-200 focus-visible:outline-none focus-visible:bg-blue-500 focus-visible:text-white text-blue-500;
+    @apply px-1.5 rounded transition delay-100 duration-200 focus-visible:outline-none focus-visible:bg-blue-500 focus-visible:text-white text-blue-500;
 }
-

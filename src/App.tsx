@@ -5,6 +5,7 @@ import useShowResultsStore from './stores/useShowResultsStore';
 import './App.scss';
 import Results from './components/Results';
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
+import { MantineProvider } from '@mantine/core';
 
 function App() {
     const { count, reset, setResetBtnRef } = useTyping();
@@ -16,26 +17,27 @@ function App() {
     }, [resetBtn]);
 
     return (
-        <div className='container mx-auto h-[100vh] flex flex-col'>
-            {!showResults ? (
-                <>
-                    <div className='flex gap-x-2 mb-4'>
-                        <div className='text-xl'>{count}</div>
-                        <button
-                            ref={resetBtn}
-                            className='restart'
-                            onClick={reset}
-                        >
-                            <ArrowUturnLeftIcon className='w-5' />
-                        </button>
-                    </div>
-
-                    <Words />
-                </>
-            ) : (
-                <Results />
-            )}
-        </div>
+        <MantineProvider withGlobalStyles withNormalizeCSS>
+            <div className='container mx-auto h-[100vh] flex flex-col'>
+                {!showResults ? (
+                    <>
+                        <div className='flex gap-x-2 mb-4'>
+                            <div className='text-xl'>{count}</div>
+                            <button
+                                ref={resetBtn}
+                                className='restart'
+                                onClick={reset}
+                            >
+                                <ArrowUturnLeftIcon className='w-5' />
+                            </button>
+                        </div>
+                        <Words />
+                    </>
+                ) : (
+                    <Results />
+                )}
+            </div>
+        </MantineProvider>
     );
 }
 

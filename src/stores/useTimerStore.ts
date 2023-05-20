@@ -1,3 +1,4 @@
+import { produce } from 'immer';
 import create from 'zustand';
 
 export interface TimerStore {
@@ -12,13 +13,34 @@ export interface TimerStore {
 }
 
 const useTimerStore = create<TimerStore>(set => ({
-    initialCount: 60,
-    count: 60,
+    initialCount: 90,
+    count: 90,
     isPlaying: false,
-    setPlaying: (isPlaying: boolean) => set(state => ({ isPlaying })),
-    setCount: count => set(state => ({ count })),
-    decreaseCount: () => set(state => ({ count: state.count - 1 })),
-    resetCount: () => set(state => ({ count: state.initialCount })),
+    setPlaying: (isPlaying: boolean) =>
+        set(
+            produce(state => {
+                state.isPlaying = isPlaying;
+            })
+        ),
+    setCount: count =>
+        set(
+            produce(state => {
+                state.count = count;
+            })
+        ),
+    decreaseCount: () => {
+        set(
+            produce(state => {
+                state.count -= 1;
+            })
+        );
+    },
+    resetCount: () =>
+        set(
+            produce(state => {
+                state.count = state.initialCount;
+            })
+        ),
 }));
 
 export default useTimerStore;

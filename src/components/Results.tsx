@@ -1,18 +1,20 @@
+import { ActionIcon, Box, Title } from '@mantine/core';
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
+import useTyping from '../hooks/useTyping';
+
 interface ResultsProps {}
 
 const Results: React.FunctionComponent<ResultsProps> = () => {
-	return (
-		<div className='results flex items-end content-center'>
-			<p className='text-4xl'>results</p>
-			<button
-				className=' border-2 border-blue-600'
-				// onClick={() => reset()}
-			>
-				new
-			</button>
-		</div>
-	);
+    const { reset } = useTyping();
+
+    return (
+        <Box>
+            <Title fz='lg'>Results</Title>
+            <ActionIcon onClick={reset} size={'sm'}>
+                <ArrowUturnLeftIcon />
+            </ActionIcon>
+        </Box>
+    );
 };
 
 export default Results;
-

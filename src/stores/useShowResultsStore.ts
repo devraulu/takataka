@@ -2,7 +2,7 @@ import create from 'zustand';
 
 export interface ShowResultsStore {
     showResults: boolean;
-    toggleResults: () => void;
+    toggleResults: (val?: boolean) => void;
     setResults: (show: boolean) => void;
 }
 

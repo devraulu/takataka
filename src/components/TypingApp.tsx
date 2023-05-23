@@ -23,15 +23,12 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
 
     useInterval(
         () => {
-            // console.log('interval before', count);
-
             if (count == 0) {
                 setPlaying(false);
                 setCount(0);
                 toggleResults();
                 return;
             }
-            // console.log('interval after', count);
             decreaseCount();
         },
         isPlaying && count > 0 ? 1000 : null

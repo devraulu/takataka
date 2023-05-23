@@ -124,7 +124,7 @@ const useTyping = () => {
         ) {
             console.log('test finished');
             setPlaying(false);
-            toggleResults();
+            toggleResults(true);
         }
     }, [typed]);
 

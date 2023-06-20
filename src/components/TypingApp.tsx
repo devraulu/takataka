@@ -7,13 +7,13 @@ import useShowResultsStore from '../stores/useShowResultsStore';
 import useTimerStore from '../stores/useTimerStore';
 import { useInterval } from 'usehooks-ts';
 import Results from './Results';
+import useTypedLog from '../hooks/useTypedLog';
 
 interface TypingAppProps {}
 
 const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
-    const { reset, setResetBtnRef, handleKeys } = useTyping();
-    const { count, decreaseCount, setPlaying, isPlaying, setCount } =
-        useTimerStore();
+    const { reset, setResetBtnRef, handleKeys, typed, text } = useTyping();
+
     const resetBtn = useRef<HTMLButtonElement | null>(null);
     const { showResults, toggleResults } = useShowResultsStore();
 
@@ -21,18 +21,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
         setResetBtnRef(resetBtn);
     }, [resetBtn]);
 
-    useInterval(
-        () => {
-            if (count == 0) {
-                setPlaying(false);
-                setCount(0);
-                toggleResults();
-                return;
-            }
-            decreaseCount();
-        },
-        isPlaying && count > 0 ? 1000 : null
-    );
+    useTypedLog();
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeys);
@@ -48,17 +37,18 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                 <Results />
             ) : (
                 <Box>
-                    <Group>
-                        <Text size='xl'>{count}</Text>
-                        <ActionIcon
-                            ref={resetBtn}
-                            className='restart'
-                            onClick={reset}
-                            size={'sm'}
-                        >
-                            <ArrowUturnLeftIcon />
-                        </ActionIcon>
-                    </Group>
+                    <Text size='xl'>
+                        {typed.length - 1}/{text.split(' ').length}
+                    </Text>
+
+                    <ActionIcon
+                        ref={resetBtn}
+                        className='restart'
+                        onClick={reset}
+                        size={'sm'}
+                    >
+                        <ArrowUturnLeftIcon />
+                    </ActionIcon>
                     <Words />
                 </Box>
             )}

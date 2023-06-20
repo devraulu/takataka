@@ -1,6 +1,13 @@
+export type WpmErrorLog = {
+    second: number;
+    rawWpm: number;
+    avgWpm: number;
+    errors: number;
+};
+
 type Log = {
     character?: string;
-    counterstamp: number;
+    timestamp: number;
     error: boolean;
     extra?: boolean;
 };

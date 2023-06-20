@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import useTyping from '../hooks/useTyping';
 import { a, useSpring } from '@react-spring/web';
 import useMeasure from 'react-use-measure';
@@ -6,7 +6,7 @@ import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
 import { css } from '@emotion/react';
 
 interface WordsProps {}
-// const Letter = ()=>
+
 const Words: React.FunctionComponent<WordsProps> = ({}) => {
     const { text, typed } = useTyping();
     const [letterRef, { left }] = useMeasure();
@@ -21,6 +21,7 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
             friction: 14,
         },
     });
+
     const words = useMemo(() => text.split(' '), [text]);
 
     const theme = useMantineTheme();

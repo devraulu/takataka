@@ -25,6 +25,13 @@ export interface TypingStore {
     setResetBtnRef: (
         ref: React.MutableRefObject<HTMLButtonElement | null>
     ) => void;
+    punctuation: boolean;
+    togglePunctuation: (val?: boolean) => void;
+    numbers: boolean;
+    toggleNumbers: (val?: boolean) => void;
+    testSize: number;
+    setTestSize: (val: number) => void;
+    hasTestStarted: () => boolean;
 }
 
 const useTypingStore = create<TypingStore>((set, get) => ({
@@ -41,12 +48,22 @@ const useTypingStore = create<TypingStore>((set, get) => ({
     setHistory: (history: string[]) => set(state => ({ history })),
     appendHistory: (item: string) =>
         set(state => ({ history: [...state.history, item] })),
-    text: SAMPLE_TEXT,
-    setText: (text: string) => set(state => ({ text })),
     resetBtnRef: React.createRef(),
     setResetBtnRef: (
         resetBtnRef: React.MutableRefObject<HTMLButtonElement | null>
     ) => set(state => ({ resetBtnRef })),
+
+    text: '',
+    setText: (text: string) => set(state => ({ text })),
+    punctuation: false,
+    togglePunctuation: (val?: boolean) =>
+        set(state => ({ punctuation: val ?? !state.punctuation })),
+    numbers: false,
+    toggleNumbers: (val?: boolean) =>
+        set(state => ({ numbers: val ?? !state.numbers })),
+    testSize: 25,
+    setTestSize: (val: number) => set(state => ({ testSize: val })),
+    hasTestStarted: () => get().typedLog.length > 0,
 }));
 
 export default useTypingStore;

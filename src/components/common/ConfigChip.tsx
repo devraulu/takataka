@@ -1,0 +1,31 @@
+import { Button, ButtonProps } from '@mantine/core';
+import { FunctionComponent } from 'react';
+
+interface ConfigChipProps extends ButtonProps {
+    children: string | string[] | React.ReactNode;
+    checked: boolean;
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+const ConfigChip: FunctionComponent<ConfigChipProps> = ({
+    checked,
+    children,
+    onClick,
+    ...rest
+}) => {
+    return (
+        <Button
+            variant='subtle'
+            compact
+            color={checked ? 'primary' : 'background.3'}
+            {...rest}
+            onClick={e => {
+                onClick(e);
+            }}
+        >
+            {children}
+        </Button>
+    );
+};
+
+export default ConfigChip;

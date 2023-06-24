@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
-import useTypingStore from '../stores/useTypingStore';
+import useTypingStore from '../stores/typing';
 
 const useIsTestFinished = () => {
     const { text, typed, typedLog, setLastTestLog } = useTypingStore();
 
     const isTestFinished = useMemo(() => {
+        if (text.length < 1) return false;
         const textArr = text.split(' ');
 
         const lastOfTyped = typed[textArr.length - 1];

@@ -11,12 +11,11 @@ import {
 } from '@mantine/core';
 import {
     ArrowUturnLeftIcon,
-    ChevronDoubleRightIcon,
     ChevronRightIcon,
 } from '@heroicons/react/24/solid';
 import useTyping from '../hooks/useTyping';
 
-import useTypingStore from '../stores/useTypingStore';
+import useTypingStore from '../stores/typing';
 import { WpmErrorLog } from '../models/Log';
 import { forwardRef, useEffect, useState } from 'react';
 import {
@@ -33,7 +32,7 @@ import StatsInfo from './StatsInfo';
 interface ResultsProps {}
 
 const Results: React.FunctionComponent<ResultsProps> = () => {
-    const { newTest } = useTyping();
+    const { newTest, reset } = useTyping();
     const { lastTestLogs } = useTypingStore();
     const [chartData, setChartData] = useState<WpmErrorLog[]>([]);
     const [stats, setStats] = useState<Stats>({
@@ -95,7 +94,16 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
             <Group position='center' mt='md'>
                 <Tooltip label='Next test'>
                     <ActionIcon onClick={newTest}>
-                        <ChevronRightIcon />
+                        <ChevronRightIcon height={20} />
+                    </ActionIcon>
+                </Tooltip>
+                <Tooltip label='Restart test'>
+                    <ActionIcon
+                        // className='restart'
+                        onClick={reset}
+                        size={'sm'}
+                    >
+                        <ArrowUturnLeftIcon height={20} />
                     </ActionIcon>
                 </Tooltip>
             </Group>

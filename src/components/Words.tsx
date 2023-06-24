@@ -4,13 +4,14 @@ import { a, useSpring } from '@react-spring/web';
 import useMeasure from 'react-use-measure';
 import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
 import { css } from '@emotion/react';
+import useTypingStore from '../stores/typing';
 
 interface WordsProps {}
 
 const Words: React.FunctionComponent<WordsProps> = ({}) => {
-    const { text, typed } = useTyping();
-    const [letterRef, { left }] = useMeasure();
-    const [wordRef, { top }] = useMeasure();
+    const [text, typed] = useTypingStore(state => [state.text, state.typed]);
+    const [letterRef, { left, top }] = useMeasure();
+    const [wordRef, {}] = useMeasure();
 
     const props = useSpring({
         left,
@@ -27,22 +28,23 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
     const theme = useMantineTheme();
 
     const correctStyles = css`
-        color: ${theme.colors.blue[5]};
+        color: ${theme.colors.secondary['4']};
     `;
+
     const incorrectStyles = css`
-        color: ${theme.colors.red[5]};
+        color: #cc241d;
     `;
     const extraStyles = css`
-        color: ${theme.colors.red[9]};
+        color: #9d0006;
     `;
 
     return (
         <>
             <a.div
                 style={{
-                    background: 'black',
+                    background: theme.colors.primary['1'],
                     width: rem(2),
-                    height: rem(24),
+                    height: rem(36),
                     position: 'absolute',
                     ...props,
                 }}
@@ -75,6 +77,9 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                 solid ${theme.colors.red[5]};
                             display: flex;
                             flex-wrap: nowrap;
+                            font-size: 26px;
+                            font-family: 'JetBrains Mono', monospace;
+                            // font-weight: bold;
                         `;
 
                         return (

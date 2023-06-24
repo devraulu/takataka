@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useTypingStore from '../stores/useTypingStore';
+import useTypingStore from '../stores/typing';
 import Log from '../models/Log';
 
 const useTypedLog = () => {

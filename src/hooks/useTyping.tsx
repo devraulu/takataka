@@ -1,35 +1,22 @@
-import React, { useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import useShowResultsStore from '../stores/results';
-import useTypingStore from '../stores/typing';
+import useTypingStore, { typingSelector } from '../stores/typing';
 import { isLetter, isNumber, isPunctuation, isSpace } from '../utils';
 import useIsTestFinished from './useIsTestFinished';
-import useGenerateTest from './useGenerateTest';
 
 const useTyping = () => {
-    const { toggleResults, setResults } = useShowResultsStore();
+    const { toggleResults } = useShowResultsStore();
 
     const isTestFinished = useIsTestFinished();
-    const generate = useGenerateTest();
+
     useEffect(() => {
         if (isTestFinished) {
             toggleResults(true);
         }
     }, [isTestFinished]);
 
-    const {
-        text,
-        setText,
-        initialTyped,
-        typed,
-        history,
-        setTyped,
-        setHistory,
-        appendHistory,
-        resetBtnRef,
-        setResetBtnRef,
-        setLastTestLog,
-        setTypedLog,
-    } = useTypingStore();
+    const { text, setText, typed, setTyped, appendHistory, resetBtnRef } =
+        useTypingStore(typingSelector);
 
     const handleKeys = useCallback(
         (e: KeyboardEvent) => {
@@ -41,7 +28,7 @@ const useTyping = () => {
                 focusResetBtn();
             }
             if (isLetter(key) || isPunctuation(key) || isNumber(key)) {
-                console.log('typed: ', key, typed.length > 0, typed);
+                // console.log('typed: ', key, typed.length > 0, typed);
                 if (typed.length > 0) {
                     const last = typed.slice(-1)[0] ?? '';
                     setTyped([...typed.slice(0, -1), last + key]);
@@ -74,20 +61,19 @@ const useTyping = () => {
                     // Else we return the last word without the last letter
                     setTyped([...typed.slice(0, -1), last.slice(0, -1)]);
                 }
-
-                setHistory([...history, key]);
+                appendHistory(key);
 
                 blurResetBtn();
             } else if (isSpace(key)) {
                 e.preventDefault();
-                setHistory([...history, 'Space']);
+                appendHistory('Space');
 
                 if (typed[typed.length - 1].length > 0)
                     setTyped([...typed, '']);
                 blurResetBtn();
             }
         },
-        [text, typed, history]
+        [text, typed]
     );
 
     const focusResetBtn = () => {
@@ -99,34 +85,10 @@ const useTyping = () => {
             resetBtnRef.current?.blur();
     };
 
-    const reset = () => {
-        setTyped(initialTyped);
-        setHistory([]);
-        setResults(false);
-        setLastTestLog([]);
-        setTypedLog([]);
-        resetBtnRef.current?.blur();
-    };
-
-    const newTest = () => {
-        reset();
-        setText(generate());
-    };
-
-    const setResetBtnAndLog = (
-        ref: React.MutableRefObject<HTMLButtonElement | null>
-    ) => {
-        setResetBtnRef(ref);
-    };
-
     return {
         text,
         typed,
         handleKeys,
-        reset,
-        newTest,
-        resetBtnRef,
-        setResetBtnRef: setResetBtnAndLog,
         setText,
     };
 };

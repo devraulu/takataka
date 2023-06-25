@@ -1,33 +1,27 @@
 import React, { useEffect, useRef } from 'react';
 import Words from './Words';
 import useTyping from '../hooks/useTyping';
-import {
-    ActionIcon,
-    Box,
-    Group,
-    Text,
-    rem,
-    useMantineTheme,
-} from '@mantine/core';
-import { ArrowUturnLeftIcon } from '@heroicons/react/24/solid';
+import { ActionIcon, Box, Group, Text, rem } from '@mantine/core';
 import useShowResultsStore from '../stores/results';
 import Results from './Results';
 import useTypedLog from '../hooks/useTypedLog';
 import TestConfigBar from './TestConfigBar';
 import useTypingStore from '../stores/typing';
 import useGenerateInitialTest from '../hooks/useGenerateInitialTest';
+import { ArrowBackUp } from 'tabler-icons-react';
+import TestProgress from './TestProgress';
+import useResetTest from '../hooks/useResetTest';
+import RetryButton from './RetryButton';
 
 interface TypingAppProps {}
 
 const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
-    const { newTest, setResetBtnRef, handleKeys, typed, text } = useTyping();
-    const hasTestStarted = useTypingStore(state => state.hasTestStarted());
-    const resetBtn = useRef<HTMLButtonElement | null>(null);
+    const { handleKeys } = useTyping();
+    const [hasTestStarted, setResetBtnRef] = useTypingStore(state => [
+        state.hasTestStarted(),
+        state.setResetBtnRef,
+    ]);
     const { showResults } = useShowResultsStore();
-
-    useEffect(() => {
-        setResetBtnRef(resetBtn);
-    }, [resetBtn]);
 
     useTypedLog();
 
@@ -40,8 +34,6 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
     }, [handleKeys]);
 
     useGenerateInitialTest();
-
-    const theme = useMantineTheme();
 
     return (
         <Box>
@@ -69,23 +61,8 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                                         : 'initial',
                                 }}
                             >
-                                <Text
-                                    size='lg'
-                                    color={'primary.4'}
-                                    // fw={'bold'}
-                                    fz={rem(24)}
-                                >
-                                    {typed.length - 1}/{text.split(' ').length}
-                                </Text>
-
-                                <ActionIcon
-                                    ref={resetBtn}
-                                    className='restart'
-                                    onClick={newTest}
-                                    size={'sm'}
-                                >
-                                    <ArrowUturnLeftIcon width={20} />
-                                </ActionIcon>
+                                <TestProgress />
+                                <RetryButton />
                             </Group>
 
                             <Words />

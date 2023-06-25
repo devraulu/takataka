@@ -1,85 +1,69 @@
-import React, { useEffect, useMemo } from 'react';
-import useTyping from '../hooks/useTyping';
-import { a, useSpring } from '@react-spring/web';
+import React, { useState } from 'react';
 import useMeasure from 'react-use-measure';
 import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
 import { css } from '@emotion/react';
-import useTypingStore from '../stores/typing';
+import Caret from './Caret';
+import useRenderWords from '../hooks/useRenderWords';
 
 interface WordsProps {}
 
 const Words: React.FunctionComponent<WordsProps> = ({}) => {
-    const [text, typed] = useTypingStore(state => [state.text, state.typed]);
     const [letterRef, { left, top }] = useMeasure();
-    const [wordRef, {}] = useMeasure();
-
-    const props = useSpring({
-        left,
-        top,
-        config: {
-            mass: 0.5,
-            tension: 246,
-            friction: 14,
-        },
-    });
-
-    const words = useMemo(() => text.split(' '), [text]);
-
+    const [containerRef, { width: containerWidth }] = useMeasure();
+    const [fontRef, { width: fontWidth }] = useMeasure();
+    const [fz, setFz] = useState(24);
+    const words = useRenderWords(fontWidth, containerWidth);
     const theme = useMantineTheme();
 
-    const correctStyles = css`
-        color: ${theme.colors.secondary['4']};
-    `;
+    const fontStyles = (
+        isTyped?: boolean,
+        isCorrect?: boolean,
+        isExtra?: boolean
+    ) => {
+        let color = theme.colors.tertiary['5'];
 
-    const incorrectStyles = css`
-        color: #cc241d;
-    `;
-    const extraStyles = css`
-        color: #9d0006;
-    `;
+        if (isTyped)
+            if (isCorrect) color = theme.colors.secondary['5'];
+            else color = theme.colors.red['5'];
+        if (isExtra) color = theme.colors.red['8'];
+
+        return css`
+            font-family: 'Jetbrains Mono', monospace;
+            color: ${color};
+            font-size: ${rem(fz)};
+            word-spacing: ${rem(200)};
+        `;
+    };
 
     return (
         <>
-            <a.div
-                style={{
-                    background: theme.colors.primary['1'],
-                    width: rem(2),
-                    height: rem(36),
-                    position: 'absolute',
-                    ...props,
-                }}
-            />
-            <Box>
-                <Flex
-                    wrap='wrap'
-                    sx={{ fontFamily: '"Space Mono", monospace' }}
-                >
-                    {words.map((word, i) => {
-                        const isTyped = typed.length > 0 && !!typed[i];
-                        const isComplete =
-                            isTyped && typed[i].length === word.length;
-                        const isLastWordBeingTyped = typed.length - 1 === i;
-
-                        const isWordCorrect = isTyped && typed[i] === word;
-                        const isExtra =
-                            typed.length > 0 &&
-                            !!typed[i] &&
-                            typed[i].length > word.length;
-                        const finalWord = `${word}${
-                            typed[i]?.slice(word.length) ?? ' '
-                        }`;
-
-                        const incorrectlyTypedWord =
-                            isTyped && !isWordCorrect && !isLastWordBeingTyped;
-
+            {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
+            <span
+                ref={fontRef}
+                css={css`
+                    ${fontStyles()}
+                    position: fixed;
+                    visibility: hidden;
+                `}
+            >
+                a
+            </span>
+            <Caret top={top} left={left} />
+            <Box ref={containerRef}>
+                <Flex wrap='wrap'>
+                    {words.map((elem, i) => {
+                        const {
+                            word,
+                            incorrectlyTypedWord,
+                            letters,
+                            isComplete,
+                            isLastWordBeingTyped,
+                        } = elem;
                         const wordStyles = css`
                             border-bottom: ${incorrectlyTypedWord ? rem(2) : 0}
                                 solid ${theme.colors.red[5]};
                             display: flex;
                             flex-wrap: nowrap;
-                            font-size: 26px;
-                            font-family: 'JetBrains Mono', monospace;
-                            // font-weight: bold;
                         `;
 
                         return (
@@ -90,59 +74,46 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                 `}
                                 key={word + i}
                             >
-                                <div
-                                    ref={
-                                        isLastWordBeingTyped
-                                            ? wordRef
-                                            : undefined
-                                    }
-                                    css={wordStyles}
-                                >
-                                    {finalWord.split('').map((letter, j) => {
-                                        const isTyped =
-                                            typed.length > 0 &&
-                                            !!typed[i] &&
-                                            !!typed[i][j];
-                                        const isCorrect =
-                                            isTyped && letter === typed[i][j];
-                                        const isExtraLetter =
-                                            isExtra && j >= word.length;
-                                        const isLastLetterBeingTyped =
-                                            isLastWordBeingTyped &&
-                                            j === typed[i]?.length;
+                                <div css={wordStyles}>
+                                    {letters.map(
+                                        (
+                                            {
+                                                letter,
+                                                isLastLetterBeingTyped,
+                                                isCorrect,
+                                                isTyped,
+                                                isExtraLetter,
+                                            },
+                                            j
+                                        ) => {
+                                            return (
+                                                <React.Fragment key={word + j}>
+                                                    <div
+                                                        ref={
+                                                            isLastLetterBeingTyped
+                                                                ? letterRef
+                                                                : undefined
+                                                        }
+                                                        css={fontStyles(
+                                                            isTyped,
+                                                            isCorrect,
+                                                            isExtraLetter
+                                                        )}
+                                                    >
+                                                        {letter}
+                                                    </div>
 
-                                        let letterStyles;
-
-                                        if (isTyped)
-                                            if (isCorrect)
-                                                letterStyles = correctStyles;
-                                            else letterStyles = incorrectStyles;
-                                        if (isExtraLetter)
-                                            letterStyles = extraStyles;
-
-                                        return (
-                                            <React.Fragment key={word + j}>
-                                                <div
-                                                    ref={
-                                                        isLastLetterBeingTyped
-                                                            ? letterRef
-                                                            : undefined
-                                                    }
-                                                    css={letterStyles}
-                                                >
-                                                    {letter}
-                                                </div>
-
-                                                <div
-                                                    ref={
-                                                        isExtraLetter
-                                                            ? letterRef
-                                                            : undefined
-                                                    }
-                                                ></div>
-                                            </React.Fragment>
-                                        );
-                                    })}
+                                                    <div
+                                                        ref={
+                                                            isExtraLetter
+                                                                ? letterRef
+                                                                : undefined
+                                                        }
+                                                    />
+                                                </React.Fragment>
+                                            );
+                                        }
+                                    )}
                                 </div>
                                 <div
                                     ref={
@@ -150,6 +121,7 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                             ? letterRef
                                             : undefined
                                     }
+                                    style={{ width: fontWidth }}
                                 >
                                     &nbsp;
                                 </div>

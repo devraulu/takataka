@@ -17,7 +17,7 @@ const ConfigChip: FunctionComponent<ConfigChipProps> = ({
         <Button
             variant='subtle'
             compact
-            color={checked ? 'primary' : 'background.3'}
+            color={checked ? 'primary' : 'tertiary.6'}
             {...rest}
             onClick={e => {
                 onClick(e);

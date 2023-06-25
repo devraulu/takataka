@@ -1,7 +1,7 @@
-import { Box, Chip, Group, MediaQuery, Space, rem } from '@mantine/core';
+import { Group, MediaQuery, Space, rem } from '@mantine/core';
 import useTypingStore from '../stores/typing';
 import ConfigChip from './common/ConfigChip';
-import { AtSymbolIcon, HashtagIcon } from '@heroicons/react/24/solid';
+import { At, Hash } from 'tabler-icons-react';
 
 interface TestConfigBarProps {}
 
@@ -14,6 +14,7 @@ const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
         togglePunctuation,
         setTestSize,
     } = useTypingStore();
+
     const sizes = [10, 25, 50, 100];
 
     return (
@@ -25,14 +26,14 @@ const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
                         togglePunctuation();
                         console.log('punctuation', punctuation);
                     }}
-                    leftIcon={<AtSymbolIcon width={12} />}
+                    leftIcon={<At size={14} strokeWidth={2} />}
                 >
                     punctuation
                 </ConfigChip>
                 <ConfigChip
                     checked={numbers}
                     onClick={() => toggleNumbers()}
-                    leftIcon={<HashtagIcon width={12} />}
+                    leftIcon={<Hash size={14} strokeWidth={2} />}
                 >
                     numbers
                 </ConfigChip>

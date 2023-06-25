@@ -6,9 +6,7 @@ interface HeaderProps {}
 const Header: React.FunctionComponent<HeaderProps> = () => {
     return (
         <Flex justify={'center'}>
-            <Box w='50%'>
-                <Logo />
-            </Box>
+            <Logo />
         </Flex>
     );
 };

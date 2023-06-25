@@ -24,7 +24,7 @@ const useTypedLog = () => {
                     extra: isExtra,
                 };
 
-                console.log('log: ', logEntry);
+                // console.log('log: ', logEntry);
                 appendTypedLog(logEntry);
             }
         }

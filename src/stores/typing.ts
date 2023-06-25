@@ -2,10 +2,7 @@ import React from 'react';
 import create from 'zustand';
 import Log from '../models/Log';
 
-const INITIAL_TYPED = [''];
-
-export const SAMPLE_TEXT =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+export const INITIAL_TYPED = [''];
 
 export interface TypingStore {
     initialTyped: string[];
@@ -65,5 +62,37 @@ const useTypingStore = create<TypingStore>((set, get) => ({
     setTestSize: (val: number) => set(state => ({ testSize: val })),
     hasTestStarted: () => get().typedLog.length > 0,
 }));
+
+export const resetSelector = ({
+    setTyped,
+    setHistory,
+    setLastTestLog,
+    setTypedLog,
+    resetBtnRef,
+    setText,
+}: TypingStore) => ({
+    setTyped,
+    setHistory,
+    setLastTestLog,
+    setTypedLog,
+    resetBtnRef,
+    setText,
+});
+
+export const typingSelector = ({
+    text,
+    setText,
+    typed,
+    setTyped,
+    appendHistory,
+    resetBtnRef,
+}: TypingStore) => ({
+    text,
+    setText,
+    typed,
+    setTyped,
+    appendHistory,
+    resetBtnRef,
+});
 
 export default useTypingStore;

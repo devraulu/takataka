@@ -8,16 +8,12 @@ import {
     rem,
     Tooltip,
     Group,
+    useMantineTheme,
 } from '@mantine/core';
-import {
-    ArrowUturnLeftIcon,
-    ChevronRightIcon,
-} from '@heroicons/react/24/solid';
-import useTyping from '../hooks/useTyping';
 
 import useTypingStore from '../stores/typing';
 import { WpmErrorLog } from '../models/Log';
-import { forwardRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     computeWpmAndErrors,
     calculateAccuracy,
@@ -28,11 +24,12 @@ import {
 import ResultsChart from './ResultsChart';
 import Stats from '../models/Stats';
 import StatsInfo from './StatsInfo';
+import { ArrowBackUp, ChevronRight } from 'tabler-icons-react';
+import useResetTest from '../hooks/useResetTest';
 
 interface ResultsProps {}
 
 const Results: React.FunctionComponent<ResultsProps> = () => {
-    const { newTest, reset } = useTyping();
     const { lastTestLogs } = useTypingStore();
     const [chartData, setChartData] = useState<WpmErrorLog[]>([]);
     const [stats, setStats] = useState<Stats>({
@@ -45,6 +42,10 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
         incorrect: 0,
         extra: 0,
     });
+
+    const { reset, newTest } = useResetTest();
+
+    const theme = useMantineTheme();
 
     useEffect(() => {
         const testLogs = [...lastTestLogs];
@@ -70,8 +71,8 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
     return (
         <Box>
             <Title order={2}>Results</Title>
-            <Flex mt='md'>
-                <Stack w={'10%'} justify='space-between'>
+            <Flex mt='md' gap='md'>
+                <Stack w={'10%'}>
                     <Tooltip label={stats.avg.toFixed(2)}>
                         <Box>
                             <TitleText>wpm</TitleText>
@@ -91,19 +92,27 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
                 </Box>
             </Flex>
             <StatsInfo stats={stats} />
-            <Group position='center' mt='md'>
+            <Group position='center' mt='lg'>
                 <Tooltip label='Next test'>
-                    <ActionIcon onClick={newTest}>
-                        <ChevronRightIcon height={20} />
+                    <ActionIcon onClick={newTest} size='lg'>
+                        <ChevronRight
+                            size={rem(300)}
+                            strokeWidth={2}
+                            color={theme.colors.tertiary['5']}
+                        />
                     </ActionIcon>
                 </Tooltip>
                 <Tooltip label='Restart test'>
                     <ActionIcon
                         // className='restart'
                         onClick={reset}
-                        size={'sm'}
+                        size='lg'
                     >
-                        <ArrowUturnLeftIcon height={20} />
+                        <ArrowBackUp
+                            size={rem(300)}
+                            strokeWidth={2}
+                            color={theme.colors.tertiary['5']}
+                        />
                     </ActionIcon>
                 </Tooltip>
             </Group>
@@ -115,20 +124,16 @@ type ResultsTextProps = {
     children: string | string[] | React.ReactNode;
 };
 
-const TitleText = forwardRef<HTMLDivElement, ResultsTextProps>(
-    ({ children }, ref) => (
-        <Text ref={ref} size='xl' align='center'>
-            {children}
-        </Text>
-    )
+const TitleText = ({ children }: ResultsTextProps) => (
+    <Text fz='xl' fw={700} color='tertiary'>
+        {children}
+    </Text>
 );
 
-const ValueText = forwardRef<HTMLDivElement, ResultsTextProps>(
-    ({ children }, ref) => (
-        <Text ref={ref} fz={rem(32)} fw='bold' align='center'>
-            {children}
-        </Text>
-    )
+const ValueText = ({ children }: ResultsTextProps) => (
+    <Text fz={rem(50)} fw={600} lh={1} color='primary'>
+        {children}
+    </Text>
 );
 
 export default Results;

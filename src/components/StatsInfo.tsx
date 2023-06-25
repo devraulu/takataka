@@ -10,10 +10,6 @@ const StatsInfo: React.FunctionComponent<StatsInfoProps> = ({
 }) => {
     return (
         <Group position='apart'>
-            <Stack justify='flex-start' spacing={0}>
-                <TitleText2>test type</TitleText2>
-                <Text>english 10</Text>
-            </Stack>
             <Tooltip label={raw.toFixed(2)}>
                 <Box>
                     <TitleText2>raw</TitleText2>
@@ -49,11 +45,20 @@ type StatsTextProps = {
 };
 
 const TitleText2 = ({ children }: StatsTextProps) => (
-    <Text align='center'>{children}</Text>
+    <Text align='center' fw={500} color='tertiary' ff='Poppins, sans-serif'>
+        {children}
+    </Text>
 );
 
 const ValueText2 = ({ children }: StatsTextProps) => (
-    <Text align='center' fz={rem(24)}>
+    <Text
+        align='center'
+        fw={600}
+        fz={rem(32)}
+        color='primary'
+        lh={1}
+        ff='Poppins, sans-serif'
+    >
         {children}
     </Text>
 );

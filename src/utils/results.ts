@@ -101,3 +101,19 @@ export function calculateConsistency(wpmLogs: WpmErrorLog[]): number {
     const rawWpmValues = wpmLogs.map(log => log.rawWpm);
     return calculateCoefficientOfVariation(rawWpmValues);
 }
+
+export function calculateStats(chartData: WpmErrorLog[], logs: Log[]) {
+    const firstSecond = logs[0]?.timestamp / 1000;
+    const lastSecond = logs[logs.length - 1]?.timestamp / 1000;
+
+    return {
+        accuracy: calculateAccuracy(logs),
+        raw: calculateRawWpm(chartData),
+        avg: calculateAvgWpm(chartData),
+        consistency: calculateConsistency(chartData),
+        time: lastSecond - firstSecond,
+        correct: logs.filter(l => !l.error && !l.extra).length,
+        incorrect: logs.filter(l => l.error).length,
+        extra: logs.filter(l => l.extra).length,
+    };
+}

@@ -122,11 +122,13 @@ export const themesArr: string[][] = [
     // ['#FF220C', '#D33E43', '#9B7874', '#666370', 'sunset embers'],
     // ['#DB3069', '#32213A', '#66717E', '#DDCECD', 'cosmic fog'],
     // ['#F1F2EB', '#D8DAD3', '#A4C2A5', '#566246', 'retro verdigris'],
-    ['#FF7F00', '#FDBE85', '#C06C84', '#282828', 'sunrise synth'],
+    ['#6495ED', '#FFFAFA', '#4682B4', '#2C2C2C', 'crystal skies'],
+
     ['#B3446C', '#F3E9E5', '#28262C', '#FFFFFF', 'rose gold noir'],
     ['#FFD700', '#FFF8DC', '#BDB76B', '#3F3F3F', 'golden era'],
+    ['#FF7F00', '#FDBE85', '#C06C84', '#282828', 'sunrise synth'],
+
     ['#708238', '#F5DEB3', '#372A25', '#EFEFEF', 'retro field'],
-    ['#6495ED', '#FFFAFA', '#4682B4', '#2C2C2C', 'crystal skies'],
     ['#FFDEAD', '#CD853F', '#8B4513', '#3C3C3C', 'desert dusk'],
     ['#E9967A', '#FFA07A', '#FF7F50', '#363636', 'coral cascade'],
     ['#423E3F', '#D7B9A4', '#73605B', '#F1F1F1', 'dusk noir'],

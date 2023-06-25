@@ -41,10 +41,6 @@ const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
             <MediaQuery smallerThan={'xs'} styles={{ display: 'none' }}>
                 <Space w='xl' />
             </MediaQuery>
-            {/* <Chip.Group
-                value={testSize + ''}
-                onChange={v => setTestSize(Number(v))}
-            > */}
             <Group position='center'>
                 {sizes.map(s => (
                     <ConfigChip
@@ -55,7 +51,6 @@ const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
                     </ConfigChip>
                 ))}
             </Group>
-            {/* </Chip.Group> */}
         </Group>
     );
 };

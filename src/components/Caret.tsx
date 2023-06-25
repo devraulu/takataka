@@ -25,7 +25,7 @@ const Caret: React.FunctionComponent<CaretProps> = ({ top, left }) => {
                 background: theme.colors.primary['5'],
                 width: rem(2),
                 height: rem(36),
-                position: 'absolute',
+                position: 'fixed',
                 ...props,
             }}
         />

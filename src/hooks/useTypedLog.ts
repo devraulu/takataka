@@ -3,7 +3,11 @@ import useTypingStore from '../stores/typing';
 import Log from '../models/Log';
 
 const useTypedLog = () => {
-    const { text, typed, appendTypedLog, typedLog } = useTypingStore();
+    const [text, typed, appendTypedLog] = useTypingStore(state => [
+        state.text,
+        state.typed,
+        state.appendTypedLog,
+    ]);
 
     useEffect(() => {
         if (typed.length > 0) {

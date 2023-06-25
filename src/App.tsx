@@ -6,6 +6,7 @@ import useUIStore from './stores/ui';
 import themes, { getShades, logColor, themesArr } from './utils/themes';
 import ThemeSwatch from './models/Theme';
 import MantineGlobal from './components/Global';
+import { Notifications } from '@mantine/notifications';
 
 function App() {
     const swatch = useUIStore(state => state.theme);
@@ -15,9 +16,8 @@ function App() {
         tertiary: getShades(swatch.tertiary),
         background: getShades(swatch.background),
     };
-    // themes.forEach(({ primary, secondary, tertiary, background, name }) =>
-
     const { primary, secondary, tertiary, background, name } = swatch;
+
     console.log(
         `${name}: %c ${primary} %c ${secondary} %c  ${tertiary} %c  ${background}`,
         `color: ${primary}`,
@@ -25,14 +25,6 @@ function App() {
         `color: ${tertiary}`,
         `color: ${background}`
     );
-    // );
-    // themesArr.forEach(arr =>
-    //     arr.forEach((elem, i) => {
-    //         if (i > 3) return;
-    //         let shades = getShades(elem);
-    //         shades.forEach(logColor);
-    //     })
-    // );
 
     return (
         <MantineProvider
@@ -43,6 +35,7 @@ function App() {
                 primaryColor: 'primary',
             }}
         >
+            <Notifications />
             <MantineGlobal />
             <Box py='lg' px='md'>
                 <Header />

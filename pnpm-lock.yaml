@@ -8,9 +8,6 @@ dependencies:
   '@emotion/react':
     specifier: ^11.11.0
     version: 11.11.0(@types/react@18.0.26)(react@18.2.0)
-  '@heroicons/react':
-    specifier: ^2.0.16
-    version: 2.0.16(react@18.2.0)
   '@mantine/core':
     specifier: ^6.0.11
     version: 6.0.11(@emotion/react@11.11.0)(@mantine/hooks@6.0.11)(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
@@ -496,14 +493,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       tabbable: 6.1.2
-    dev: false
-
-  /@heroicons/react@2.0.16(react@18.2.0):
-    resolution: {integrity: sha512-x89rFxH3SRdYaA+JCXwfe+RkE1SFTo9GcOkZettHer71Y3T7V+ogKmfw5CjTazgS3d0ClJ7p1NA+SP7VQLQcLw==}
-    peerDependencies:
-      react: '>= 16'
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /@jridgewell/gen-mapping@0.1.1:

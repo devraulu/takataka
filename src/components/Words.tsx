@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useMeasure from 'react-use-measure';
-import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
+import { Box, Flex, Portal, rem, useMantineTheme } from '@mantine/core';
 import { css } from '@emotion/react';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
@@ -48,7 +48,9 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
             >
                 a
             </span>
+
             <Caret top={top} left={left} />
+
             <Box ref={containerRef}>
                 <Flex wrap='wrap'>
                     {words.map((elem, i) => {

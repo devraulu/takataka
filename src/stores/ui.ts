@@ -7,6 +7,8 @@ export interface UIStore {
     setTheme: (theme: SingleShadeSwatch) => void;
 }
 
+// TODO: Persist configuration (theme, last test settings)
+
 const useUIStore = create<UIStore>((set, get) => ({
     theme: themes[0],
     setTheme: (theme: SingleShadeSwatch) => set({ theme: theme }),

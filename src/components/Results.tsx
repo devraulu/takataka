@@ -1,10 +1,7 @@
 import {
     ActionIcon,
     Box,
-    Flex,
-    Title,
     Text,
-    Stack,
     rem,
     Tooltip,
     Group,
@@ -14,20 +11,17 @@ import {
 import useTypingStore from '../stores/typing';
 import { WpmErrorLog } from '../models/Log';
 import { useEffect, useState } from 'react';
-import {
-    computeWpmAndErrors,
-    calculateAccuracy,
-    calculateRawWpm,
-    calculateAvgWpm,
-    calculateConsistency,
-} from '../utils/results';
+import { computeWpmAndErrors, calculateStats } from '../utils/results';
 import ResultsChart from './ResultsChart';
 import Stats from '../models/Stats';
 import StatsInfo from './StatsInfo';
 import { ArrowBackUp, ChevronRight } from 'tabler-icons-react';
 import useResetTest from '../hooks/useResetTest';
+import TestType from './TestType';
 
 interface ResultsProps {}
+
+// TODO: Fix mobile view of results, handle different breakpoints
 
 const Results: React.FunctionComponent<ResultsProps> = () => {
     const { lastTestLogs } = useTypingStore();
@@ -52,49 +46,37 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
         const newChartData = computeWpmAndErrors(testLogs);
         setChartData(newChartData);
 
-        const firstSecond = testLogs[0]?.timestamp / 1000;
-        const lastSecond = testLogs[testLogs.length - 1]?.timestamp / 1000;
+        const newStats: Stats = calculateStats(newChartData, testLogs);
 
-        const newStats: Stats = {
-            accuracy: calculateAccuracy(testLogs),
-            raw: calculateRawWpm(newChartData),
-            avg: calculateAvgWpm(newChartData),
-            consistency: calculateConsistency(newChartData),
-            time: lastSecond - firstSecond,
-            correct: testLogs.filter(l => !l.error && !l.extra).length,
-            incorrect: testLogs.filter(l => l.error).length,
-            extra: testLogs.filter(l => l.extra).length,
-        };
         setStats(newStats);
     }, [lastTestLogs]);
 
     return (
-        <Box>
-            <Title order={2}>Results</Title>
-            <Flex mt='md' gap='md'>
-                <Stack w={'10%'}>
-                    <Tooltip label={stats.avg.toFixed(2)}>
-                        <Box>
-                            <TitleText>wpm</TitleText>
-                            <ValueText>{stats.avg.toFixed(0)}</ValueText>
-                        </Box>
-                    </Tooltip>
-
-                    <Tooltip label={stats.accuracy.toFixed(2)}>
-                        <Box>
-                            <TitleText>acc</TitleText>
-                            <ValueText>{stats.accuracy.toFixed(0)}%</ValueText>
-                        </Box>
-                    </Tooltip>
-                </Stack>
-                <Box w={'90%'}>
-                    <ResultsChart data={chartData} />
-                </Box>
-            </Flex>
-            <StatsInfo stats={stats} />
+        <Box w='50%' mx='auto' mt='md'>
+            <TestType />
+            <Group mt='sm'>
+                <Tooltip label={stats.avg.toFixed(2)}>
+                    <Box sx={{ flex: 1 }}>
+                        <TitleText>wpm</TitleText>
+                        <ValueText>{stats.avg.toFixed(0)}</ValueText>
+                    </Box>
+                </Tooltip>
+                <Tooltip label={stats.accuracy.toFixed(2)}>
+                    <Box sx={{ flex: 1 }}>
+                        <TitleText>acc</TitleText>
+                        <ValueText>{stats.accuracy.toFixed(0)}%</ValueText>
+                    </Box>
+                </Tooltip>
+            </Group>
+            <Box mt='md' w={'100%'} h={rem(200)}>
+                <ResultsChart data={chartData} />
+            </Box>
+            <Box mt='md'>
+                <StatsInfo stats={stats} />
+            </Box>
             <Group position='center' mt='lg'>
                 <Tooltip label='Next test'>
-                    <ActionIcon onClick={newTest} size='lg'>
+                    <ActionIcon onClick={newTest} size='lg' autoFocus>
                         <ChevronRight
                             size={rem(300)}
                             strokeWidth={2}
@@ -125,13 +107,20 @@ type ResultsTextProps = {
 };
 
 const TitleText = ({ children }: ResultsTextProps) => (
-    <Text fz='xl' fw={700} color='tertiary'>
+    <Text fw={400} color='tertiary' align='center' ff='Poppins, sans-serif'>
         {children}
     </Text>
 );
 
 const ValueText = ({ children }: ResultsTextProps) => (
-    <Text fz={rem(50)} fw={600} lh={1} color='primary'>
+    <Text
+        fz={rem(50)}
+        fw={600}
+        lh={1}
+        color='primary'
+        align='center'
+        ff='Poppins, sans-serif'
+    >
         {children}
     </Text>
 );

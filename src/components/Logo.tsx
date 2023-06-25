@@ -1,6 +1,6 @@
 import { Box, Text, Title, rem, useMantineTheme } from '@mantine/core';
 import useTypingStore from '../stores/typing';
-import { animated, useSpring, useSprings } from '@react-spring/web';
+import { animated, useSpring } from '@react-spring/web';
 import useResetTest from '../hooks/useResetTest';
 
 interface LogoProps {}
@@ -8,19 +8,6 @@ interface LogoProps {}
 const Logo: React.FunctionComponent<LogoProps> = () => {
     const hasTestStarted = useTypingStore(state => state.hasTestStarted());
     const { newTest } = useResetTest();
-    // const { classes } = useLogoStyles();
-
-    const letters = [
-        <span>t</span>,
-        <span>a</span>,
-        <span>k</span>,
-        <span>a</span>,
-        <span>t</span>,
-        <span>a</span>,
-        <span>k</span>,
-        <span>a</span>,
-    ];
-
     const theme = useMantineTheme();
     theme.colors[theme.primaryColor];
 
@@ -32,10 +19,10 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
     return (
         <Box
             sx={{
-                'user-select': 'none',
-                '-moz-user-select': 'none' /* Firefox */,
-                '-webkit-user-select': 'none' /* Chrome, Safari */,
-                '-ms-user-select': 'none' /* IE 10+ */,
+                userSelect: 'none',
+                MozUserSelect: 'none' /* Firefox */,
+                WebkitUserSelect: 'none' /* Chrome, Safari */,
+                msUserSelect: 'none' /* IE 10+ */,
             }}
         >
             <animated.div style={{ opacity: x }}>

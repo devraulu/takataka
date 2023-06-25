@@ -18,9 +18,14 @@ const RetryButton: React.FunctionComponent<RetryButtonProps> = () => {
     const theme = useMantineTheme();
 
     return (
-        <ActionIcon ref={resetBtn} className='restart' onClick={newTest}>
+        <ActionIcon
+            ref={resetBtn}
+            className='restart'
+            onClick={newTest}
+            size='lg'
+        >
             <ArrowBackUp
-                size={rem(300)}
+                size={rem(350)}
                 strokeWidth={2}
                 color={theme.colors.tertiary['5']}
             />

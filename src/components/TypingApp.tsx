@@ -1,7 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Words from './Words';
 import useTyping from '../hooks/useTyping';
-import { Box, Group, Overlay, Text } from '@mantine/core';
+import {
+    Box,
+    Group,
+    em,
+    getBreakpointValue,
+    useMantineTheme,
+} from '@mantine/core';
 import useShowResultsStore from '../stores/results';
 import Results from './Results';
 import useTypedLog from '../hooks/useTypedLog';
@@ -9,10 +15,12 @@ import TestConfigBar from './TestConfigBar';
 import useTypingStore from '../stores/typing';
 import useGenerateInitialTest from '../hooks/useGenerateInitialTest';
 import TestProgress from './TestProgress';
-import useResetTest from '../hooks/useResetTest';
 import RetryButton from './RetryButton';
 import useCheckAFK from '../hooks/useCheckAFK';
-import usePropmtOverlay from '../hooks/usePromptOverlay';
+import usePromptOverlay from '../hooks/usePromptOverlay';
+import useMobileTrigger from '../hooks/useMobileTrigger';
+import { isMobile } from '../utils';
+import AfkOverlay from './AfkOverlay';
 
 interface TypingAppProps {}
 
@@ -20,7 +28,10 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
     const { handleKeys: handleKeyEvent } = useTyping();
     const hasTestStarted = useTypingStore(state => state.hasTestStarted());
     const showResults = useShowResultsStore(state => state.showResults);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const theme = useMantineTheme();
+
+    const { inputRef, isInputFocused, triggerTouchKeyboard } =
+        useMobileTrigger();
 
     useTypedLog();
 
@@ -28,7 +39,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
         if (isMobile() && !isInputFocused()) {
             triggerTouchKeyboard();
         }
-        // Handle other key events as needed
+
         handleKeyEvent(event);
     };
 
@@ -44,25 +55,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
 
     useCheckAFK();
 
-    const { show: showOverlay, close } = usePropmtOverlay();
-
-    const isMobile = () => {
-        // Logic to check if the device is a mobile device
-        // You can use user-agent detection or any other method
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-            navigator.userAgent
-        );
-    };
-
-    const isInputFocused = () => {
-        return document.activeElement === inputRef.current;
-    };
-
-    const triggerTouchKeyboard = () => {
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
-    };
+    const { show: showOverlay, close } = usePromptOverlay();
 
     const handleTouch = () => {
         triggerTouchKeyboard();
@@ -70,7 +63,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
     };
 
     return (
-        <Box>
+        <Box maw={em(getBreakpointValue(theme.breakpoints.xl))} mx='auto'>
             {showResults ? (
                 <Results />
             ) : (
@@ -85,18 +78,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                         >
                             <TestConfigBar />
                         </Box>
-                        <Box
-                            mt='md'
-                            sx={{ position: 'relative' }}
-                            onClick={handleTouch}
-                        >
-                            {showOverlay && (
-                                <Overlay blur={15} center onClick={handleTouch}>
-                                    <Text color='primary'>
-                                        Click here or start typing to start test
-                                    </Text>
-                                </Overlay>
-                            )}
+                        <Box mt='md' onClick={handleTouch}>
                             {isMobile() && (
                                 <div>
                                     <input
@@ -110,19 +92,14 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                                     />
                                 </div>
                             )}
-                            <Group
-                                mt='md'
-                                align='center'
-                                sx={{
-                                    visibility: !hasTestStarted
-                                        ? 'hidden'
-                                        : 'initial',
-                                }}
-                            >
-                                <TestProgress />
+                            <Group mt='md' align='center'>
+                                {hasTestStarted && <TestProgress />}
                                 <RetryButton />
                             </Group>
-                            <Box>
+                            <Box sx={{ position: 'relative' }} p='md' mt='sm'>
+                                {showOverlay && (
+                                    <AfkOverlay handleTouch={handleTouch} />
+                                )}
                                 <Words />
                             </Box>
                         </Box>

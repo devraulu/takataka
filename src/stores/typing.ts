@@ -95,4 +95,20 @@ export const typingSelector = ({
     resetBtnRef,
 });
 
+export const configBarSelector = ({
+    punctuation,
+    numbers,
+    testSize,
+    toggleNumbers,
+    togglePunctuation,
+    setTestSize,
+}: TypingStore) => ({
+    punctuation,
+    numbers,
+    testSize,
+    toggleNumbers,
+    togglePunctuation,
+    setTestSize,
+});
+
 export default useTypingStore;

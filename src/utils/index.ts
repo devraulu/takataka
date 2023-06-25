@@ -49,3 +49,11 @@ export function deepEqual(obj1: any, obj2: any): boolean {
 
     return true;
 }
+
+export function isMobile() {
+    // Logic to check if the device is a mobile device
+    // You can use user-agent detection or any other method
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+    );
+}

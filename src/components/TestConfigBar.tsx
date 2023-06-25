@@ -1,5 +1,5 @@
 import { Group, MediaQuery, Space, rem } from '@mantine/core';
-import useTypingStore from '../stores/typing';
+import useTypingStore, { configBarSelector } from '../stores/typing';
 import ConfigChip from './common/ConfigChip';
 import { At, Hash } from 'tabler-icons-react';
 
@@ -13,7 +13,7 @@ const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
         toggleNumbers,
         togglePunctuation,
         setTestSize,
-    } = useTypingStore();
+    } = useTypingStore(configBarSelector);
 
     const sizes = [10, 25, 50, 100];
 

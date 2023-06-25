@@ -3,7 +3,7 @@ import { Box, MantineProvider } from '@mantine/core';
 import TypingApp from './components/TypingApp';
 import Header from './components/Header';
 import useUIStore from './stores/ui';
-import themes, { getShades, logColor, themesArr } from './utils/themes';
+import { getShades } from './utils/themes';
 import ThemeSwatch from './models/Theme';
 import MantineGlobal from './components/Global';
 import { Notifications } from '@mantine/notifications';
@@ -17,7 +17,6 @@ function App() {
         background: getShades(swatch.background),
     };
     const { primary, secondary, tertiary, background, name } = swatch;
-
     console.log(
         `${name}: %c ${primary} %c ${secondary} %c  ${tertiary} %c  ${background}`,
         `color: ${primary}`,
@@ -37,9 +36,9 @@ function App() {
         >
             <Notifications />
             <MantineGlobal />
-            <Box py='lg' px='md'>
+            <Box px='md' pt='xl'>
                 <Header />
-                <Box p={'md'} mt='md'>
+                <Box p={'md'} mt='xl'>
                     <TypingApp />
                 </Box>
             </Box>

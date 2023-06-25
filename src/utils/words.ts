@@ -1,27 +1,27 @@
 import { Letter, Word } from '../models/Word';
 
 export function fitsInCurrentLine(
-    word: string,
-    line: string[],
+    word: Word,
+    line: Word[],
     fontWidth: number,
     containerWidth: number
 ) {
     // We calculate the width of the word using the width of the current font at it's current size
     // and multiply it by the length of the word plus one space
 
-    const wordWidth = (word.length + 1) * fontWidth;
+    const wordWidth = (word.word.length + 1) * fontWidth;
 
     // To know the width of the line we calculate the width of each word,
     //  then add each width
     const lineWidth = line
-        .map(elem => (elem.length + 1) * fontWidth)
+        .map(elem => (elem.word.length + 1) * fontWidth)
         .reduce((acc, item) => acc + item, 0);
 
     return lineWidth + wordWidth < containerWidth;
 }
 
 export function findActiveLineIndex(
-    lines: string[][],
+    lines: Word[][],
     currentTypingIndex: number
 ) {
     const index = lines.findIndex((elem, i, arr) => {
@@ -57,6 +57,7 @@ export function checkWords(words: string[], typed: string[]) {
             const isExtraLetter = isExtra && j >= word.length;
             const isLastLetterBeingTyped =
                 isLastWordBeingTyped && j === typed[i]?.length;
+
             const checkedLetter: Letter = {
                 letter,
                 isTyped,
@@ -64,13 +65,14 @@ export function checkWords(words: string[], typed: string[]) {
                 isExtraLetter,
                 isLastLetterBeingTyped,
             };
+
             return checkedLetter;
         });
 
         const incorrectlyTypedWord =
             isTyped && !isWordCorrect && !isLastWordBeingTyped;
         const checkedWord: Word = {
-            word,
+            word: finalWordStr,
             letters: finalWord,
             incorrectlyTypedWord,
             isLastWordBeingTyped,

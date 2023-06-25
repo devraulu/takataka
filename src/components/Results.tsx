@@ -52,9 +52,32 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
     }, [lastTestLogs]);
 
     return (
-        <Box w='50%' mx='auto' mt='md'>
-            <TestType />
-            <Group mt='sm'>
+        <Box mx='auto' mt='md'>
+            <Group position='apart' align='flex-end'>
+                <TestType />
+                <Group position='center' mt='lg'>
+                    <Tooltip label='Next test'>
+                        <ActionIcon onClick={newTest} size='lg' autoFocus>
+                            <ChevronRight
+                                size={rem(300)}
+                                strokeWidth={2}
+                                color={theme.colors.secondary['6']}
+                            />
+                        </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label='Restart test'>
+                        <ActionIcon onClick={reset} size='lg'>
+                            <ArrowBackUp
+                                size={rem(300)}
+                                strokeWidth={2}
+                                color={theme.colors.secondary['6']}
+                            />
+                        </ActionIcon>
+                    </Tooltip>
+                </Group>
+            </Group>
+
+            <Group grow mt='lg'>
                 <Tooltip label={stats.avg.toFixed(2)}>
                     <Box sx={{ flex: 1 }}>
                         <TitleText>wpm</TitleText>
@@ -74,30 +97,6 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
             <Box mt='md'>
                 <StatsInfo stats={stats} />
             </Box>
-            <Group position='center' mt='lg'>
-                <Tooltip label='Next test'>
-                    <ActionIcon onClick={newTest} size='lg' autoFocus>
-                        <ChevronRight
-                            size={rem(300)}
-                            strokeWidth={2}
-                            color={theme.colors.tertiary['5']}
-                        />
-                    </ActionIcon>
-                </Tooltip>
-                <Tooltip label='Restart test'>
-                    <ActionIcon
-                        // className='restart'
-                        onClick={reset}
-                        size='lg'
-                    >
-                        <ArrowBackUp
-                            size={rem(300)}
-                            strokeWidth={2}
-                            color={theme.colors.tertiary['5']}
-                        />
-                    </ActionIcon>
-                </Tooltip>
-            </Group>
         </Box>
     );
 };
@@ -114,7 +113,7 @@ const TitleText = ({ children }: ResultsTextProps) => (
 
 const ValueText = ({ children }: ResultsTextProps) => (
     <Text
-        fz={rem(50)}
+        fz={rem(45)}
         fw={600}
         lh={1}
         color='primary'

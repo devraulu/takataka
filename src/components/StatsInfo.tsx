@@ -1,4 +1,4 @@
-import { Group, Stack, Box, rem, Text, Tooltip } from '@mantine/core';
+import { Group, Stack, Box, rem, Text, Tooltip, Grid } from '@mantine/core';
 import Stats from '../models/Stats';
 
 interface StatsInfoProps {
@@ -9,34 +9,42 @@ const StatsInfo: React.FunctionComponent<StatsInfoProps> = ({
     stats: { time, raw, correct, incorrect, extra, consistency, avg },
 }) => {
     return (
-        <Group position='apart'>
-            <Tooltip label={raw.toFixed(2)}>
-                <Box>
-                    <TitleText2>raw</TitleText2>
-                    <ValueText2>{raw.toFixed(0)}</ValueText2>
-                </Box>
-            </Tooltip>
-            <Tooltip label='correct, incorrect, extra'>
-                <Box>
-                    <TitleText2>characters</TitleText2>
-                    <ValueText2>
-                        {correct}/{incorrect}/{extra}
-                    </ValueText2>
-                </Box>
-            </Tooltip>
-            <Tooltip label={consistency.toFixed(2)}>
-                <Box>
-                    <TitleText2>consistency</TitleText2>
-                    <ValueText2>{consistency.toFixed(0)}</ValueText2>
-                </Box>
-            </Tooltip>
-            <Tooltip label={time.toFixed(1)}>
-                <Box>
-                    <TitleText2>time</TitleText2>
-                    <ValueText2>{time.toFixed(0)}</ValueText2>
-                </Box>
-            </Tooltip>
-        </Group>
+        <Grid>
+            <Grid.Col span={6} md={3}>
+                <Tooltip label={raw.toFixed(2)}>
+                    <Box>
+                        <TitleText2>raw</TitleText2>
+                        <ValueText2>{raw.toFixed(0)}</ValueText2>
+                    </Box>
+                </Tooltip>
+            </Grid.Col>
+            <Grid.Col span={6} md={3}>
+                <Tooltip label='correct, incorrect, extra'>
+                    <Box>
+                        <TitleText2>characters</TitleText2>
+                        <ValueText2>
+                            {correct}/{incorrect}/{extra}
+                        </ValueText2>
+                    </Box>
+                </Tooltip>
+            </Grid.Col>
+            <Grid.Col span={6} md={3}>
+                <Tooltip label={consistency.toFixed(2)}>
+                    <Box>
+                        <TitleText2>consistency</TitleText2>
+                        <ValueText2>{consistency.toFixed(0)}</ValueText2>
+                    </Box>
+                </Tooltip>
+            </Grid.Col>
+            <Grid.Col span={6} md={3}>
+                <Tooltip label={time.toFixed(1)}>
+                    <Box>
+                        <TitleText2>time</TitleText2>
+                        <ValueText2>{time.toFixed(0)}</ValueText2>
+                    </Box>
+                </Tooltip>
+            </Grid.Col>
+        </Grid>
     );
 };
 
@@ -54,7 +62,7 @@ const ValueText2 = ({ children }: StatsTextProps) => (
     <Text
         align='center'
         fw={600}
-        fz={rem(32)}
+        fz={rem(26)}
         color='primary'
         lh={1}
         ff='Poppins, sans-serif'

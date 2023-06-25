@@ -17,12 +17,13 @@ const Caret: React.FunctionComponent<CaretProps> = ({ top, left }) => {
             friction: 14,
         },
     });
+
     const theme = useMantineTheme();
 
     return (
         <a.div
             style={{
-                background: theme.colors.primary['5'],
+                background: theme.colors.primary['6'],
                 width: rem(2),
                 height: rem(36),
                 position: 'fixed',

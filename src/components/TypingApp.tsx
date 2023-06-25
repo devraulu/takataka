@@ -97,9 +97,11 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                                 <RetryButton />
                             </Group>
                             <Box sx={{ position: 'relative' }} p='md' mt='sm'>
-                                {showOverlay && (
-                                    <AfkOverlay handleTouch={handleTouch} />
-                                )}
+                                <AfkOverlay
+                                    show={showOverlay}
+                                    handleTouch={handleTouch}
+                                />
+
                                 <Words />
                             </Box>
                         </Box>

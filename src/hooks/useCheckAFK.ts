@@ -26,7 +26,7 @@ function useCheckAFK() {
             withCloseButton: true,
         });
         reset();
-    }, 15 * 1000);
+    }, 20 * 1000);
 
     useEffect(() => {
         // console.log('afk', afk, run);

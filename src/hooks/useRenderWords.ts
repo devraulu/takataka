@@ -5,13 +5,22 @@ import {
     checkWords,
 } from '../utils/words';
 import useTypingStore from '../stores/typing';
+import { Word } from '../models/Word';
 
 const useRenderWords = (fontWidth: number, containerWidth: number) => {
     const [text, typed] = useTypingStore(state => [state.text, state.typed]);
 
+    const splitText = text.split(' ');
+
+    const checkedWords = useMemo(() => {
+        const checkedWords = checkWords(splitText, typed);
+
+        return checkedWords;
+    }, [text, typed]);
+
     const lines = useMemo(() => {
-        const lines = text.split(' ').reduce(
-            (acc: string[][], item: string, i, arr) => {
+        const lines = checkedWords.reduce(
+            (acc: Word[][], item: Word, i, arr) => {
                 if (acc.length < 1) acc.push([]);
                 const currentLine = acc[acc.length - 1];
 
@@ -34,9 +43,7 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
         return lines;
     }, [text, containerWidth]);
 
-    const { words, start, end } = useMemo(() => {
-        const words = text.split(' ');
-
+    const { start, end } = useMemo(() => {
         const activeLine = findActiveLineIndex(lines, typed.length);
 
         // Get the start and end indices for slicing the array
@@ -50,14 +57,14 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
             .reduce((acc, elem) => (acc += elem.length), 0);
 
         // Return the relevant lines
-        return { words, start: startWordsIndex, end: endWordsIndex };
+        return { start: startWordsIndex, end: endWordsIndex };
     }, [typed, lines]);
 
     const wordsToRender = useMemo(() => {
-        const checkedWords = checkWords(words, typed);
+        // const checkedWords = checkWords(words, typed);
 
         return checkedWords.slice(start, end);
-    }, [words, typed, lines]);
+    }, [checkedWords, typed, lines]);
 
     return wordsToRender;
 };

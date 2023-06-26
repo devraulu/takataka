@@ -7,6 +7,7 @@ export interface Letter {
 }
 
 export interface Word {
+    originalWord: string;
     word: string;
     letters: Letter[];
     incorrectlyTypedWord: boolean;

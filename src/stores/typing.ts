@@ -111,4 +111,16 @@ export const configBarSelector = ({
     setTestSize,
 });
 
+export const testFinishedSelector = ({
+    text,
+    typed,
+    typedLog,
+    setLastTestLog,
+}: TypingStore) => ({
+    text,
+    typed,
+    typedLog,
+    setLastTestLog,
+});
+
 export default useTypingStore;

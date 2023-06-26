@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import useTypingStore from '../stores/typing';
+import useTypingStore, { testFinishedSelector } from '../stores/typing';
 
 const useIsTestFinished = () => {
-    const { text, typed, typedLog, setLastTestLog } = useTypingStore();
+    const { text, typed, typedLog, setLastTestLog } =
+        useTypingStore(testFinishedSelector);
 
     const isTestFinished = useMemo(() => {
         if (text.length < 1) return false;
@@ -13,13 +14,9 @@ const useIsTestFinished = () => {
 
         if (lastOfText == lastOfTyped || typed.length > textArr.length) {
             if (typedLog.length > 0) {
-                // console.log('setting last test log to', typedLog);
                 setLastTestLog(typedLog);
             }
-            console.log(
-                'test finished'
-                //  typedLog, lastTestLogs
-            );
+            console.log('test finished');
 
             return true;
         }

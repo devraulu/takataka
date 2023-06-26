@@ -61,10 +61,8 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
     }, [typed, lines]);
 
     const wordsToRender = useMemo(() => {
-        // const checkedWords = checkWords(words, typed);
-
         return checkedWords.slice(start, end);
-    }, [checkedWords, typed, lines]);
+    }, [checkedWords, lines]);
 
     return wordsToRender;
 };

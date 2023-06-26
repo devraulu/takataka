@@ -49,7 +49,7 @@ export function checkWords(words: string[], typed: string[]) {
         const isWordCorrect = typed[i] === word;
         const isExtra =
             typedNotEmpty && !!typed[i] && typed[i].length > word.length;
-        const finalWordStr = `${word}${typed[i]?.slice(word.length) ?? ' '}`;
+        const finalWordStr = `${word}${typed[i]?.slice(word.length) ?? ''}`;
 
         const finalWord = finalWordStr.split('').map((letter, j) => {
             const isTyped = typedNotEmpty && !!typed[i] && !!typed[i][j];
@@ -72,6 +72,7 @@ export function checkWords(words: string[], typed: string[]) {
         const incorrectlyTypedWord =
             isTyped && !isWordCorrect && !isLastWordBeingTyped;
         const checkedWord: Word = {
+            originalWord: word,
             word: finalWordStr,
             letters: finalWord,
             incorrectlyTypedWord,

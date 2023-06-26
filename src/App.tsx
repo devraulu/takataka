@@ -1,5 +1,5 @@
 import './App.scss';
-import { Box, MantineProvider } from '@mantine/core';
+import { Box, Flex, MantineProvider, Space, Stack } from '@mantine/core';
 import TypingApp from './components/TypingApp';
 import Header from './components/Header';
 import useUIStore from './stores/ui';
@@ -7,6 +7,7 @@ import { getShades } from './utils/themes';
 import ThemeSwatch from './models/Theme';
 import MantineGlobal from './components/Global';
 import { Notifications } from '@mantine/notifications';
+import Footer from './components/Footer';
 
 function App() {
     const swatch = useUIStore(state => state.theme);
@@ -17,6 +18,7 @@ function App() {
         background: getShades(swatch.background),
     };
     const { primary, secondary, tertiary, background, name } = swatch;
+
     console.log(
         `${name}: %c ${primary} %c ${secondary} %c  ${tertiary} %c  ${background}`,
         `color: ${primary}`,
@@ -36,12 +38,18 @@ function App() {
         >
             <Notifications />
             <MantineGlobal />
-            <Box px='md' pt='xl'>
+            <Stack
+                px='md'
+                pt='xl'
+                h={'100vh'}
+                justify='space-between'
+                spacing='sm'
+            >
                 <Header />
-                <Box p={'md'} mt='xl'>
-                    <TypingApp />
-                </Box>
-            </Box>
+                <Space className='separator' />
+                <TypingApp />
+                <Footer />
+            </Stack>
         </MantineProvider>
     );
 }

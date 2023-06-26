@@ -32,8 +32,8 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
                 backgroundColor: opacity.to(
                     [0.5, 1],
                     [
-                        theme.colors.background['5'] + '00',
-                        theme.colors.background['5'] + 'DF',
+                        theme.colors.background['6'] + '00',
+                        theme.colors.background['6'] + 'DF',
                     ]
                 ),
                 position: 'absolute',

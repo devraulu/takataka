@@ -61,7 +61,7 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
                             <ChevronRight
                                 size={rem(300)}
                                 strokeWidth={2}
-                                color={theme.colors.secondary['6']}
+                                color={theme.colors.tertiary['6']}
                             />
                         </ActionIcon>
                     </Tooltip>
@@ -70,7 +70,7 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
                             <ArrowBackUp
                                 size={rem(300)}
                                 strokeWidth={2}
-                                color={theme.colors.secondary['6']}
+                                color={theme.colors.tertiary['6']}
                             />
                         </ActionIcon>
                     </Tooltip>

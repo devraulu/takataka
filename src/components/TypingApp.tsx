@@ -4,6 +4,7 @@ import useTyping from '../hooks/useTyping';
 import {
     Box,
     Group,
+    Stack,
     em,
     getBreakpointValue,
     useMantineTheme,
@@ -63,12 +64,17 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
     };
 
     return (
-        <Box maw={em(getBreakpointValue(theme.breakpoints.xl))} mx='auto'>
+        <Stack
+            justify='center'
+            maw={em(getBreakpointValue(theme.breakpoints.xl))}
+            mx='auto'
+            // sx={{ flex: 1 }}
+        >
             {showResults ? (
                 <Results />
             ) : (
                 <Box>
-                    <Box w='80%' mx='auto'>
+                    <Box w='95%' mx='auto'>
                         <Box
                             sx={{
                                 visibility: hasTestStarted
@@ -108,7 +114,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                     </Box>
                 </Box>
             )}
-        </Box>
+        </Stack>
     );
 };
 

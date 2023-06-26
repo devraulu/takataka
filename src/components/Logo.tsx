@@ -2,6 +2,7 @@ import { Box, Text, Title, rem, useMantineTheme } from '@mantine/core';
 import useTypingStore from '../stores/typing';
 import { animated, useSpring } from '@react-spring/web';
 import useResetTest from '../hooks/useResetTest';
+import useIsTestFinished from '../hooks/useIsTestFinished';
 
 interface LogoProps {}
 
@@ -10,10 +11,11 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
     const { newTest } = useResetTest();
     const theme = useMantineTheme();
     theme.colors[theme.primaryColor];
+    const isTestFinished = useIsTestFinished();
 
     const { x } = useSpring({
         from: { x: 0 },
-        x: hasTestStarted ? 0 : 1,
+        x: hasTestStarted && !isTestFinished ? 0 : 1,
     });
 
     return (

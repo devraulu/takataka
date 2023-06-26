@@ -1,5 +1,7 @@
 import React from 'react';
 import create from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+
 import Log from '../models/Log';
 
 export const INITIAL_TYPED = [''];
@@ -31,37 +33,51 @@ export interface TypingStore {
     hasTestStarted: () => boolean;
 }
 
-const useTypingStore = create<TypingStore>((set, get) => ({
-    initialTyped: INITIAL_TYPED,
-    typed: INITIAL_TYPED,
-    typedLog: [],
-    setTyped: (typed: string[]) => set(state => ({ typed })),
-    setTypedLog: (typedLog: Log[]) => set(state => ({ typedLog })),
-    appendTypedLog: (log: Log) =>
-        set(state => ({ typedLog: [...state.typedLog, log] })),
-    lastTestLogs: [],
-    setLastTestLog: (lastTestLogs: Log[]) => set(state => ({ lastTestLogs })),
-    history: [],
-    setHistory: (history: string[]) => set(state => ({ history })),
-    appendHistory: (item: string) =>
-        set(state => ({ history: [...state.history, item] })),
-    resetBtnRef: React.createRef(),
-    setResetBtnRef: (
-        resetBtnRef: React.MutableRefObject<HTMLButtonElement | null>
-    ) => set(state => ({ resetBtnRef })),
+const useTypingStore = create<TypingStore>()(
+    persist(
+        (set, get) => ({
+            initialTyped: INITIAL_TYPED,
+            typed: INITIAL_TYPED,
+            typedLog: [],
+            setTyped: (typed: string[]) => set(state => ({ typed })),
+            setTypedLog: (typedLog: Log[]) => set(state => ({ typedLog })),
+            appendTypedLog: (log: Log) =>
+                set(state => ({ typedLog: [...state.typedLog, log] })),
+            lastTestLogs: [],
+            setLastTestLog: (lastTestLogs: Log[]) =>
+                set(state => ({ lastTestLogs })),
+            history: [],
+            setHistory: (history: string[]) => set(state => ({ history })),
+            appendHistory: (item: string) =>
+                set(state => ({ history: [...state.history, item] })),
+            resetBtnRef: React.createRef(),
+            setResetBtnRef: (
+                resetBtnRef: React.MutableRefObject<HTMLButtonElement | null>
+            ) => set(state => ({ resetBtnRef })),
 
-    text: '',
-    setText: (text: string) => set(state => ({ text })),
-    punctuation: false,
-    togglePunctuation: (val?: boolean) =>
-        set(state => ({ punctuation: val ?? !state.punctuation })),
-    numbers: false,
-    toggleNumbers: (val?: boolean) =>
-        set(state => ({ numbers: val ?? !state.numbers })),
-    testSize: 25,
-    setTestSize: (val: number) => set(state => ({ testSize: val })),
-    hasTestStarted: () => get().typedLog.length > 0,
-}));
+            text: '',
+            setText: (text: string) => set(state => ({ text })),
+            punctuation: false,
+            togglePunctuation: (val?: boolean) =>
+                set(state => ({ punctuation: val ?? !state.punctuation })),
+            numbers: false,
+            toggleNumbers: (val?: boolean) =>
+                set(state => ({ numbers: val ?? !state.numbers })),
+            testSize: 25,
+            setTestSize: (val: number) => set(state => ({ testSize: val })),
+            hasTestStarted: () => get().typedLog.length > 0,
+        }),
+        {
+            name: 'typing-store',
+            storage: createJSONStorage(() => sessionStorage),
+            partialize: ({ numbers, punctuation, testSize }) => ({
+                numbers,
+                punctuation,
+                testSize,
+            }),
+        }
+    )
+);
 
 export const resetSelector = ({
     setTyped,

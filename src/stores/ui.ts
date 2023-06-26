@@ -1,6 +1,7 @@
 import create from 'zustand';
-import ThemeSwatch, { SingleShadeSwatch } from '../models/Theme';
+import { SingleShadeSwatch } from '../models/Theme';
 import themes from '../utils/themes';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 export interface UIStore {
     theme: SingleShadeSwatch;
@@ -11,11 +12,24 @@ export interface UIStore {
 
 // TODO: Persist configuration (theme, last test settings)
 
-const useUIStore = create<UIStore>((set, get) => ({
-    theme: themes[0],
-    setTheme: (theme: SingleShadeSwatch) => set({ theme }),
-    savedTheme: themes[0],
-    setSavedTheme: (savedTheme: SingleShadeSwatch) => set({ savedTheme }),
-}));
+const useUIStore = create<UIStore>()(
+    persist(
+        (set, get) => ({
+            theme: themes[0],
+            setTheme: (theme: SingleShadeSwatch) => set({ theme }),
+            savedTheme: themes[0],
+            setSavedTheme: (savedTheme: SingleShadeSwatch) =>
+                set({ savedTheme }),
+        }),
+        {
+            name: 'ui-store',
+            storage: createJSONStorage(() => sessionStorage),
+            partialize: ({ theme, savedTheme }) => ({
+                theme,
+                savedTheme,
+            }),
+        }
+    )
+);
 
 export default useUIStore;

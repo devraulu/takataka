@@ -52,7 +52,7 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
     }, [lastTestLogs]);
 
     return (
-        <Box mx='auto' mt='md'>
+        <Box mx='auto' mt='md' w={'100%'}>
             <Group position='apart' align='flex-end'>
                 <TestType />
                 <Group position='center' mt='lg'>

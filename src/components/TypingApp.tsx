@@ -27,8 +27,11 @@ interface TypingAppProps {}
 
 const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
     const { handleKeys: handleKeyEvent } = useTyping();
+
     const hasTestStarted = useTypingStore(state => state.hasTestStarted());
+
     const showResults = useShowResultsStore(state => state.showResults);
+
     const theme = useMantineTheme();
 
     const { inputRef, isInputFocused, triggerTouchKeyboard } =
@@ -69,50 +72,47 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
             maw={em(getBreakpointValue(theme.breakpoints.xl))}
             mx='auto'
             // sx={{ flex: 1 }}
+            w='95%'
         >
             {showResults ? (
                 <Results />
             ) : (
-                <Box>
-                    <Box w='95%' mx='auto'>
-                        <Box
-                            sx={{
-                                visibility: hasTestStarted
-                                    ? 'hidden'
-                                    : 'initial',
-                            }}
-                        >
-                            <TestConfigBar />
-                        </Box>
-                        <Box mt='md' onClick={handleTouch}>
-                            {isMobile() && (
-                                <div>
-                                    <input
-                                        ref={inputRef}
-                                        type='text'
-                                        style={{
-                                            opacity: 0,
-                                            position: 'absolute',
-                                            top: '-9999px',
-                                        }}
-                                    />
-                                </div>
-                            )}
-                            <Group mt='md' align='center'>
-                                {hasTestStarted && <TestProgress />}
-                                <RetryButton />
-                            </Group>
-                            <Box sx={{ position: 'relative' }} p='md' mt='sm'>
-                                <AfkOverlay
-                                    show={showOverlay}
-                                    handleTouch={handleTouch}
+                <>
+                    <Box
+                        sx={{
+                            visibility: hasTestStarted ? 'hidden' : 'initial',
+                        }}
+                    >
+                        <TestConfigBar />
+                    </Box>
+                    <Box mt='md' onClick={handleTouch}>
+                        {isMobile() && (
+                            <div>
+                                <input
+                                    ref={inputRef}
+                                    type='text'
+                                    style={{
+                                        opacity: 0,
+                                        position: 'absolute',
+                                        top: '-9999px',
+                                    }}
                                 />
+                            </div>
+                        )}
+                        <Group mt='md' align='center'>
+                            {hasTestStarted && <TestProgress />}
+                            <RetryButton />
+                        </Group>
+                        <Box sx={{ position: 'relative' }} p='md' mt='sm'>
+                            <AfkOverlay
+                                show={showOverlay}
+                                handleTouch={handleTouch}
+                            />
 
-                                <Words />
-                            </Box>
+                            <Words />
                         </Box>
                     </Box>
-                </Box>
+                </>
             )}
         </Stack>
     );

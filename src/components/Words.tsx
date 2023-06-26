@@ -18,6 +18,9 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
     const [fz, setFz] = useState(24);
 
     const words = useRenderWords(fontWidth, containerWidth);
+
+    const hasTestStarted = useTypingStore(state => state.hasTestStarted());
+
     const theme = useMantineTheme();
 
     const fontStyles = (
@@ -53,8 +56,7 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
             >
                 a
             </span>
-
-            <Caret top={top} left={left} />
+            {hasTestStarted && <Caret top={top} left={left} />}
             {words.length > 0 && (
                 <Box ref={containerRef}>
                     <Flex wrap='wrap'>

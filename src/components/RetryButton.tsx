@@ -7,30 +7,21 @@ import useTypingStore from '../stores/typing';
 interface RetryButtonProps {}
 
 const RetryButton: React.FunctionComponent<RetryButtonProps> = () => {
-    const { newTest } = useResetTest();
-    const setResetBtnRef = useTypingStore(state => state.setResetBtnRef);
-    const resetBtn = useRef<HTMLButtonElement | null>(null);
+  const { newTest } = useResetTest();
+  const setResetBtnRef = useTypingStore((state) => state.setResetBtnRef);
+  const resetBtn = useRef<HTMLButtonElement | null>(null);
 
-    useEffect(() => {
-        setResetBtnRef(resetBtn);
-    }, [resetBtn]);
+  useEffect(() => {
+    setResetBtnRef(resetBtn);
+  }, [resetBtn]);
 
-    const theme = useMantineTheme();
+  const theme = useMantineTheme();
 
-    return (
-        <ActionIcon
-            ref={resetBtn}
-            className='restart'
-            onClick={newTest}
-            size='lg'
-        >
-            <ArrowBackUp
-                size={rem(350)}
-                strokeWidth={2}
-                color={theme.colors.tertiary['5']}
-            />
-        </ActionIcon>
-    );
+  return (
+    <ActionIcon ref={resetBtn} className="restart" onClick={newTest} size="lg">
+      <ArrowBackUp size={rem(350)} strokeWidth={2} color={theme.colors.tertiary['5']} />
+    </ActionIcon>
+  );
 };
 
 export default RetryButton;

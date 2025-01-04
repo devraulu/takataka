@@ -5,9 +5,9 @@ interface HeaderProps {}
 
 const useStyles = createStyles(theme => ({
     container: {
-        paddingTop: theme.spacing.xl,
+        paddingTop: theme.spacing.sm,
         [theme.fn.largerThan('lg')]: {
-            paddingTop: rem(150),
+            paddingTop: rem(24),
         },
     },
 }));

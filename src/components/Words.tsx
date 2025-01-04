@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import useMeasure from 'react-use-measure';
 import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
 import { css } from '@emotion/react';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
 import useTypingStore from '../stores/typing';
+import React from 'react';
 
 interface WordsProps {}
 
@@ -15,18 +15,16 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
     const [fontRef, { width: fontWidth }] = useMeasure();
     const [letterRef, { left, top }] = useMeasure();
 
-    const [fz, setFz] = useState(24);
+    const fz = 24;
 
     const words = useRenderWords(fontWidth, containerWidth);
-
     const hasTestStarted = useTypingStore(state => state.hasTestStarted());
-
     const theme = useMantineTheme();
 
     const fontStyles = (
         isTyped?: boolean,
         isCorrect?: boolean,
-        isExtra?: boolean
+        isExtra?: boolean,
     ) => {
         let color = theme.colors.tertiary['5'];
 
@@ -95,7 +93,7 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                                     isTyped,
                                                     isExtraLetter,
                                                 },
-                                                j
+                                                j,
                                             ) => {
                                                 return (
                                                     <React.Fragment
@@ -110,7 +108,7 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                                             css={fontStyles(
                                                                 isTyped,
                                                                 isCorrect,
-                                                                isExtraLetter
+                                                                isExtraLetter,
                                                             )}
                                                         >
                                                             {letter}
@@ -125,7 +123,7 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                                         />
                                                     </React.Fragment>
                                                 );
-                                            }
+                                            },
                                         )}
                                     </div>
                                     <div

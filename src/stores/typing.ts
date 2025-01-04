@@ -20,10 +20,8 @@ export interface TypingStore {
     appendHistory: (item: string) => void;
     text: string;
     setText: (text: string) => void;
-    resetBtnRef: React.MutableRefObject<HTMLButtonElement | null>;
-    setResetBtnRef: (
-        ref: React.MutableRefObject<HTMLButtonElement | null>
-    ) => void;
+    resetBtnRef: React.RefObject<HTMLButtonElement | null>;
+    setResetBtnRef: (ref: React.RefObject<HTMLButtonElement | null>) => void;
     punctuation: boolean;
     togglePunctuation: (val?: boolean) => void;
     numbers: boolean;
@@ -52,7 +50,7 @@ const useTypingStore = create<TypingStore>()(
                 set(state => ({ history: [...state.history, item] })),
             resetBtnRef: React.createRef(),
             setResetBtnRef: (
-                resetBtnRef: React.MutableRefObject<HTMLButtonElement | null>
+                resetBtnRef: React.RefObject<HTMLButtonElement | null>,
             ) => set(state => ({ resetBtnRef })),
 
             text: '',
@@ -75,8 +73,8 @@ const useTypingStore = create<TypingStore>()(
                 punctuation,
                 testSize,
             }),
-        }
-    )
+        },
+    ),
 );
 
 export const resetSelector = ({

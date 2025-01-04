@@ -1,5 +1,5 @@
 import './App.scss';
-import { Box, Flex, MantineProvider, Space, Stack } from '@mantine/core';
+import { MantineProvider, Space, Stack } from '@mantine/core';
 import TypingApp from './components/TypingApp';
 import Header from './components/Header';
 import useUIStore from './stores/ui';

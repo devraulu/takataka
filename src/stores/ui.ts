@@ -28,8 +28,8 @@ const useUIStore = create<UIStore>()(
                 theme,
                 savedTheme,
             }),
-        }
-    )
+        },
+    ),
 );
 
 export default useUIStore;

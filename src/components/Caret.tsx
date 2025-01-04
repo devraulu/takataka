@@ -1,5 +1,5 @@
 import { rem, useMantineTheme } from '@mantine/core';
-import { a, useSpring } from '@react-spring/web';
+import { motion } from 'motion/react';
 
 interface CaretProps {
     top: number;
@@ -7,27 +7,16 @@ interface CaretProps {
 }
 
 const Caret: React.FunctionComponent<CaretProps> = ({ top, left }) => {
-    const props = useSpring({
-        from: { left: 0, top: 0 },
-        left,
-        top,
-        config: {
-            mass: 0.5,
-            tension: 246,
-            friction: 14,
-        },
-    });
-
     const theme = useMantineTheme();
 
     return (
-        <a.div
+        <motion.div
+            animate={{ left, top }}
             style={{
                 background: theme.colors.primary['6'],
                 width: rem(2),
-                height: rem(36),
+                height: rem(34),
                 position: 'fixed',
-                ...props,
             }}
         />
     );

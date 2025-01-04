@@ -29,7 +29,7 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
 function rgbToHsl(
     r: number = 255,
     g: number = 255,
-    b: number = 255
+    b: number = 255,
 ): { h: number; s: number; l: number } {
     (r /= 255), (g /= 255), (b /= 255);
     const max = Math.max(r, g, b),
@@ -97,7 +97,7 @@ function clamp(num: number, min: number, max: number): number {
 }
 
 function convertArrayToTuple(
-    array: string[]
+    array: string[],
 ): [
     string,
     string,
@@ -108,7 +108,7 @@ function convertArrayToTuple(
     string,
     string,
     string,
-    string
+    string,
 ] {
     if (array.length !== 10) {
         throw new Error('Array must have exactly 10 elements');

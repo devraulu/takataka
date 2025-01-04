@@ -13,20 +13,15 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
     theme.colors[theme.primaryColor];
     const isTestFinished = useIsTestFinished();
 
+    const showAnimation = hasTestStarted && !isTestFinished;
+
     const { x } = useSpring({
         from: { x: 0 },
-        x: hasTestStarted && !isTestFinished ? 0 : 1,
+        x: hasTestStarted ? 0 : 1,
     });
 
     return (
-        <Box
-            sx={{
-                userSelect: 'none',
-                MozUserSelect: 'none' /* Firefox */,
-                WebkitUserSelect: 'none' /* Chrome, Safari */,
-                msUserSelect: 'none' /* IE 10+ */,
-            }}
-        >
+        <Box className='select-none'>
             <animated.div style={{ opacity: x }}>
                 <Text
                     fz={rem(12)}

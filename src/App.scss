@@ -1,16 +1,3 @@
-// .container {
-//     @apply px-12 py-6;
-// }
-
-// .words,
-// .word {
-//     @apply flex flex-wrap font-mono relative;
-// }
-
-// .word {
-//     @apply my-1 leading-5;
-// }
-
 .correct {
     color: blue;
 }
@@ -19,61 +6,10 @@
     color: red;
 }
 
-// .incomplete {
-//     @apply border-b-2 border-red-500;
-// }
-
 .extra {
     color: rgb(139, 0, 0);
 }
 
-// /* .caret {
-// 	@apply w-0.5 bg-gray-500 py-1;
-
-// 	animation-name: pulse;
-// 	animation-duration: 1s;
-// 	animation-timing-function: ease-in-out;
-// 	animation-iteration-count: infinite;
-// }
-
-// @keyframes pulse {
-// 	0% {
-// 		transform: scale(1);
-// 	}
-// 	50% {
-// 		transform: scale(1.1);
-// 	}
-// 	100% {
-// 		transform: scale(1);
-// 	}
-// }
-//  */
-
-// .caret {
-//     @apply w-0.5 h-5 bg-black absolute;
-// }
-
-// .blinking-caret {
-//     @extend .caret;
-//     transition: transform 10s ease-out;
-//     animation: blink 1.5s linear infinite;
-// }
-
-// @keyframes blink {
-//     0% {
-//         opacity: 0;
-//     }
-//     50% {
-//         opacity: 1;
-//     }
-//     100% {
-//         opacity: 0;
-//     }
-// }
-
-// .restart {
-//     @apply px-1.5 rounded transition delay-100 duration-200 focus-visible:outline-none focus-visible:bg-blue-500 focus-visible:text-white text-blue-500;
-// }
-
-.caret {
+.link {
+    @apply underline decoration-2;
 }

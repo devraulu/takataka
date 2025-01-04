@@ -13,7 +13,7 @@ import useShowResultsStore from '../stores/results';
 import Results from './Results';
 import useTypedLog from '../hooks/useTypedLog';
 import TestConfigBar from './TestConfigBar';
-import useTypingStore from '../stores/typing';
+import useTypingStore, { hasTestStartedSelector } from '../stores/typing';
 import useGenerateInitialTest from '../hooks/useGenerateInitialTest';
 import TestProgress from './TestProgress';
 import RetryButton from './RetryButton';
@@ -28,8 +28,7 @@ interface TypingAppProps {}
 const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
     const { handleKeys: handleKeyEvent } = useTyping();
 
-    const hasTestStarted = useTypingStore(state => state.hasTestStarted());
-
+    const hasTestStarted = useTypingStore(hasTestStartedSelector);
     const showResults = useShowResultsStore(state => state.showResults);
 
     const theme = useMantineTheme();
@@ -58,8 +57,6 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
     useGenerateInitialTest();
 
     useCheckAFK();
-
-    const { show: showOverlay, close } = usePromptOverlay();
 
     const handleTouch = () => {
         triggerTouchKeyboard();
@@ -104,11 +101,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                             <RetryButton />
                         </Group>
                         <Box sx={{ position: 'relative' }} p='md' mt='sm'>
-                            <AfkOverlay
-                                show={showOverlay}
-                                handleTouch={handleTouch}
-                            />
-
+                            <AfkOverlay handleTouch={handleTouch} />
                             <Words />
                         </Box>
                     </Box>

@@ -1,5 +1,5 @@
 import React from 'react';
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 import Log from '../models/Log';
@@ -28,7 +28,6 @@ export interface TypingStore {
     toggleNumbers: (val?: boolean) => void;
     testSize: number;
     setTestSize: (val: number) => void;
-    hasTestStarted: () => boolean;
 }
 
 const useTypingStore = create<TypingStore>()(
@@ -63,7 +62,6 @@ const useTypingStore = create<TypingStore>()(
                 set(state => ({ numbers: val ?? !state.numbers })),
             testSize: 25,
             setTestSize: (val: number) => set(state => ({ testSize: val })),
-            hasTestStarted: () => get().typedLog.length > 0,
         }),
         {
             name: 'typing-store',
@@ -136,5 +134,8 @@ export const testFinishedSelector = ({
     typedLog,
     setLastTestLog,
 });
+
+export const hasTestStartedSelector = ({ typedLog }: TypingStore) =>
+    typedLog.length > 0;
 
 export default useTypingStore;

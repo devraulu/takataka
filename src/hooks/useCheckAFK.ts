@@ -1,5 +1,5 @@
 import { notifications } from '@mantine/notifications';
-import useTypingStore from '../stores/typing';
+import useTypingStore, { hasTestStartedSelector } from '../stores/typing';
 import useResetTest from './useResetTest';
 import useShowResultsStore from '../stores/results';
 import { useIdle, useTimeout } from '@mantine/hooks';
@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 function useCheckAFK() {
     const [typed, hasTestStarted] = useTypingStore(state => [
         state.typed,
-        state.hasTestStarted(),
+        hasTestStartedSelector(state),
     ]);
     const { reset } = useResetTest();
     const showResults = useShowResultsStore(state => state.showResults);

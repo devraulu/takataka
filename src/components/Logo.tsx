@@ -1,5 +1,5 @@
 import { Box, Text, Title, rem, useMantineTheme } from '@mantine/core';
-import useTypingStore from '../stores/typing';
+import useTypingStore, { hasTestStartedSelector } from '../stores/typing';
 import { animated, useSpring } from '@react-spring/web';
 import useResetTest from '../hooks/useResetTest';
 import useIsTestFinished from '../hooks/useIsTestFinished';
@@ -7,7 +7,7 @@ import useIsTestFinished from '../hooks/useIsTestFinished';
 interface LogoProps {}
 
 const Logo: React.FunctionComponent<LogoProps> = () => {
-    const hasTestStarted = useTypingStore(state => state.hasTestStarted());
+    const hasTestStarted = useTypingStore(hasTestStartedSelector);
     const { newTest } = useResetTest();
     const theme = useMantineTheme();
     theme.colors[theme.primaryColor];
@@ -41,7 +41,7 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
                         [
                             theme.colors.secondary['5'],
                             theme.colors.tertiary['5'],
-                        ]
+                        ],
                     ),
                     opacity: x.to([0, 1], [0.5, 1]),
                     cursor: 'pointer',

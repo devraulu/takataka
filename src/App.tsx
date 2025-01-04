@@ -2,15 +2,17 @@ import './App.scss';
 import { MantineProvider, Space, Stack } from '@mantine/core';
 import TypingApp from './components/TypingApp';
 import Header from './components/Header';
-import useUIStore from './stores/ui';
 import { getShades } from './utils/themes';
 import ThemeSwatch from './models/Theme';
 import MantineGlobal from './components/Global';
 import { Notifications } from '@mantine/notifications';
 import Footer from './components/Footer';
+import { useAtomValue } from 'jotai';
+import { themeAtom } from './stores/ui';
 
 function App() {
-    const swatch = useUIStore(state => state.theme);
+    const swatch = useAtomValue(themeAtom);
+
     const themeSwatch: ThemeSwatch = {
         primary: getShades(swatch.primary),
         secondary: getShades(swatch.secondary),
@@ -24,7 +26,7 @@ function App() {
         `color: ${primary}`,
         `color: ${secondary}`,
         `color: ${tertiary}`,
-        `color: ${background}`
+        `color: ${background}`,
     );
 
     return (

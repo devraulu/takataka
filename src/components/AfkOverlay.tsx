@@ -1,16 +1,17 @@
 import { useMantineTheme, Text } from '@mantine/core';
 import { animated, useSpring } from '@react-spring/web';
+import usePromptOverlay from '../hooks/usePromptOverlay';
 
 interface AfkOverlayProps {
-    show: boolean;
     handleTouch: () => void;
 }
 
 const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
-    show,
     handleTouch,
 }) => {
     const theme = useMantineTheme();
+
+    const { show, close } = usePromptOverlay();
 
     const { opacity } = useSpring({
         from: {
@@ -34,7 +35,7 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
                     [
                         theme.colors.background['6'] + '00',
                         theme.colors.background['6'] + 'DF',
-                    ]
+                    ],
                 ),
                 position: 'absolute',
                 top: 0,

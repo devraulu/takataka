@@ -8,11 +8,12 @@ import {
     useMantineTheme,
 } from '@mantine/core';
 import themes from '../utils/themes';
-import useUIStore from '../stores/ui';
+import { savedThemeAtom, themeAtom } from '../stores/ui';
 import { useEffect, useState } from 'react';
 import { SingleShadeSwatch } from '../models/Theme';
-import { useDebouncedState, useDebouncedValue } from '@mantine/hooks';
+import { useDebouncedValue } from '@mantine/hooks';
 import { css } from '@emotion/react';
+import { useAtom, useSetAtom } from 'jotai';
 
 interface ThemePickerProps {
     show: boolean;
@@ -26,25 +27,14 @@ const ThemePicker: React.FunctionComponent<ThemePickerProps> = ({
     children,
 }) => {
     const theme = useMantineTheme();
+    const setTheme = useSetAtom(themeAtom);
+    const [savedTheme, setSavedTheme] = useAtom(savedThemeAtom);
     const [hovered, setHovered] = useState<SingleShadeSwatch | null>(null);
-    // const [hovered, setHovered] = useDebouncedState<SingleShadeSwatch | null>(
-    //     null,
-    //     500
-    // );
     const [debouncedHovered] = useDebouncedValue(hovered, 700);
 
     useEffect(() => {
         if (debouncedHovered) setTheme(debouncedHovered);
     }, [debouncedHovered]);
-
-    const { setTheme, savedTheme, setSavedTheme } = useUIStore(
-        ({ theme, savedTheme, setTheme, setSavedTheme }) => ({
-            theme,
-            setTheme,
-            savedTheme,
-            setSavedTheme,
-        })
-    );
 
     return (
         <Popover
@@ -52,7 +42,7 @@ const ThemePicker: React.FunctionComponent<ThemePickerProps> = ({
             onChange={close}
             position='top'
             onClose={() => {
-                if (savedTheme) setTheme(savedTheme);
+                setTheme(savedTheme);
             }}
             css={css`
                 .mantine-popover-arrow {

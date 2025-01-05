@@ -7,7 +7,7 @@ interface FooterProps {}
 
 const Footer: React.FunctionComponent<FooterProps> = () => {
     const theme = useMantineTheme();
-    const [showPicker, { open, close }] = useDisclosure();
+    const [showPicker, { close, toggle }] = useDisclosure();
 
     return (
         <Group mt={'auto'} py='md' position='apart'>
@@ -62,7 +62,7 @@ const Footer: React.FunctionComponent<FooterProps> = () => {
 
             <ThemePicker show={showPicker} close={close}>
                 <Tooltip label='Change theme'>
-                    <ActionIcon size='sm' color='tertiary' onClick={open}>
+                    <ActionIcon size='sm' color='tertiary' onClick={toggle}>
                         <Paint size={48} strokeWidth={2} />
                     </ActionIcon>
                 </Tooltip>

@@ -14,6 +14,7 @@ import { SingleShadeSwatch } from '../models/Theme';
 import { useDebouncedValue } from '@mantine/hooks';
 import { css } from '@emotion/react';
 import { useAtom, useSetAtom } from 'jotai';
+import { Check } from 'tabler-icons-react';
 
 interface ThemePickerProps {
     show: boolean;
@@ -41,9 +42,7 @@ const ThemePicker: React.FunctionComponent<ThemePickerProps> = ({
             opened={show}
             onChange={close}
             position='top'
-            onClose={() => {
-                setTheme(savedTheme);
-            }}
+            onClose={() => setTheme(savedTheme)}
             css={css`
                 .mantine-popover-arrow {
                     background: blue;
@@ -54,15 +53,17 @@ const ThemePicker: React.FunctionComponent<ThemePickerProps> = ({
             <Popover.Dropdown
                 bg={theme.colors.background[6]}
                 p={0}
-                sx={{ border: `${rem(5)} solid ${theme.colors.background[7]}` }}
+                sx={{ border: `${rem(2)} solid ${theme.colors.background[7]}` }}
             >
                 {themes.map((elem, i) => {
                     const { primary, secondary, tertiary, background, name } =
                         elem;
                     const active = hovered == elem;
+                    const currentlySaved = elem.name === savedTheme.name;
 
                     return (
                         <Group
+                            key={name}
                             color={'secondary.6'}
                             py={rem(8)}
                             px={rem(15)}
@@ -84,9 +85,15 @@ const ThemePicker: React.FunctionComponent<ThemePickerProps> = ({
                                 setHovered(null);
                             }}
                         >
-                            <Text fw={500} ff={'Montserrat, sans-serif'}>
-                                {name}
-                            </Text>
+                            <Group>
+                                <Text
+                                    ff={'Montserrat, sans-serif'}
+                                    fw={currentlySaved ? 800 : 500}
+                                >
+                                    {name}
+                                </Text>
+                                {currentlySaved && <Check size={16} />}
+                            </Group>
                             <Stack
                                 ml='md'
                                 spacing={0}
@@ -99,7 +106,7 @@ const ThemePicker: React.FunctionComponent<ThemePickerProps> = ({
                                     <Box bg={secondary} w={10} h={10} />
                                     <Box bg={tertiary} w={10} h={10} />
                                 </Group>
-                                <Box bg={background} h={2} />
+                                <Box bg={background} h={3} />
                             </Stack>
                         </Group>
                     );

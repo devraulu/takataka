@@ -6,7 +6,7 @@ import { hasTestStartedAtom } from '../atoms/typing';
 import { motion, useMotionValue, useTransform } from 'motion/react';
 import { useEffect } from 'react';
 
-interface LogoProps { }
+interface LogoProps {}
 
 const Logo: React.FunctionComponent<LogoProps> = () => {
     const hasTestStarted = useAtomValue(hasTestStartedAtom);
@@ -21,30 +21,28 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
         active: {
             opacity: 1,
             color: theme.colors.secondary['5'],
-        }
-        , inactive: {
+        },
+        inactive: {
             opacity: 0.5,
             color: theme.colors.tertiary['5'],
-        }
-    }
+        },
+    };
 
     const smallTextVariants = {
         active: {
             opacity: 1,
             color: theme.colors.secondary['5'],
-        }
-        , inactive: {
-            opacity: 0.5,
-        }
-    }
+        },
+        inactive: {
+            opacity: 0,
+        },
+    };
 
     const animate = showAnimation ? 'inactive' : 'active';
 
     return (
         <Box className='select-none'>
-            <motion.div variants={smallTextVariants}
-                animate={animate}
-            >
+            <motion.div variants={smallTextVariants} animate={animate}>
                 <Text
                     fz={rem(12)}
                     fw={600}
@@ -76,7 +74,7 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
                     takataka
                 </Title>
             </motion.div>
-        </Box >
+        </Box>
     );
 };
 

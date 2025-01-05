@@ -50,8 +50,6 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
         return checkedWords.slice(startWordsIndex, endWordsIndex);
     }, [checkedWords, lines]);
 
-    console.log('re checked words');
-
     return wordsToRender;
 };
 

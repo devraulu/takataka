@@ -1,4 +1,4 @@
-import { Group, MediaQuery, Space, rem } from '@mantine/core';
+import { Group, MediaQuery, Space, rem, useMantineTheme } from '@mantine/core';
 import ConfigChip from './common/ConfigChip';
 import { At, Hash } from 'tabler-icons-react';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -12,12 +12,13 @@ import {
 import { hasTestStartedAtom } from '../atoms/typing';
 import { useEffect } from 'react';
 
-interface TestConfigBarProps { }
+interface TestConfigBarProps {}
 
 const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
     const { punctuation, numbers, testSize } = useAtomValue(
         testConfigurationAtom,
     );
+    const theme = useMantineTheme();
 
     const toggleNumbers = useSetAtom(handleToggleNumbers);
     const togglePunctuation = useSetAtom(handleTogglePunctuation);
@@ -36,13 +37,12 @@ const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
             sx={{
                 visibility: hasTestStarted ? 'hidden' : 'initial',
             }}
+            bg={theme.colors.background[6]}
         >
             <Group position='center'>
                 <ConfigChip
                     checked={punctuation}
-                    onClick={
-                        togglePunctuation
-                    }
+                    onClick={togglePunctuation}
                     leftIcon={<At size={14} strokeWidth={2} />}
                 >
                     punctuation
@@ -61,6 +61,7 @@ const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
             <Group position='center'>
                 {sizes.map(s => (
                     <ConfigChip
+                        key={'test-size-' + s}
                         checked={testSize == s}
                         onClick={() => setTestSize(s)}
                     >

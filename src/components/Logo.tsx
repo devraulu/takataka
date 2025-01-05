@@ -3,8 +3,7 @@ import useResetTest from '../hooks/useResetTest';
 import useIsTestFinished from '../hooks/useIsTestFinished';
 import { useAtomValue } from 'jotai';
 import { hasTestStartedAtom } from '../atoms/typing';
-import { motion, useMotionValue, useTransform } from 'motion/react';
-import { useEffect } from 'react';
+import { motion } from 'motion/react';
 
 interface LogoProps {}
 

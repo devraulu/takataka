@@ -1,7 +1,12 @@
+import { atom } from 'jotai';
 import themes from '../utils/themes';
 import { atomWithStorage } from 'jotai/utils';
 
-const themeAtom = atomWithStorage('theme', themes[0]);
-const savedThemeAtom = atomWithStorage('savedTheme', themes[0]);
+export const themeAtom = atomWithStorage('theme', themes[0]);
+export const savedThemeAtom = atomWithStorage('savedTheme', themes[0]);
 
-export { themeAtom, savedThemeAtom };
+export const showAfkOverlayAtom = atom(false);
+
+export const closeAfkOverlayAtom = atom(null, (_, set) =>
+    set(showAfkOverlayAtom, false),
+);

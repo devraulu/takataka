@@ -1,11 +1,9 @@
 import { ActionIcon, Group, useMantineTheme, Tooltip } from '@mantine/core';
 import { BrandGithub, Mail, Paint, Asterisk } from 'tabler-icons-react';
-import ThemePicker from './ThemePicker';
 import { useDisclosure } from '@mantine/hooks';
+import ThemePicker from '../ThemePicker';
 
-interface FooterProps {}
-
-const Footer: React.FunctionComponent<FooterProps> = () => {
+function Footer() {
     const theme = useMantineTheme();
     const [showPicker, { close, toggle }] = useDisclosure();
 
@@ -15,7 +13,7 @@ const Footer: React.FunctionComponent<FooterProps> = () => {
                 <Tooltip label='GitHub'>
                     <ActionIcon
                         component='a'
-                        href='https://github.com/devRauLuis/takataka'
+                        href='https://github.com/devraulu/takataka'
                         target='_blank'
                         rel='noopener'
                         size='sm'
@@ -69,6 +67,6 @@ const Footer: React.FunctionComponent<FooterProps> = () => {
             </ThemePicker>
         </Group>
     );
-};
+}
 
 export default Footer;

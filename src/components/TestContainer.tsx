@@ -9,15 +9,19 @@ import TestConfigBar from './TestConfigBar';
 import TestProgress from './TestProgress';
 import Words from './Words';
 import useCheckAFK from '../hooks/useCheckAFK';
+import { useSetAtom } from 'jotai';
+import { closeAfkOverlayAtom } from '../atoms/ui';
 
 export default function TestContainer() {
     const { handleKeys: handleKeyEvent } = useTyping();
     const { inputRef, isInputFocused, triggerTouchKeyboard } =
         useMobileTrigger();
 
+    const closeOverlay = useSetAtom(closeAfkOverlayAtom);
+
     const handleTouch = () => {
         triggerTouchKeyboard();
-        close();
+        closeOverlay();
     };
 
     const handleKeys = (event: KeyboardEvent) => {

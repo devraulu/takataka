@@ -1,4 +1,3 @@
-import './App.scss';
 import { MantineProvider, Space, Stack } from '@mantine/core';
 import TypingApp from './components/TypingApp';
 import Header from './components/Header';
@@ -6,9 +5,11 @@ import themes, { getShades } from './utils/themes';
 import ThemeSwatch from './models/Theme';
 import MantineGlobal from './components/Global';
 import { Notifications } from '@mantine/notifications';
-import Footer from './components/Footer';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { themeAtom } from './atoms/ui';
+import Footer from './components/Footer';
+
+import './App.scss';
 
 function App() {
     const [swatch, setSwatch] = useAtom(themeAtom);

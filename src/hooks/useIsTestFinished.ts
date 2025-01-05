@@ -1,5 +1,4 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useMemo } from 'react';
 import {
     lastTestLogsAtom,
     textAtom,

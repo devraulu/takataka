@@ -19,9 +19,7 @@ const ConfigChip: FunctionComponent<ConfigChipProps> = ({
             compact
             color={checked ? 'primary' : 'tertiary.6'}
             {...rest}
-            onClick={e => {
-                onClick(e);
-            }}
+            onClick={onClick}
         >
             {children}
         </Button>

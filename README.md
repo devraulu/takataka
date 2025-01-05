@@ -23,7 +23,6 @@ takataka is a fun and interactive typing practice tool developed using modern we
 - [Vite](https://vitejs.dev/)
 - [Mantine](https://mantine.dev/): A robust UI library used to build the user interface of the application.
 - [Emotion](https://emotion.sh/): A powerful library for building styled-components, enabling a customizable and themeable UI.
-- [react-spring](https://react-spring.io/): A spring-physics based animation library that adds a lively feel to the application.
 - [Recharts](https://recharts.org/)
 
 ## Getting Started

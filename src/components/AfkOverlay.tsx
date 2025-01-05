@@ -1,6 +1,6 @@
 import { useMantineTheme, Text } from '@mantine/core';
-import { animated, useSpring } from '@react-spring/web';
 import usePromptOverlay from '../hooks/usePromptOverlay';
+import { motion } from 'motion/react';
 
 interface AfkOverlayProps {
     handleTouch: () => void;
@@ -13,30 +13,24 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
 
     const { show, close } = usePromptOverlay();
 
-    const { opacity } = useSpring({
-        from: {
+    const variants = {
+        hidden: {
             opacity: 0,
-        },
-        opacity: show ? 1 : 0,
-        config: {
-            tension: 120,
-            friction: 14,
-        },
-    });
+            backgroundColor: theme.colors.background['6'] + '00',
+        }, visible: {
+            opacity: 1,
+            backgroundColor:
+                theme.colors.background['6'] + 'DF',
+        }
+    }
 
     return (
-        <animated.div
+        <motion.div
+            animate={show ? 'visible' : 'hidden'}
+            variants={variants}
             style={{
-                opacity,
                 width: '100%',
                 height: '100%',
-                backgroundColor: opacity.to(
-                    [0.5, 1],
-                    [
-                        theme.colors.background['6'] + '00',
-                        theme.colors.background['6'] + 'DF',
-                    ],
-                ),
                 position: 'absolute',
                 top: 0,
                 right: 0,
@@ -58,7 +52,7 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
             >
                 Click here or start typing to start test...
             </Text>
-        </animated.div>
+        </motion.div >
     );
 };
 

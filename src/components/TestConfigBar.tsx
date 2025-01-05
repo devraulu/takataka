@@ -12,7 +12,7 @@ import {
 import { hasTestStartedAtom } from '../atoms/typing';
 import { useEffect } from 'react';
 
-interface TestConfigBarProps {}
+interface TestConfigBarProps { }
 
 const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
     const { punctuation, numbers, testSize } = useAtomValue(
@@ -40,17 +40,16 @@ const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
             <Group position='center'>
                 <ConfigChip
                     checked={punctuation}
-                    onClick={() => {
-                        togglePunctuation();
-                        console.log('punctuation', punctuation);
-                    }}
+                    onClick={
+                        togglePunctuation
+                    }
                     leftIcon={<At size={14} strokeWidth={2} />}
                 >
                     punctuation
                 </ConfigChip>
                 <ConfigChip
                     checked={numbers}
-                    onClick={() => toggleNumbers()}
+                    onClick={toggleNumbers}
                     leftIcon={<Hash size={14} strokeWidth={2} />}
                 >
                     numbers

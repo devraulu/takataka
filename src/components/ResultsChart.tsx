@@ -10,12 +10,7 @@ import {
 } from 'recharts';
 import { WpmErrorLog } from '../models/Log';
 import {
-    rem,
     useMantineTheme,
-    Text,
-    Card,
-    ColorSwatch,
-    Group,
 } from '@mantine/core';
 import { css } from '@emotion/react';
 import CustomTooltip, { TooltipPayload } from './CustomTooltip';
@@ -83,7 +78,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     yAxisId='right'
                     dataKey='errors'
                     name='errors'
-                    shape={props => {
+                    shape={(props: Record<string, any>) => {
                         const { cx, cy, payload } = props;
 
                         return (

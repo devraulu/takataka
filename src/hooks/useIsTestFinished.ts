@@ -18,16 +18,19 @@ const useIsTestFinished = () => {
     const lastOfTyped = typed[textArr.length - 1];
     const lastOfText = textArr[textArr.length - 1];
 
-    if (lastOfText == lastOfTyped || typed.length > textArr.length) {
-        if (typedLog.length > 0) {
-            setLastTestLog(typedLog);
-        }
-        console.log('test finished');
+    const finishedLastWordCorrectly = lastOfText == lastOfTyped;
+    const typedMoreWordsThanTestLength = typed.length > textArr.length;
+    const typedMoreLettersThanLastWordLength =
+        lastOfTyped?.length > lastOfText?.length;
 
-        return true;
-    }
+    const finishedTest =
+        finishedLastWordCorrectly ||
+        typedMoreWordsThanTestLength ||
+        typedMoreLettersThanLastWordLength;
 
-    return false;
+    if (finishedTest && typedLog.length > 0) setLastTestLog(typedLog);
+
+    return finishedTest;
 };
 
 export default useIsTestFinished;

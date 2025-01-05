@@ -1,30 +1,34 @@
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useMemo } from 'react';
-import useTypingStore, { testFinishedSelector } from '../stores/typing';
+import {
+    lastTestLogsAtom,
+    textAtom,
+    typedAtom,
+    typedLogAtom,
+} from '../atoms/typing';
 
 const useIsTestFinished = () => {
-    const { text, typed, typedLog, setLastTestLog } =
-        useTypingStore(testFinishedSelector);
+    const text = useAtomValue(textAtom);
+    const typed = useAtomValue(typedAtom);
+    const typedLog = useAtomValue(typedLogAtom);
+    const setLastTestLog = useSetAtom(lastTestLogsAtom);
 
-    const isTestFinished = useMemo(() => {
-        if (text.length < 1) return false;
-        const textArr = text.split(' ');
+    if (text.length < 1) return false;
+    const textArr = text.split(' ');
 
-        const lastOfTyped = typed[textArr.length - 1];
-        const lastOfText = textArr[textArr.length - 1];
+    const lastOfTyped = typed[textArr.length - 1];
+    const lastOfText = textArr[textArr.length - 1];
 
-        if (lastOfText == lastOfTyped || typed.length > textArr.length) {
-            if (typedLog.length > 0) {
-                setLastTestLog(typedLog);
-            }
-            console.log('test finished');
-
-            return true;
+    if (lastOfText == lastOfTyped || typed.length > textArr.length) {
+        if (typedLog.length > 0) {
+            setLastTestLog(typedLog);
         }
+        console.log('test finished');
 
-        return false;
-    }, [typed]);
+        return true;
+    }
 
-    return isTestFinished;
+    return false;
 };
 
 export default useIsTestFinished;

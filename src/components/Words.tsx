@@ -3,8 +3,8 @@ import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
 import { css } from '@emotion/react';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
-import useTypingStore from '../stores/typing';
 import React from 'react';
+import useTypedLog from '../hooks/useTypedLog';
 
 interface WordsProps {}
 
@@ -19,6 +19,8 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
 
     const words = useRenderWords(fontWidth, containerWidth);
     const theme = useMantineTheme();
+
+    useTypedLog();
 
     const fontStyles = (
         isTyped?: boolean,
@@ -53,9 +55,7 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
             >
                 a
             </span>
-            {/* {hasTestStarted &&  */}
             <Caret top={top} left={left} />
-            {/* } */}
             {words.length > 0 && (
                 <Box ref={containerRef}>
                     <Flex wrap='wrap'>

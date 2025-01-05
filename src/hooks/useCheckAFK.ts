@@ -1,17 +1,16 @@
 import { notifications } from '@mantine/notifications';
-import useTypingStore, { hasTestStartedSelector } from '../stores/typing';
 import useResetTest from './useResetTest';
-import useShowResultsStore from '../stores/results';
 import { useIdle, useTimeout } from '@mantine/hooks';
 import { useEffect } from 'react';
+import { useAtomValue } from 'jotai';
+import { hasTestStartedAtom, typedAtom } from '../atoms/typing';
+import { showResultsAtom } from '../atoms/results';
 
 function useCheckAFK() {
-    const [typed, hasTestStarted] = useTypingStore(state => [
-        state.typed,
-        hasTestStartedSelector(state),
-    ]);
+    const typed = useAtomValue(typedAtom);
+    const hasTestStarted = useAtomValue(hasTestStartedAtom);
     const { reset } = useResetTest();
-    const showResults = useShowResultsStore(state => state.showResults);
+    const showResults = useAtomValue(showResultsAtom);
     const run = hasTestStarted && !showResults;
 
     const afk = useIdle(1000, { initialState: false });

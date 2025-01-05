@@ -4,7 +4,7 @@ export function fitsInCurrentLine(
     word: Word,
     line: Word[],
     fontWidth: number,
-    containerWidth: number
+    containerWidth: number,
 ) {
     // We calculate the width of the word using the width of the current font at it's current size
     // and multiply it by the length of the word plus one space
@@ -13,16 +13,17 @@ export function fitsInCurrentLine(
 
     // To know the width of the line we calculate the width of each word,
     //  then add each width
-    const lineWidth = line
-        .map(elem => (elem.word.length + 1) * fontWidth)
-        .reduce((acc, item) => acc + item, 0);
+    const lineWidth = line.reduce(
+        (acc, item) => acc + (item.word.length + 1) * fontWidth,
+        0,
+    );
 
     return lineWidth + wordWidth < containerWidth;
 }
 
 export function findActiveLineIndex(
     lines: Word[][],
-    currentTypingIndex: number
+    currentTypingIndex: number,
 ) {
     const index = lines.findIndex((elem, i, arr) => {
         const previousLinesSize = arr

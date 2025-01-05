@@ -1,13 +1,19 @@
 import { generate } from 'random-words';
 
-const sentenceCase = (word: string) => word[0].toUpperCase() + word.slice(1);
+const capitalizeFirstLetter = (word: string) =>
+    word[0].toUpperCase() + word.slice(1);
 
-export function generateTest(
+export function generateTestWords(
     size: number,
     punctuation?: boolean,
-    numbers?: boolean
-) {
-    let words = generate(size);
+    numbers?: boolean,
+): string {
+    const generatedWords = generate(size);
+
+    // since our test size is always more than 1 word long and generate returns string or string[]
+    // we convert it to string[] to be able to use map
+    let words =
+        typeof generatedWords === 'string' ? [generatedWords] : generatedWords;
 
     // Optionally include numbers
     if (numbers)
@@ -26,7 +32,7 @@ export function generateTest(
 
     // Optionally include punctuation
     if (punctuation) {
-        words[0] = sentenceCase(words[0]);
+        words[0] = capitalizeFirstLetter(words[0]);
         words = words.map((word, i) => {
             // Randomly add punctuation
             if (Math.random() < 0.1) {
@@ -38,7 +44,7 @@ export function generateTest(
                 word += punctuationMark;
                 if (['.', '!', '?'].includes(punctuationMark)) {
                     if (words[i + 1]) {
-                        words[i + 1] = sentenceCase(words[i + 1]);
+                        words[i + 1] = capitalizeFirstLetter(words[i + 1]);
                     }
                 }
             }

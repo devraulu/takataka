@@ -23,8 +23,7 @@
         "react-dom": "^19.0.0",
         "react-use-measure": "^2.1.1",
         "recharts": "^2.15.0",
-        "tabler-icons-react": "^1.56.0",
-        "zustand": "^5.0.2"
+        "tabler-icons-react": "^1.56.0"
     },
     "devDependencies": {
         "@emotion/babel-plugin": "^11.13.5",

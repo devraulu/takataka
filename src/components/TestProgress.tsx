@@ -1,13 +1,15 @@
 import { Text, rem } from '@mantine/core';
-import useTypingStore from '../stores/typing';
+import { useAtomValue } from 'jotai';
+import { hasTestStartedAtom, textAtom, typedAtom } from '../atoms/typing';
 
 interface TestProgressProps {}
 
 const TestProgress: React.FunctionComponent<TestProgressProps> = () => {
-    const { text, typed } = useTypingStore(({ text, typed }) => ({
-        text,
-        typed,
-    }));
+    const text = useAtomValue(textAtom);
+    const typed = useAtomValue(typedAtom);
+    const hasTestStarted = useAtomValue(hasTestStartedAtom);
+
+    if (!hasTestStarted) return null;
 
     return (
         <Text size='lg' color={'primary.4'} fw={600} fz={rem(24)}>

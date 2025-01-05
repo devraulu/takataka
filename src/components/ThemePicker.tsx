@@ -8,7 +8,7 @@ import {
     useMantineTheme,
 } from '@mantine/core';
 import themes from '../utils/themes';
-import { savedThemeAtom, themeAtom } from '../stores/ui';
+import { savedThemeAtom, themeAtom } from '../atoms/ui';
 import { useEffect, useState } from 'react';
 import { SingleShadeSwatch } from '../models/Theme';
 import { useDebouncedValue } from '@mantine/hooks';

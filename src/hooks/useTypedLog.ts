@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
-import useTypingStore from '../stores/typing';
 import Log from '../models/Log';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { appendTypedLogAtom, textAtom, typedAtom } from '../atoms/typing';
 
 const useTypedLog = () => {
-    const [text, typed, appendTypedLog] = useTypingStore(state => [
-        state.text,
-        state.typed,
-        state.appendTypedLog,
-    ]);
+    const text = useAtomValue(textAtom);
+    const typed = useAtomValue(typedAtom);
+    const appendTypedLog = useSetAtom(appendTypedLogAtom);
 
     useEffect(() => {
         if (typed.length > 0) {
@@ -28,7 +27,6 @@ const useTypedLog = () => {
                     extra: isExtra,
                 };
 
-                // console.log('log: ', logEntry);
                 appendTypedLog(logEntry);
             }
         }

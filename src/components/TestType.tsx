@@ -1,11 +1,14 @@
 import { Group, Text, rem, useMantineTheme } from '@mantine/core';
-import useTypingStore from '../stores/typing';
+import { useAtomValue } from 'jotai';
 import { At, Hash } from 'tabler-icons-react';
+import { testConfigurationAtom } from '../atoms/test_configuration';
 
 interface TestTypeProps {}
 
 const TestType: React.FunctionComponent<TestTypeProps> = () => {
-    const { testSize, punctuation, numbers } = useTypingStore();
+    const { numbers, punctuation, testSize } = useAtomValue(
+        testConfigurationAtom,
+    );
     const theme = useMantineTheme();
     return (
         <Group spacing={10}>

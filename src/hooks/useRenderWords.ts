@@ -4,11 +4,13 @@ import {
     fitsInCurrentLine,
     checkWords,
 } from '../utils/words';
-import useTypingStore from '../stores/typing';
 import { Word } from '../models/Word';
+import { useAtomValue } from 'jotai';
+import { textAtom, typedAtom } from '../atoms/typing';
 
 const useRenderWords = (fontWidth: number, containerWidth: number) => {
-    const [text, typed] = useTypingStore(state => [state.text, state.typed]);
+    const text = useAtomValue(textAtom);
+    const typed = useAtomValue(typedAtom);
 
     const splitText = text.split(' ');
 
@@ -44,7 +46,6 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
         .reduce((acc, elem) => (acc += elem.length), 0);
 
     // Return the relevant lines
-
     const wordsToRender = useMemo(() => {
         return checkedWords.slice(startWordsIndex, endWordsIndex);
     }, [checkedWords, lines]);

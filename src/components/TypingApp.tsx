@@ -9,34 +9,31 @@ import {
     getBreakpointValue,
     useMantineTheme,
 } from '@mantine/core';
-import useShowResultsStore from '../stores/results';
 import Results from './Results';
 import useTypedLog from '../hooks/useTypedLog';
 import TestConfigBar from './TestConfigBar';
-import useTypingStore, { hasTestStartedSelector } from '../stores/typing';
-import useGenerateInitialTest from '../hooks/useGenerateInitialTest';
 import TestProgress from './TestProgress';
 import RetryButton from './RetryButton';
 import useCheckAFK from '../hooks/useCheckAFK';
-import usePromptOverlay from '../hooks/usePromptOverlay';
 import useMobileTrigger from '../hooks/useMobileTrigger';
 import { isMobile } from '../utils';
 import AfkOverlay from './AfkOverlay';
+import { useAtomValue } from 'jotai';
+import { showResultsAtom } from '../atoms/results';
 
 interface TypingAppProps {}
 
 const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
     const { handleKeys: handleKeyEvent } = useTyping();
 
-    const hasTestStarted = useTypingStore(hasTestStartedSelector);
-    const showResults = useShowResultsStore(state => state.showResults);
+    console.log('typing app rendered');
 
     const theme = useMantineTheme();
 
+    const showResults = useAtomValue(showResultsAtom);
+
     const { inputRef, isInputFocused, triggerTouchKeyboard } =
         useMobileTrigger();
-
-    useTypedLog();
 
     const handleKeys = (event: KeyboardEvent) => {
         if (isMobile() && !isInputFocused()) {
@@ -53,8 +50,6 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
             window.removeEventListener('keydown', handleKeys);
         };
     }, [handleKeys]);
-
-    useGenerateInitialTest();
 
     useCheckAFK();
 
@@ -75,13 +70,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                 <Results />
             ) : (
                 <>
-                    <Box
-                        sx={{
-                            visibility: hasTestStarted ? 'hidden' : 'initial',
-                        }}
-                    >
-                        <TestConfigBar />
-                    </Box>
+                    <TestConfigBar />
                     <Box mt='md' onClick={handleTouch}>
                         {isMobile() && (
                             <div>
@@ -97,7 +86,7 @@ const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
                             </div>
                         )}
                         <Group mt='md' align='center'>
-                            {hasTestStarted && <TestProgress />}
+                            <TestProgress />
                             <RetryButton />
                         </Group>
                         <Box sx={{ position: 'relative' }} p='md' mt='sm'>

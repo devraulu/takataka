@@ -1,10 +1,11 @@
 import { useDisclosure, useIdle } from '@mantine/hooks';
 import { useEffect } from 'react';
-import useTypingStore, { hasTestStartedSelector } from '../stores/typing';
+import { hasTestStartedAtom } from '../atoms/typing';
+import { useAtomValue } from 'jotai';
 
 function usePromptOverlay() {
     const idle = useIdle(5000, { initialState: false });
-    const hasTestStarted = useTypingStore(hasTestStartedSelector);
+    const hasTestStarted = useAtomValue(hasTestStartedAtom);
 
     const [show, { open, close, toggle }] = useDisclosure(false);
 

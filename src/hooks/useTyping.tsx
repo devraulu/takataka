@@ -1,27 +1,33 @@
 import { useCallback, useEffect } from 'react';
-import useShowResultsStore from '../stores/results';
-import useTypingStore, { typingSelector } from '../stores/typing';
 import { isLetter, isNumber, isPunctuation, isSpace } from '../utils';
 import useIsTestFinished from './useIsTestFinished';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import {
+    textAtom,
+    typedAtom,
+    appendHistoryAtom,
+    resetBtnRefAtom,
+} from '../atoms/typing';
+import { showResultsAtom } from '../atoms/results';
 
 const useTyping = () => {
-    const { toggleResults } = useShowResultsStore();
-
     const isTestFinished = useIsTestFinished();
+    const setShowResults = useSetAtom(showResultsAtom);
 
     useEffect(() => {
         if (isTestFinished) {
-            toggleResults(true);
+            setShowResults(true);
         }
     }, [isTestFinished]);
 
-    const { text, setText, typed, setTyped, appendHistory, resetBtnRef } =
-        useTypingStore(typingSelector);
+    const [text, setText] = useAtom(textAtom);
+    const [typed, setTyped] = useAtom(typedAtom);
+    const appendHistory = useSetAtom(appendHistoryAtom);
+    const resetBtnRef = useAtomValue(resetBtnRefAtom);
 
     const handleKeys = useCallback(
         (e: KeyboardEvent) => {
             const key = e.key;
-            // console.log('key', key);
 
             if (key === 'Tab') {
                 e.preventDefault();
@@ -73,16 +79,16 @@ const useTyping = () => {
                 blurResetBtn();
             }
         },
-        [text, typed]
+        [text, typed],
     );
 
     const focusResetBtn = () => {
-        if (document.activeElement !== resetBtnRef.current)
-            resetBtnRef.current?.focus();
+        if (document.activeElement !== resetBtnRef?.current)
+            resetBtnRef?.current?.focus();
     };
     const blurResetBtn = () => {
-        if (document.activeElement === resetBtnRef.current)
-            resetBtnRef.current?.blur();
+        if (document.activeElement === resetBtnRef?.current)
+            resetBtnRef?.current?.blur();
     };
 
     return {

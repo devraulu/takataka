@@ -8,7 +8,7 @@ import MantineGlobal from './components/Global';
 import { Notifications } from '@mantine/notifications';
 import Footer from './components/Footer';
 import { useAtomValue } from 'jotai';
-import { themeAtom } from './stores/ui';
+import { themeAtom } from './atoms/ui';
 
 function App() {
     const swatch = useAtomValue(themeAtom);

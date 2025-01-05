@@ -2,14 +2,15 @@ import { ActionIcon, rem, useMantineTheme } from '@mantine/core';
 import { ArrowBackUp } from 'tabler-icons-react';
 import useResetTest from '../hooks/useResetTest';
 import { useEffect, useRef } from 'react';
-import useTypingStore from '../stores/typing';
+import { useSetAtom } from 'jotai';
+import { resetBtnRefAtom } from '../atoms/typing';
 
 interface RetryButtonProps {}
 
 const RetryButton: React.FunctionComponent<RetryButtonProps> = () => {
     const { newTest } = useResetTest();
-    const setResetBtnRef = useTypingStore(state => state.setResetBtnRef);
     const resetBtn = useRef<HTMLButtonElement | null>(null);
+    const setResetBtnRef = useSetAtom(resetBtnRefAtom);
 
     useEffect(() => {
         setResetBtnRef(resetBtn);

@@ -8,7 +8,6 @@ import {
     useMantineTheme,
 } from '@mantine/core';
 
-import useTypingStore from '../stores/typing';
 import { WpmErrorLog } from '../models/Log';
 import { useEffect, useState } from 'react';
 import { computeWpmAndErrors, calculateStats } from '../utils/results';
@@ -18,13 +17,15 @@ import StatsInfo from './StatsInfo';
 import { ArrowBackUp, ChevronRight } from 'tabler-icons-react';
 import useResetTest from '../hooks/useResetTest';
 import TestType from './TestType';
+import { useAtomValue } from 'jotai';
+import { lastTestLogsAtom } from '../atoms/typing';
 
 interface ResultsProps {}
 
 // TODO: Fix mobile view of results, handle different breakpoints
 
 const Results: React.FunctionComponent<ResultsProps> = () => {
-    const { lastTestLogs } = useTypingStore();
+    const lastTestLogs = useAtomValue(lastTestLogsAtom);
     const [chartData, setChartData] = useState<WpmErrorLog[]>([]);
     const [stats, setStats] = useState<Stats>({
         accuracy: 0,

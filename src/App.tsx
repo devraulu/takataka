@@ -9,7 +9,7 @@ import { useAtom } from 'jotai';
 import { themeAtom } from './atoms/ui';
 import Footer from './components/Footer';
 
-import './App.scss';
+import './App.css';
 
 function App() {
     const [swatch, setSwatch] = useAtom(themeAtom);

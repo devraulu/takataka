@@ -12,9 +12,9 @@ import { savedThemeAtom, themeAtom } from '../atoms/ui';
 import { useEffect, useState } from 'react';
 import { SingleShadeSwatch } from '../models/Theme';
 import { useDebouncedValue } from '@mantine/hooks';
-import { css } from '@emotion/react';
 import { useAtom, useSetAtom } from 'jotai';
 import { Check } from 'tabler-icons-react';
+import styles from './ThemePicker.module.css';
 
 interface ThemePickerProps {
     show: boolean;
@@ -43,11 +43,7 @@ const ThemePicker: React.FunctionComponent<ThemePickerProps> = ({
             onChange={close}
             position='top'
             onClose={() => setTheme(savedTheme)}
-            css={css`
-                .mantine-popover-arrow {
-                    background: blue;
-                }
-            `}
+            className={styles.popover}
         >
             <Popover.Target>{children}</Popover.Target>
             <Popover.Dropdown

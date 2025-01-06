@@ -1,7 +1,5 @@
-import { Box, Flex, createStyles, rem } from '@mantine/core';
+import { Flex, createStyles, rem } from '@mantine/core';
 import Logo from './Logo';
-
-interface HeaderProps {}
 
 const useStyles = createStyles(theme => ({
     container: {
@@ -12,13 +10,13 @@ const useStyles = createStyles(theme => ({
     },
 }));
 
-const Header: React.FunctionComponent<HeaderProps> = () => {
+function Header() {
     const { classes } = useStyles();
     return (
         <Flex justify={'center'} className={classes.container}>
             <Logo />
         </Flex>
     );
-};
+}
 
 export default Header;

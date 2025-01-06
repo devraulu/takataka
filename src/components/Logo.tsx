@@ -5,9 +5,7 @@ import { useAtomValue } from 'jotai';
 import { hasTestStartedAtom } from '../atoms/typing';
 import { motion } from 'motion/react';
 
-interface LogoProps {}
-
-const Logo: React.FunctionComponent<LogoProps> = () => {
+function Logo() {
     const hasTestStarted = useAtomValue(hasTestStartedAtom);
     const { newTest } = useResetTest();
     const theme = useMantineTheme();
@@ -75,6 +73,6 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
             </motion.div>
         </Box>
     );
-};
+}
 
 export default Logo;

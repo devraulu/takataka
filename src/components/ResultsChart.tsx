@@ -9,10 +9,7 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { WpmErrorLog } from '../models/Log';
-import {
-    useMantineTheme,
-} from '@mantine/core';
-import { css } from '@emotion/react';
+import { useMantineTheme } from '@mantine/core';
 import CustomTooltip, { TooltipPayload } from './CustomTooltip';
 
 interface ResultsChartProps {
@@ -24,13 +21,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
 
     return (
         <ResponsiveContainer width='100%'>
-            <ComposedChart
-                data={data}
-                css={css`
-                    font-family: 'Montserrat', sans-serif;
-                    font-weight: 500;
-                `}
-            >
+            <ComposedChart data={data}>
                 <CartesianGrid stroke={theme.colors.tertiary['6']} />
                 <XAxis dataKey='second' stroke={theme.colors.tertiary['5']} />
                 <YAxis

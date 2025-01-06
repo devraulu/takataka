@@ -1,32 +1,29 @@
 import useMeasure from 'react-use-measure';
 import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
-import { css } from '@emotion/react';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
 import React from 'react';
 import useTypedLog from '../hooks/useTypedLog';
 
-interface WordsProps {}
-
-const Words: React.FunctionComponent<WordsProps> = ({}) => {
+function Words() {
     const [containerRef, { width: containerWidth }] = useMeasure({
         debounce: 200,
     });
     const [fontRef, { width: fontWidth }] = useMeasure();
     const [letterRef, { left, top }] = useMeasure();
 
-    const fz = 24;
-
     const words = useRenderWords(fontWidth, containerWidth);
     const theme = useMantineTheme();
 
     useTypedLog();
 
+    const fz = 24;
+
     const fontStyles = (
         isTyped?: boolean,
         isCorrect?: boolean,
         isExtra?: boolean,
-    ) => {
+    ): React.CSSProperties => {
         let color = theme.colors.tertiary['5'];
 
         if (isTyped)
@@ -34,12 +31,12 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
             else color = theme.colors.red['5'];
         if (isExtra) color = theme.colors.red['8'];
 
-        return css`
-            font-family: 'Jetbrains Mono', monospace;
-            color: ${color};
-            font-size: ${rem(fz)};
-            word-spacing: ${rem(200)};
-        `;
+        return {
+            fontFamily: "'Jetbrains Mono', monospace",
+            color: color,
+            fontSize: fz,
+            wordSpacing: 200,
+        };
     };
 
     return (
@@ -47,11 +44,11 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
             <span
                 ref={fontRef}
-                css={css`
-                    ${fontStyles()}
-                    position: fixed;
-                    visibility: hidden;
-                `}
+                style={{
+                    ...fontStyles(),
+                    position: 'fixed',
+                    visibility: 'hidden',
+                }}
             >
                 a
             </span>
@@ -67,24 +64,25 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                 isComplete,
                                 isLastWordBeingTyped,
                             } = elem;
-                            const wordStyles = css`
-                                border-bottom: ${incorrectlyTypedWord
-                                        ? rem(2)
-                                        : 0}
-                                    solid ${theme.colors.red[5]};
-                                display: flex;
-                                flex-wrap: nowrap;
-                            `;
+
+                            const wordStyles: React.CSSProperties = {
+                                borderBottom: incorrectlyTypedWord ? rem(2) : 0,
+                                borderColor: incorrectlyTypedWord
+                                    ? theme.colors.red[5]
+                                    : theme.colors.tertiary[5],
+                                display: 'flex',
+                                flexWrap: 'nowrap',
+                            };
 
                             return (
                                 <div
-                                    css={css`
-                                        display: flex;
-                                        flex-wrap: nowrap;
-                                    `}
+                                    style={{
+                                        display: 'flex',
+                                        flexWrap: 'nowrap',
+                                    }}
                                     key={word + i}
                                 >
-                                    <div css={wordStyles}>
+                                    <div style={wordStyles}>
                                         {letters.map(
                                             (
                                                 {
@@ -106,7 +104,7 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                                                     ? letterRef
                                                                     : undefined
                                                             }
-                                                            css={fontStyles(
+                                                            style={fontStyles(
                                                                 isTyped,
                                                                 isCorrect,
                                                                 isExtraLetter,
@@ -145,6 +143,6 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
             )}
         </Box>
     );
-};
+}
 
 export default Words;

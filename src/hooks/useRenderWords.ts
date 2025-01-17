@@ -3,7 +3,7 @@ import {
     findActiveLineIndex,
     fitsInCurrentLine,
     checkWords,
-} from '../utils/words';
+} from '@/lib/utils/words';
 import { Word } from '../models/Word';
 import { useAtomValue } from 'jotai';
 import { textAtom, typedAtom } from '../atoms/typing';

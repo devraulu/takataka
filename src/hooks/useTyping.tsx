@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from 'react';
-import { isLetter, isNumber, isPunctuation, isSpace } from '../utils';
 import useIsTestFinished from './useIsTestFinished';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
@@ -9,6 +8,7 @@ import {
     resetBtnRefAtom,
 } from '../atoms/typing';
 import { showResultsAtom } from '../atoms/results';
+import { isLetter, isPunctuation, isSpace, isNumber } from '@/lib/utils';
 
 const useTyping = () => {
     const isTestFinished = useIsTestFinished();
@@ -47,7 +47,7 @@ const useTyping = () => {
                 // console.log('currently typed after pressing backspaced', typed);
                 if (typed.length > 0) {
                     // If there are any words typed, we get the last one
-                    let last = typed.slice(-1)[0];
+                    const last = typed.slice(-1)[0];
 
                     // If the last word is empty, we get the prev to last word
                     // and only if it is typed wrong we return it

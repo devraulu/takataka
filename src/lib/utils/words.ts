@@ -1,4 +1,4 @@
-import { Letter, Word } from '../models/Word';
+import { Letter, Word } from '@/models/Word';
 
 export function fitsInCurrentLine(
     word: Word,

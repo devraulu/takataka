@@ -1,48 +1,45 @@
-import { ActionIcon, Group, useMantineTheme, Tooltip } from '@mantine/core';
-import { BrandGithub, Mail, Paint, Asterisk } from 'tabler-icons-react';
-import { useDisclosure } from '@mantine/hooks';
 import ThemePicker from '../ThemePicker';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Button } from '../ui/button';
+import { Asterisk, Github, Mail, Paintbrush } from 'lucide-react';
 
 function Footer() {
-    const theme = useMantineTheme();
-    const [showPicker, { close, toggle }] = useDisclosure();
+    const btnClasses = 'text-sub hover:text-text';
 
     return (
-        <Group mt={'auto'} py='md' position='apart'>
-            <Group>
-                <Tooltip label='GitHub'>
-                    <ActionIcon
-                        component='a'
-                        href='https://github.com/devraulu/takataka'
-                        target='_blank'
-                        rel='noopener'
-                        size='sm'
-                        color='tertiary'
-                    >
-                        <BrandGithub size={48} strokeWidth={2} />
-                    </ActionIcon>
-                </Tooltip>
-                <Tooltip label='Contact me'>
-                    <ActionIcon
-                        component='a'
-                        href='mailto:me@rauluis.com'
-                        size='sm'
-                        color='tertiary'
-                    >
-                        <Mail size={48} strokeWidth={2} />
-                    </ActionIcon>
-                </Tooltip>
-            </Group>
+        <div className='flex justify-between py-6'>
+            <div className='flex gap-2'>
+                <SimpleTooltip
+                    label='GitHub'
+                    children={
+                        <Button variant='link' className={btnClasses} asChild>
+                            <a
+                                href='https://github.com/devraulu/takataka'
+                                target='_blank'
+                                rel='noopener'
+                            >
+                                <Github size={48} strokeWidth={2} />
+                            </a>
+                        </Button>
+                    }
+                />
+                <SimpleTooltip label='Contact me'>
+                    <Button variant='link' className={btnClasses} asChild>
+                        <a href='mailto:me@rauluis.com'>
+                            <Mail size={48} strokeWidth={2} />
+                        </a>
+                    </Button>
+                </SimpleTooltip>
+            </div>
 
-            <Group
-                sx={{
-                    color: theme.colors.tertiary['6'],
-                }}
-                className='copy mt-2 font-medium text-wrap flex items-center gap-1'
-            >
+            <div className='copy text-sub mt-2 font-medium text-wrap flex items-center gap-1'>
                 <p className=''>crafted by</p>
-                <Asterisk strokeWidth={5.5} size={12} />
-                <a className='link' href='https://rauluis.com' target='_blank'>
+                <a
+                    className='link flex items-center'
+                    href='https://rauluis.com'
+                    target='_blank'
+                >
+                    <Asterisk strokeWidth={3.5} size={14} />
                     Ra&uacute;l Luis.
                 </a>
                 <p className=''>
@@ -56,17 +53,29 @@ function Footer() {
                         monkeytype.
                     </a>
                 </p>
-            </Group>
+            </div>
 
-            <ThemePicker show={showPicker} close={close}>
-                <Tooltip label='Change theme'>
-                    <ActionIcon size='sm' color='tertiary' onClick={toggle}>
-                        <Paint size={48} strokeWidth={2} />
-                    </ActionIcon>
-                </Tooltip>
+            <ThemePicker>
+                <SimpleTooltip label='Change theme'>
+                    <Button variant='link' className={btnClasses}>
+                        <Paintbrush size={48} strokeWidth={2} />
+                    </Button>
+                </SimpleTooltip>
             </ThemePicker>
-        </Group>
+        </div>
     );
 }
+
+type SimpleTooltipProps = {
+    children: React.ReactNode;
+    label: string | React.ReactNode;
+};
+
+const SimpleTooltip = ({ children, label }: SimpleTooltipProps) => (
+    <Tooltip>
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+);
 
 export default Footer;

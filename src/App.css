@@ -13,3 +13,7 @@
 .link {
     @apply underline decoration-2;
 }
+
+.link:hover {
+    @apply text-text;
+}

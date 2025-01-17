@@ -1,9 +1,9 @@
 import { Tuple } from '@mantine/core';
-import { SingleShadeSwatch } from '../models/Theme';
+import { SingleShadeSwatch } from '@/models/Theme';
 
 export function getShades(hex: string): Tuple<string, 10> {
     const rgb = hexToRgb(hex);
-    let hsl = rgbToHsl(rgb?.r, rgb?.g, rgb?.b);
+    const hsl = rgbToHsl(rgb?.r, rgb?.g, rgb?.b);
 
     const shades = Array(10)
         .fill(null)
@@ -129,7 +129,7 @@ export const themesArr: string[][] = [
     ['#87CEFA', '#708090', '#191970', '#F5F5F5', 'blue moon'],
 ];
 
-const themes = themesArr.map<SingleShadeSwatch>(elem => ({
+export const themesMantine = themesArr.map<SingleShadeSwatch>(elem => ({
     primary: elem[0],
     secondary: elem[1],
     tertiary: elem[2],
@@ -137,6 +137,7 @@ const themes = themesArr.map<SingleShadeSwatch>(elem => ({
     name: elem[4],
 }));
 
+const themes = ['dracula', 'rose-pine', 'monokai'];
 export function logColor(color: string): void {
     console.log(`%c ${color}`, `color: ${color}`);
 }

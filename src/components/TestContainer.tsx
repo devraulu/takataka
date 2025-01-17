@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import useMobileTrigger from '../hooks/useMobileTrigger';
-import { isMobile } from '../utils';
 import useTyping from '../hooks/useTyping';
 import { Box, Group } from '@mantine/core';
 import AfkOverlay from './AfkOverlay';
@@ -11,6 +10,7 @@ import Words from './Words';
 import useCheckAFK from '../hooks/useCheckAFK';
 import { useSetAtom } from 'jotai';
 import { closeAfkOverlayAtom } from '../atoms/ui';
+import { isMobile } from '@/lib/utils';
 
 export default function TestContainer() {
     const { handleKeys: handleKeyEvent } = useTyping();
@@ -24,13 +24,16 @@ export default function TestContainer() {
         closeOverlay();
     };
 
-    const handleKeys = (event: KeyboardEvent) => {
-        if (isMobile() && !isInputFocused()) {
-            triggerTouchKeyboard();
-        }
+    const handleKeys = useCallback(
+        (event: KeyboardEvent) => {
+            if (isMobile() && !isInputFocused()) {
+                triggerTouchKeyboard();
+            }
 
-        handleKeyEvent(event);
-    };
+            handleKeyEvent(event);
+        },
+        [handleKeyEvent, isInputFocused, triggerTouchKeyboard],
+    );
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeys);

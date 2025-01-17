@@ -1,4 +1,3 @@
-import { Box, Text, Title, rem, useMantineTheme } from '@mantine/core';
 import useResetTest from '../hooks/useResetTest';
 import useIsTestFinished from '../hooks/useIsTestFinished';
 import { useAtomValue } from 'jotai';
@@ -8,48 +7,36 @@ import { motion } from 'motion/react';
 function Logo() {
     const hasTestStarted = useAtomValue(hasTestStartedAtom);
     const { newTest } = useResetTest();
-    const theme = useMantineTheme();
-    theme.colors[theme.primaryColor];
     const isTestFinished = useIsTestFinished();
 
-    const showAnimation = hasTestStarted && !isTestFinished;
+    const isInactive = hasTestStarted && !isTestFinished;
 
     const mainTextVariants = {
         active: {
             opacity: 1,
-            color: theme.colors.secondary['5'],
         },
         inactive: {
-            opacity: 0.5,
-            color: theme.colors.tertiary['5'],
+            opacity: 0.3,
         },
     };
 
     const smallTextVariants = {
         active: {
+            color: 'rgb(var(--text-color))',
             opacity: 1,
-            color: theme.colors.secondary['5'],
         },
         inactive: {
+            color: 'rgb(var(--text-color))',
             opacity: 0,
         },
     };
 
-    const animate = showAnimation ? 'inactive' : 'active';
+    const animate = isInactive ? 'inactive' : 'active';
 
     return (
-        <Box className='select-none'>
+        <div className='select-none'>
             <motion.div variants={smallTextVariants} animate={animate}>
-                <Text
-                    fz={rem(12)}
-                    fw={600}
-                    sx={{ fontFamily: 'Montserrat, sans-serif' }}
-                    pl='xs'
-                    opacity={0.6}
-                    color={'tertiary'}
-                >
-                    keys go
-                </Text>
+                <div className='text-sm font-bold font-sans pl-1 leading-none'>keys go</div>
             </motion.div>
             <motion.div
                 variants={mainTextVariants}
@@ -59,19 +46,11 @@ function Logo() {
                 }}
                 onClick={newTest}
             >
-                <Title
-                    order={1}
-                    fz={rem(50)}
-                    lh={0.8}
-                    fw={600}
-                    sx={{
-                        fontFamily: 'Poppins, sans-serif',
-                    }}
-                >
+                <h1 className='text-5xl font-bold leading-none font-display text-main'>
                     takataka
-                </Title>
+                </h1>
             </motion.div>
-        </Box>
+        </div>
     );
 }
 

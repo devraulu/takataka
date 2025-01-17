@@ -10,7 +10,6 @@ import {
 
 import { WpmErrorLog } from '../models/Log';
 import { useEffect, useState } from 'react';
-import { computeWpmAndErrors, calculateStats } from '../utils/results';
 import ResultsChart from './ResultsChart';
 import Stats from '../models/Stats';
 import StatsInfo from './StatsInfo';
@@ -19,12 +18,10 @@ import useResetTest from '../hooks/useResetTest';
 import TestType from './TestType';
 import { useAtomValue } from 'jotai';
 import { lastTestLogsAtom } from '../atoms/typing';
-
-interface ResultsProps {}
+import { calculateStats, computeWpmAndErrors } from '@/lib/utils/results';
 
 // TODO: Fix mobile view of results, handle different breakpoints
-
-const Results: React.FunctionComponent<ResultsProps> = () => {
+function Results() {
     const lastTestLogs = useAtomValue(lastTestLogsAtom);
     const [chartData, setChartData] = useState<WpmErrorLog[]>([]);
     const [stats, setStats] = useState<Stats>({
@@ -100,7 +97,7 @@ const Results: React.FunctionComponent<ResultsProps> = () => {
             </Box>
         </Box>
     );
-};
+}
 
 type ResultsTextProps = {
     children: string | string[] | React.ReactNode;

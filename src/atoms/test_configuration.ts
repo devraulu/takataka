@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { generateTestWords } from '../utils/random-words';
 import { textAtom } from './typing';
+import { generateTestWords } from '@/lib/utils/random-words';
 
 const initialTestConfiguration = {
     numbers: false,
@@ -29,7 +29,9 @@ export const handleToggleNumbers = atom(null, (get, set) =>
 );
 
 export const handleTogglePunctuation = atom(null, (get, set) =>
-    set(setTestConfiguration, { punctuation: !get(testConfiguration).punctuation }),
+    set(setTestConfiguration, {
+        punctuation: !get(testConfiguration).punctuation,
+    }),
 );
 
 export const handleTestSize = atom(null, (_, set, testSize: number) =>

@@ -1,5 +1,5 @@
+import themes from '@/lib/utils/themes';
 import { atom } from 'jotai';
-import themes from '../utils/themes';
 import { atomWithStorage } from 'jotai/utils';
 
 export const themeAtom = atomWithStorage('theme', themes[0]);

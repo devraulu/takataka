@@ -1,29 +1,16 @@
-import React from 'react';
-import { Stack, em, getBreakpointValue, useMantineTheme } from '@mantine/core';
 import Results from './Results';
 import { useAtomValue } from 'jotai';
 import { showResultsAtom } from '../atoms/results';
 import TestContainer from './TestContainer';
 
-interface TypingAppProps {}
-
-const TypingApp: React.FunctionComponent<TypingAppProps> = () => {
-    console.log('typing app rendered');
-
-    const theme = useMantineTheme();
-
+function TypingApp() {
     const showResults = useAtomValue(showResultsAtom);
 
     return (
-        <Stack
-            justify='center'
-            maw={em(getBreakpointValue(theme.breakpoints.xl))}
-            mx='auto'
-            w='95%'
-        >
+        <div className={'flex justify-center max-w-xl mx-auto w-11/12'}>
             {showResults ? <Results /> : <TestContainer />}
-        </Stack>
+        </div>
     );
-};
+}
 
 export default TypingApp;

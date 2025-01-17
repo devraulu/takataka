@@ -1,21 +1,25 @@
-import { MantineProvider, Space, Stack } from '@mantine/core';
-import TypingApp from './components/TypingApp';
-import Header from './components/Header';
-import themes, { getShades } from './utils/themes';
-import ThemeSwatch from './models/Theme';
-import MantineGlobal from './components/Global';
+import { MantineProvider } from '@mantine/core';
+import TypingApp from '@/components/TypingApp';
+import Header from '@/components/Header';
+import ThemeSwatch from '@/models/Theme';
 import { Notifications } from '@mantine/notifications';
-import { useAtom } from 'jotai';
+import Footer from '@/components/Footer';
+import { getShades, themesMantine } from '@/lib/utils/themes';
+import { useState } from 'react';
+import clsx from 'clsx';
+import Providers from './components/Providers';
+import { useAtomValue } from 'jotai';
 import { themeAtom } from './atoms/ui';
-import Footer from './components/Footer';
 
+import '@/assets/themes/themes.css';
 import './App.css';
 
 function App() {
-    const [swatch, setSwatch] = useAtom(themeAtom);
+    const theme = useAtomValue(themeAtom);
+    const [swatch, setSwatch] = useState(themesMantine[0]);
 
-    if (!themes.some(elem => elem.name === swatch.name)) {
-        setSwatch(themes[0]);
+    if (!themesMantine.some(elem => elem.name === swatch.name)) {
+        setSwatch(themesMantine[0]);
     }
 
     const themeSwatch: ThemeSwatch = {
@@ -24,40 +28,33 @@ function App() {
         tertiary: getShades(swatch.tertiary),
         background: getShades(swatch.background),
     };
-    const { primary, secondary, tertiary, background, name } = swatch;
-
-    console.log(
-        `${name}: %c ${primary} %c ${secondary} %c  ${tertiary} %c  ${background}`,
-        `color: ${primary}`,
-        `color: ${secondary}`,
-        `color: ${tertiary}`,
-        `color: ${background}`,
-    );
 
     return (
-        <MantineProvider
-            withGlobalStyles
-            withNormalizeCSS
-            theme={{
-                colors: { ...themeSwatch },
-                primaryColor: 'primary',
-            }}
-        >
-            <Notifications />
-            <MantineGlobal />
-            <Stack
-                px='md'
-                pt='xl'
-                h={'100vh'}
-                justify='space-between'
-                spacing='sm'
-            >
-                <Header />
-                <Space className='separator' />
-                <TypingApp />
-                <Footer />
-            </Stack>
-        </MantineProvider>
+        <Providers>
+            <div className={clsx(theme)}>
+                <MantineProvider
+                    withGlobalStyles
+                    withNormalizeCSS
+                    theme={{
+                        colors: { ...themeSwatch },
+                        primaryColor: 'primary',
+                    }}
+                >
+                    <Notifications />
+                    <div className='h-[100vh] bg-background'>
+                        <div className='xl:mx-auto xl:container flex flex-col h-full'>
+                            <Header />
+                            <div className='mt-12'>
+                                <TypingApp />
+                            </div>
+                            <div className='mt-auto'>
+                                <Footer />
+                            </div>
+                        </div>
+                    </div>
+                </MantineProvider>
+            </div>
+        </Providers>
     );
 }
 

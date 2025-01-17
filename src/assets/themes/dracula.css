@@ -1,0 +1,25 @@
+.dracula {
+    --bg-color: 40 42 54;
+    --main-color: 189 147 249;
+    --caret-color: 189 147 249;
+    --sub-color: 98 114 164;
+    --sub-alt-color: 32 34 44;
+    --text-color: 248 248 242;
+    --error-color: 255 85 85;
+    --error-extra-color: 241 250 140;
+    --colorful-error-color: 255 85 85;
+    --colorful-error-extra-color: 241 250 140;
+}
+
+:root {
+  --bg-color: #282a36;
+  --main-color: #bd93f9;
+  --caret-color: #bd93f9;
+  --sub-color: #6272a4;
+  --sub-alt-color: #20222c;
+  --text-color: #f8f8f2;
+  --error-color: #ff5555;
+  --error-extra-color: #f1fa8c;
+  --colorful-error-color: #ff5555;
+  --colorful-error-extra-color: #f1fa8c;
+}

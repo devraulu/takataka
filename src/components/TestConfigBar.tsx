@@ -7,10 +7,11 @@ import {
     testConfigurationAtom,
     createNewTestAtom,
 } from '../atoms/test_configuration';
-import { hasTestStartedAtom } from '../atoms/typing';
 import { useEffect } from 'react';
 import clsx from 'clsx';
 import { AtSign, Hash } from 'lucide-react';
+import useIsTestActive from '@/hooks/useIsTestActive';
+import * as motion from 'motion/react-client';
 
 function TestConfigBar() {
     const { punctuation, numbers, testSize } = useAtomValue(
@@ -20,7 +21,7 @@ function TestConfigBar() {
     const toggleNumbers = useSetAtom(handleToggleNumbers);
     const togglePunctuation = useSetAtom(handleTogglePunctuation);
     const setTestSize = useSetAtom(handleTestSize);
-    const hasTestStarted = useAtomValue(hasTestStartedAtom);
+    const isTestActive = useIsTestActive();
     const sizes = [10, 25, 50, 100];
 
     const createNewTest = useSetAtom(createNewTestAtom);
@@ -29,11 +30,24 @@ function TestConfigBar() {
         createNewTest();
     }, [createNewTest]);
 
+    const variants = {
+        active: {
+            opacity: 1,
+        },
+        inactive: {
+            opacity: 0,
+        },
+    };
+
     return (
-        <div
+        <motion.div
+            animate={!isTestActive ? 'active' : 'inactive'}
+            variants={variants}
             className={clsx(
                 'inline-flex mx-auto items-center bg-sub-alt md:gap-2 rounded-md',
-                hasTestStarted ? 'collapse' : 'visible',
+                {
+                    'pointer-events-none': isTestActive,
+                },
             )}
         >
             <div className='flex justify-center'>
@@ -56,7 +70,7 @@ function TestConfigBar() {
                     </ConfigChip>
                 ))}
             </div>
-        </div>
+        </motion.div>
     );
 }
 

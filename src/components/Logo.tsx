@@ -1,15 +1,10 @@
 import useResetTest from '../hooks/useResetTest';
-import useIsTestFinished from '../hooks/useIsTestFinished';
-import { useAtomValue } from 'jotai';
-import { hasTestStartedAtom } from '../atoms/typing';
 import { motion } from 'motion/react';
+import useIsTestActive from '@/hooks/useIsTestActive';
 
 function Logo() {
-    const hasTestStarted = useAtomValue(hasTestStartedAtom);
     const { newTest } = useResetTest();
-    const isTestFinished = useIsTestFinished();
-
-    const isInactive = hasTestStarted && !isTestFinished;
+    const isTestActive = useIsTestActive();
 
     const mainTextVariants = {
         active: {
@@ -27,13 +22,13 @@ function Logo() {
             color: 'rgb(var(--text-color))',
             opacity: 1,
         },
-        inactive: {
+        subtle: {
             color: 'rgb(var(--text-color))',
             opacity: 0,
         },
     };
 
-    const animate = isInactive ? 'inactive' : 'active';
+    const animate = isTestActive ? 'subtle' : 'active';
 
     return (
         <div className='select-none'>

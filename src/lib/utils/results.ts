@@ -1,11 +1,11 @@
-import Log, { WpmErrorLog } from '../models/Log';
+import Log, { WpmErrorLog } from '@/models/Log';
 
 export function computeWpmAndErrors(logsArr: Log[]): WpmErrorLog[] {
     // Initializations.
     let charCount = 0;
     let errorCount = 0;
     const logs = [...logsArr];
-    let wpmLogs: WpmErrorLog[] = [];
+    const wpmLogs: WpmErrorLog[] = [];
 
     // Sort the logs by timestamp.
     logs.sort((a, b) => a.timestamp - b.timestamp);
@@ -13,7 +13,6 @@ export function computeWpmAndErrors(logsArr: Log[]): WpmErrorLog[] {
     // Compute the first and last second.
     const firstSecond = Math.floor(logs[0]?.timestamp / 1000);
     const lastSecond = Math.floor(logs[logs.length - 1]?.timestamp / 1000);
-    console.log('first, last', firstSecond, lastSecond);
 
     // Loop over each second and compute the WPM and errors.
     for (let second = firstSecond; second <= lastSecond; ++second) {
@@ -32,11 +31,10 @@ export function computeWpmAndErrors(logsArr: Log[]): WpmErrorLog[] {
         const avgWpm =
             wpmLogs.length > 0
                 ? Math.floor(
-                      wpmLogs
-                          ?.map(item => item.rawWpm)
-                          ?.reduce((acc, item, i, arr) => acc + item) /
-                          wpmLogs.length
-                  )
+                    wpmLogs
+                        ?.map(item => item.rawWpm)
+                        ?.reduce((acc, item) => acc + item) / wpmLogs.length,
+                )
                 : rawWpm;
 
         // Add this second's log to the array.
@@ -65,7 +63,7 @@ export function calculateAccuracy(logs: Log[]): number {
         }
     });
 
-    let accuracy = ((totalCharacters - totalErrors) / totalCharacters) * 100;
+    const accuracy = ((totalCharacters - totalErrors) / totalCharacters) * 100;
 
     return accuracy;
 }
@@ -92,7 +90,7 @@ function calculateCoefficientOfVariation(values: number[]): number {
     const n = values.length;
     const mean = values.reduce((a, b) => a + b) / n;
     const standardDeviation = Math.sqrt(
-        values.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+        values.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n,
     );
     return (standardDeviation / mean) * 100;
 }

@@ -13,21 +13,18 @@ const Caret: React.FunctionComponent<CaretProps> = ({
     fontHeight,
 }) => {
     return (
-        console.log('fontHeight', fontHeight),
-        (
-            <motion.div
-                className={clsx('fixed bg-caret')}
-                style={{
-                    width: 3,
-                    height: fontHeight + 4,
-                }}
-                animate={{
-                    left,
-                    top,
-                }}
-                transition={{ duration: 0.1 }}
-            />
-        )
+        <motion.div
+            className={clsx('fixed bg-caret')}
+            style={{
+                width: 3,
+                height: fontHeight + 4,
+            }}
+            animate={{
+                left,
+                top,
+            }}
+            transition={{ duration: 0.1 }}
+        />
     );
 };
 

@@ -18,7 +18,7 @@ export function fitsInCurrentLine(
         0,
     );
 
-    return lineWidth + wordWidth < containerWidth;
+    return lineWidth + wordWidth <= containerWidth;
 }
 
 export function findActiveLineIndex(

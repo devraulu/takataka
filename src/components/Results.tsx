@@ -40,7 +40,7 @@ function Results() {
     }, [lastTestLogs]);
 
     return (
-        <div className='mx-auto mt-4 w-full'>
+        <div className='col-[content] row-start-2 row-span-1'>
             <div className='flex justify-between items-end'>
                 <TestType />
                 <div className='flex justify-center gap-2 mt-4'>

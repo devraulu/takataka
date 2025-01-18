@@ -39,7 +39,7 @@ function ThemePicker({ children }: ThemePickerProps) {
                         return (
                             <div
                                 className={clsx(
-                                    'cursor-pointer flex justify-between px-4 py-1',
+                                    'cursor-pointer flex justify-between px-4 py-1 rounded-md',
                                     active ? 'bg-text' : 'bg-transparent',
                                     active ? 'text-background' : 'text-sub',
                                 )}
@@ -48,7 +48,6 @@ function ThemePicker({ children }: ThemePickerProps) {
                                 onClick={() => {
                                     setTheme(name);
                                     setSavedTheme(name);
-                                    close();
                                     setHovered(null);
                                 }}
                             >

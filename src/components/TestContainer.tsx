@@ -20,6 +20,9 @@ export default function TestContainer() {
 
     const handleTouch = () => {
         triggerTouchKeyboard();
+
+        // if (document.activeElement)
+        //     (document.activeElement as HTMLElement).blur();
         closeOverlay();
     };
 
@@ -46,8 +49,13 @@ export default function TestContainer() {
 
     return (
         <>
-            <TestConfigBar />
-            <div className='mt-4' onClick={handleTouch}>
+            <div className='row-span-1 col-[content] mx-auto'>
+                <TestConfigBar />
+            </div>
+            <div
+                className='row-span-1 col-[content] mt-4'
+                onClick={handleTouch}
+            >
                 {isMobile() && (
                     <div>
                         <input

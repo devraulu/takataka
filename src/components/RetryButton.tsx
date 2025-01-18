@@ -20,7 +20,8 @@ function RetryButton() {
             className='restart size-9 text-sub'
             onClick={newTest}
             variant='ghost'
-            size={"icon"}
+            size={'icon'}
+            tabIndex={2}
         >
             <Repeat2 strokeWidth={3} className='!size-6' />
         </Button>

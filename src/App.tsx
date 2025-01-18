@@ -16,12 +16,14 @@ function App() {
         <Providers>
             <div className={clsx(theme)}>
                 <div className='min-h-screen bg-background'>
-                    <div className='xl:mx-auto xl:container grid grid-rows-[[top-start]_auto_[content-start]_1fr_[content-end]_auto_[top-end]] min-h-screen gap-x-4'>
-                        <Header />
-                        <div className=''>
+                    <div className='max-w-screen-xl xl:mx-auto xl:container grid grid-rows-[[top-start]_auto_[content-start]_1fr_[content-end]_auto_[top-end]] min-h-screen gap-y-10 overflow-hidden content-grid'>
+                        <div className='row-start-[top-start] row-end-[content-start] col-[content]'>
+                            <Header />
+                        </div>
+                        <div className='row-start-[content-start] row-end-[content-end] [grid-column:full-width] '>
                             <TypingApp />
                         </div>
-                        <div className='mt-auto'>
+                        <div className='row-start-[content-end] row-end-[top-end] col-[content]'>
                             <Footer />
                         </div>
                     </div>

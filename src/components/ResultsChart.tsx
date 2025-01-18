@@ -69,7 +69,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     right: 12,
                 }}
             >
-                <CartesianGrid vertical={false} />
+                <CartesianGrid vertical={false} strokeOpacity={0.35} />
                 <XAxis
                     dataKey='second'
                     tickLine={false}
@@ -82,7 +82,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     tickLine={false}
                     tickMargin={10}
                     axisLine={false}
-                    tickCount={6}
+                    tickCount={8}
                     allowDataOverflow
                     domain={[0, 'dataMax + 10']}
                 >
@@ -98,7 +98,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     orientation='right'
                     allowDecimals={false}
                     allowDataOverflow
-                    tickCount={6}
+                    tickCount={8}
                 >
                     <Label angle={90} position={'right'}>
                         Errors

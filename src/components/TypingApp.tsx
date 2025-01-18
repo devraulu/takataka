@@ -7,7 +7,7 @@ function TypingApp() {
     const showResults = useAtomValue(showResultsAtom);
 
     return (
-        <div className={'flex flex-col justify-center max-w-screen-xl mx-auto w-11/12'}>
+        <div className={'grid grid-rows-[1fr_auto_1fr] content-grid'}>
             {showResults ? <Results /> : <TestContainer />}
         </div>
     );

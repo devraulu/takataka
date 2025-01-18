@@ -6,6 +6,8 @@ import {
     typedAtom,
     appendHistoryAtom,
     resetBtnRefAtom,
+    testLostFocusAtom,
+    wordsContainerRefAtom,
 } from '../atoms/typing';
 import { showResultsAtom } from '../atoms/results';
 import { isLetter, isPunctuation, isSpace, isNumber } from '@/lib/utils';
@@ -26,11 +28,17 @@ const useTyping = () => {
     const [typed, setTyped] = useAtom(typedAtom);
     const appendHistory = useSetAtom(appendHistoryAtom);
     const resetBtnRef = useAtomValue(resetBtnRefAtom);
+    const setTestLostFocus = useSetAtom(testLostFocusAtom);
+    const wordsContainerRef = useAtomValue(wordsContainerRefAtom);
 
     const handleKeys = useCallback(
         (e: KeyboardEvent) => {
             const key = e.key;
-            console.log('Keyboard Event', e);
+
+            if (key === 'Tab') {
+                setTestLostFocus(true);
+                return;
+            }
 
             if (e.ctrlKey) return;
 
@@ -41,6 +49,11 @@ const useTyping = () => {
                 } else setTyped([key]);
 
                 appendHistory(key);
+
+                if (document.activeElement !== wordsContainerRef?.current) {
+                    wordsContainerRef?.current?.focus();
+                    setTestLostFocus(false);
+                }
 
                 blurResetBtn();
             } else if (key === 'Backspace') {
@@ -79,11 +92,6 @@ const useTyping = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [text, typed],
     );
-
-    // const focusResetBtn = () => {
-    //     if (document.activeElement !== resetBtnRef?.current)
-    //         resetBtnRef?.current?.focus();
-    // };
 
     const blurResetBtn = () => {
         if (document.activeElement === resetBtnRef?.current)

@@ -20,12 +20,13 @@ function useCheckAFK() {
             description: 'Test stopped because user is AFK',
         });
         reset();
-    }, 20 * 1000);
+    }, 8 * 1000);
 
     useEffect(() => {
         // console.log('afk', afk, run);
-        if (run && afk) start();
-        else clear();
+        if (run && afk) {
+            start();
+        } else clear();
     }, [run, typed, afk]);
 }
 

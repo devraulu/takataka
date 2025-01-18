@@ -27,13 +27,18 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
                 fitsInCurrentLine(item, currentLine, fontWidth, containerWidth)
             ) {
                 currentLine.push(item);
-                return [...acc.slice(0, acc.length - 1), currentLine];
+                return [...acc.slice(0, -1), currentLine];
             } else return [...acc, [item]];
         },
         [[]],
     );
+    console.log('container width', containerWidth);
+
+    console.log('lines', lines);
 
     const activeLine = findActiveLineIndex(lines, typed.length);
+
+    console.log('active line', activeLine);
 
     // Get the start and end indices for slicing the array
     const start = activeLine > 0 ? activeLine - 1 : 0;
@@ -50,6 +55,7 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
         return checkedWords.slice(startWordsIndex, endWordsIndex);
     }, [checkedWords, lines]);
 
+    console.log('words to render', wordsToRender);
     return wordsToRender;
 };
 

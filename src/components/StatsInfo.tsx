@@ -6,15 +6,7 @@ interface StatsInfoProps {
 }
 
 function StatsInfo({
-    stats: {
-        time,
-        raw,
-        correct,
-        incorrect,
-        extra,
-        consistency,
-        //avg
-    },
+    stats: { time, raw, correct, incorrect, extra, consistency },
 }: StatsInfoProps) {
     const data = [
         {
@@ -41,7 +33,7 @@ function StatsInfo({
     return (
         <div className='grid grid-cols-12 gap-4'>
             {data.map((item, index) => (
-                <div className='col-span-6 md:col-span-3'>
+                <div key={item.title} className='col-span-6 md:col-span-3'>
                     <TooltipItem
                         key={index}
                         tooltipLabel={item.tooltipLabel}

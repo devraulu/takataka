@@ -1,22 +1,34 @@
 import useMeasure from 'react-use-measure';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import useTypedLog from '../hooks/useTypedLog';
 import clsx from 'clsx';
+import { useSetAtom } from 'jotai';
+import { wordsContainerRefAtom } from '@/atoms/typing';
+import { useMergedRef } from '@mantine/hooks';
 
 function Words() {
-    const [containerRef, { width: containerWidth }] = useMeasure({
+    const [measureRef, { width: containerWidth }] = useMeasure({
         debounce: 200,
     });
-    const [fontRef, { width: fontWidth, height: fontHeight }] = useMeasure();
+
+    const wordsContainerRef = useRef<HTMLDivElement | null>(null);
+    const mergedWordsContainerRef = useMergedRef(wordsContainerRef, measureRef);
+    const setContainerRef = useSetAtom(wordsContainerRefAtom);
+
+    useEffect(() => {
+        setContainerRef(wordsContainerRef);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [wordsContainerRef]);
+
+    const [fontRef, { height: fontHeight }] = useMeasure();
     const [letterRef, { left, top }] = useMeasure();
 
-    const words = useRenderWords(fontWidth, containerWidth);
+    const fz = 20;
+    const words = useRenderWords(fz, containerWidth);
 
     useTypedLog();
-
-    const fz = 24;
 
     const getTextColor = (
         isTyped?: boolean,
@@ -41,13 +53,20 @@ function Words() {
             {/* WARN: Is this really necessary? Since we know the font size beforehand */}
             <span
                 ref={fontRef}
-                className={clsx('fixed invisible', `text-[${fz}px]`)}
+                className={'fixed invisible font-mono'}
+                style={{ fontSize: fz }}
             >
                 a
             </span>
             <Caret top={top} left={left} fontHeight={fontHeight} />
             {words.length > 0 && (
-                <div ref={containerRef}>
+                <div
+                    ref={mergedWordsContainerRef}
+                    tabIndex={1}
+                    autoFocus
+                    className={'focus:outline-none font-mono'}
+                    style={{ fontSize: fz }}
+                >
                     <div className='flex flex-wrap'>
                         {words.map((elem, i) => {
                             const {
@@ -102,7 +121,7 @@ function Words() {
                                                                 isExtraLetter,
                                                             )}
                                                             className={clsx(
-                                                                'font-mono font-semibold text-2xl',
+                                                                'font-mono font-semibold ',
                                                             )}
                                                         >
                                                             {letter}
@@ -126,7 +145,8 @@ function Words() {
                                                 ? letterRef
                                                 : undefined
                                         }
-                                        style={{ width: fontWidth }}
+                                        // style={{ width: fontWidth }}
+                                        className='whitespace'
                                     >
                                         &nbsp;
                                     </div>

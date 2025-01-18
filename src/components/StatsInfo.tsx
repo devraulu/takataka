@@ -1,74 +1,82 @@
-import { Group, Stack, Box, rem, Text, Tooltip, Grid } from '@mantine/core';
 import Stats from '../models/Stats';
+import SimpleTooltip from './ui/simple-tooltip';
 
 interface StatsInfoProps {
     stats: Stats;
 }
 
-const StatsInfo: React.FunctionComponent<StatsInfoProps> = ({
-    stats: { time, raw, correct, incorrect, extra, consistency, avg },
-}) => {
+function StatsInfo({
+    stats: {
+        time,
+        raw,
+        correct,
+        incorrect,
+        extra,
+        consistency,
+        //avg
+    },
+}: StatsInfoProps) {
+    const data = [
+        {
+            tooltipLabel: raw.toFixed(2),
+            title: 'raw',
+            value: raw.toFixed(0),
+        },
+        {
+            tooltipLabel: 'correct, incorrect, extra',
+            title: 'characters',
+            value: `${correct}/${incorrect}/${extra}`,
+        },
+        {
+            tooltipLabel: consistency.toFixed(2),
+            title: 'consistency',
+            value: consistency.toFixed(0),
+        },
+        {
+            tooltipLabel: time.toFixed(1),
+            title: 'time',
+            value: time.toFixed(0),
+        },
+    ];
     return (
-        <Grid>
-            <Grid.Col span={6} md={3}>
-                <Tooltip label={raw.toFixed(2)}>
-                    <Box>
-                        <TitleText2>raw</TitleText2>
-                        <ValueText2>{raw.toFixed(0)}</ValueText2>
-                    </Box>
-                </Tooltip>
-            </Grid.Col>
-            <Grid.Col span={6} md={3}>
-                <Tooltip label='correct, incorrect, extra'>
-                    <Box>
-                        <TitleText2>characters</TitleText2>
-                        <ValueText2>
-                            {correct}/{incorrect}/{extra}
-                        </ValueText2>
-                    </Box>
-                </Tooltip>
-            </Grid.Col>
-            <Grid.Col span={6} md={3}>
-                <Tooltip label={consistency.toFixed(2)}>
-                    <Box>
-                        <TitleText2>consistency</TitleText2>
-                        <ValueText2>{consistency.toFixed(0)}</ValueText2>
-                    </Box>
-                </Tooltip>
-            </Grid.Col>
-            <Grid.Col span={6} md={3}>
-                <Tooltip label={time.toFixed(1)}>
-                    <Box>
-                        <TitleText2>time</TitleText2>
-                        <ValueText2>{time.toFixed(0)}</ValueText2>
-                    </Box>
-                </Tooltip>
-            </Grid.Col>
-        </Grid>
+        <div className='grid grid-cols-12 gap-4'>
+            {data.map((item, index) => (
+                <div className='col-span-6 md:col-span-3'>
+                    <TooltipItem
+                        key={index}
+                        tooltipLabel={item.tooltipLabel}
+                        title={item.title}
+                        value={item.value}
+                    />
+                </div>
+            ))}
+        </div>
     );
-};
+}
 
 type StatsTextProps = {
     children: string | string[] | React.ReactNode;
 };
 
-const TitleText2 = ({ children }: StatsTextProps) => (
-    <Text align='center' fw={500} color='tertiary' ff='Poppins, sans-serif'>
+const TitleText = ({ children }: StatsTextProps) => (
+    <div className='text-center font-medium text-sub font-display'>
         {children}
-    </Text>
+    </div>
 );
 
-const ValueText2 = ({ children }: StatsTextProps) => (
-    <Text
-        align='center'
-        fw={600}
-        fz={rem(26)}
-        color='primary'
-        lh={1}
-        ff='Poppins, sans-serif'
-    >
+const ValueText = ({ children }: StatsTextProps) => (
+    <div className='text-center font-semibold text-2xl text-main leading-none font-display'>
         {children}
-    </Text>
+    </div>
+);
+
+const TooltipItem = ({ tooltipLabel, title, value }) => (
+    <SimpleTooltip label={tooltipLabel}>
+        <div>
+            <TitleText>{title}</TitleText>
+            <ValueText>{value}</ValueText>
+        </div>
+    </SimpleTooltip>
 );
 
 export default StatsInfo;

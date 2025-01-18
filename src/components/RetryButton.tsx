@@ -1,37 +1,30 @@
-import { ActionIcon, rem, useMantineTheme } from '@mantine/core';
-import { ArrowBackUp } from 'tabler-icons-react';
 import useResetTest from '../hooks/useResetTest';
 import { useEffect, useRef } from 'react';
 import { useSetAtom } from 'jotai';
 import { resetBtnRefAtom } from '../atoms/typing';
+import { Button } from './ui/button';
+import { Repeat2 } from 'lucide-react';
 
-interface RetryButtonProps {}
-
-const RetryButton: React.FunctionComponent<RetryButtonProps> = () => {
+function RetryButton() {
     const { newTest } = useResetTest();
     const resetBtn = useRef<HTMLButtonElement | null>(null);
     const setResetBtnRef = useSetAtom(resetBtnRefAtom);
 
     useEffect(() => {
         setResetBtnRef(resetBtn);
-    }, [resetBtn]);
-
-    const theme = useMantineTheme();
+    }, [resetBtn, setResetBtnRef]);
 
     return (
-        <ActionIcon
+        <Button
             ref={resetBtn}
-            className='restart'
+            className='restart size-9 text-sub'
             onClick={newTest}
-            size='lg'
+            variant='ghost'
+            size={"icon"}
         >
-            <ArrowBackUp
-                size={rem(350)}
-                strokeWidth={2}
-                color={theme.colors.tertiary['5']}
-            />
-        </ActionIcon>
+            <Repeat2 strokeWidth={3} className='!size-6' />
+        </Button>
     );
-};
+}
 
 export default RetryButton;

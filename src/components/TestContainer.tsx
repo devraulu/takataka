@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import useMobileTrigger from '../hooks/useMobileTrigger';
 import useTyping from '../hooks/useTyping';
-import { Box, Group } from '@mantine/core';
 import AfkOverlay from './AfkOverlay';
 import RetryButton from './RetryButton';
 import TestConfigBar from './TestConfigBar';
@@ -48,7 +47,7 @@ export default function TestContainer() {
     return (
         <>
             <TestConfigBar />
-            <Box mt='md' onClick={handleTouch}>
+            <div className='mt-4' onClick={handleTouch}>
                 {isMobile() && (
                     <div>
                         <input
@@ -62,15 +61,15 @@ export default function TestContainer() {
                         />
                     </div>
                 )}
-                <Group mt='md' align='center'>
+                <div className='mt-4 gap-2 flex items-center'>
                     <TestProgress />
                     <RetryButton />
-                </Group>
-                <Box sx={{ position: 'relative' }} p='md' mt='sm'>
+                </div>
+                <div className='relative p-4 mt-3'>
                     <AfkOverlay handleTouch={handleTouch} />
                     <Words />
-                </Box>
-            </Box>
+                </div>
+            </div>
         </>
     );
 }

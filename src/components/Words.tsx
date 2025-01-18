@@ -1,61 +1,54 @@
 import useMeasure from 'react-use-measure';
-import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
 import React from 'react';
 import useTypedLog from '../hooks/useTypedLog';
+import clsx from 'clsx';
 
 function Words() {
     const [containerRef, { width: containerWidth }] = useMeasure({
         debounce: 200,
     });
-    const [fontRef, { width: fontWidth }] = useMeasure();
+    const [fontRef, { width: fontWidth, height: fontHeight }] = useMeasure();
     const [letterRef, { left, top }] = useMeasure();
 
     const words = useRenderWords(fontWidth, containerWidth);
-    const theme = useMantineTheme();
 
     useTypedLog();
 
     const fz = 24;
 
-    const fontStyles = (
+    const getTextColor = (
         isTyped?: boolean,
         isCorrect?: boolean,
         isExtra?: boolean,
     ): React.CSSProperties => {
-        let color = theme.colors.tertiary['5'];
+        let color = 'sub-color';
 
         if (isTyped)
-            if (isCorrect) color = theme.colors.secondary['5'];
-            else color = theme.colors.red['5'];
-        if (isExtra) color = theme.colors.red['8'];
+            if (isCorrect) color = 'main-color';
+            else color = 'error-color';
+        if (isExtra) color = 'error-extra-color';
 
         return {
-            fontFamily: "'Jetbrains Mono', monospace",
-            color: color,
-            fontSize: fz,
-            wordSpacing: 200,
+            color: `rgb(var(--${color}))`,
         };
     };
 
     return (
-        <Box>
+        <div>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
+            {/* WARN: Is this really necessary? Since we know the font size beforehand */}
             <span
                 ref={fontRef}
-                style={{
-                    ...fontStyles(),
-                    position: 'fixed',
-                    visibility: 'hidden',
-                }}
+                className={clsx('fixed invisible', `text-[${fz}px]`)}
             >
                 a
             </span>
-            <Caret top={top} left={left} />
+            <Caret top={top} left={left} fontHeight={fontHeight} />
             {words.length > 0 && (
-                <Box ref={containerRef}>
-                    <Flex wrap='wrap'>
+                <div ref={containerRef}>
+                    <div className='flex flex-wrap'>
                         {words.map((elem, i) => {
                             const {
                                 word,
@@ -65,24 +58,23 @@ function Words() {
                                 isLastWordBeingTyped,
                             } = elem;
 
-                            const wordStyles: React.CSSProperties = {
-                                borderBottom: incorrectlyTypedWord ? rem(2) : 0,
-                                borderColor: incorrectlyTypedWord
-                                    ? theme.colors.red[5]
-                                    : theme.colors.tertiary[5],
-                                display: 'flex',
-                                flexWrap: 'nowrap',
-                            };
-
                             return (
                                 <div
-                                    style={{
-                                        display: 'flex',
-                                        flexWrap: 'nowrap',
-                                    }}
                                     key={word + i}
+                                    className='flex flex-nowrap'
                                 >
-                                    <div style={wordStyles}>
+                                    <div
+                                        className={clsx(
+                                            'flex flex-nowrap',
+                                            {
+                                                'border-b':
+                                                    incorrectlyTypedWord,
+                                            },
+                                            incorrectlyTypedWord
+                                                ? 'border-error'
+                                                : 'border-sub',
+                                        )}
+                                    >
                                         {letters.map(
                                             (
                                                 {
@@ -104,10 +96,13 @@ function Words() {
                                                                     ? letterRef
                                                                     : undefined
                                                             }
-                                                            style={fontStyles(
+                                                            style={getTextColor(
                                                                 isTyped,
                                                                 isCorrect,
                                                                 isExtraLetter,
+                                                            )}
+                                                            className={clsx(
+                                                                'font-mono font-semibold text-2xl',
                                                             )}
                                                         >
                                                             {letter}
@@ -138,10 +133,10 @@ function Words() {
                                 </div>
                             );
                         })}
-                    </Flex>
-                </Box>
+                    </div>
+                </div>
             )}
-        </Box>
+        </div>
     );
 }
 

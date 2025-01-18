@@ -1,8 +1,6 @@
 import { Global, rem } from '@mantine/core';
 
-interface MantineGlobalProps {}
-
-const MantineGlobal: React.FunctionComponent<MantineGlobalProps> = () => {
+function MantineGlobal() {
     return (
         <Global
             styles={theme => ({
@@ -15,6 +13,7 @@ const MantineGlobal: React.FunctionComponent<MantineGlobalProps> = () => {
                     backgroundColor: theme.colors.background[6],
                     color: theme.colors.secondary[6],
                 },
+
                 '.separator': {
                     height: theme.spacing.xl,
                     [theme.fn.largerThan('md')]: {
@@ -24,6 +23,6 @@ const MantineGlobal: React.FunctionComponent<MantineGlobalProps> = () => {
             })}
         />
     );
-};
+}
 
 export default MantineGlobal;

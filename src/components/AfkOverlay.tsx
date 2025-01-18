@@ -1,4 +1,3 @@
-import { useMantineTheme, Text } from '@mantine/core';
 import usePromptOverlay from '../hooks/usePromptOverlay';
 import { motion } from 'motion/react';
 
@@ -9,50 +8,42 @@ interface AfkOverlayProps {
 const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
     handleTouch,
 }) => {
-    const theme = useMantineTheme();
-
-    const { show, close } = usePromptOverlay();
+    const { show } = usePromptOverlay();
 
     const variants = {
         hidden: {
             opacity: 0,
-            backgroundColor: theme.colors.background['6'] + '00',
-        }, visible: {
+            backgroundColor: 'rgb(var(--bg-color))',
+        },
+        visible: {
             opacity: 1,
-            backgroundColor:
-                theme.colors.background['6'] + 'DF',
-        }
-    }
+            backgroundColor: 'rgb(var(--bg-color) / 0.8)',
+        },
+    };
 
     return (
         <motion.div
             animate={show ? 'visible' : 'hidden'}
             variants={variants}
-            style={{
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                left: 0,
-                bottom: 0,
-                zIndex: 200,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
+            className='absolute top-0 right-0 left-0 bottom-0 z-50 flex justify-center'
             onClick={handleTouch}
+            style={{
+                position: 'absolute',
+                inset: 0,
+                height: '200%',
+                backdropFilter: 'blur(3px)',
+                maskImage:
+                    'linear-gradient(           \
+                        to bottom,              \
+                        black 0% 50%,           \
+                        transparent 50% 100%    \
+                     )',
+            }}
         >
-            <Text
-                color='primary.6'
-                fw={500}
-                fz='lg'
-                align='center'
-                ff={'Poppins, sans-serif'}
-            >
+            <div className='text-xl font-semibold text-center text-main font-display mt-6'>
                 Click here or start typing to start test...
-            </Text>
-        </motion.div >
+            </div>
+        </motion.div>
     );
 };
 

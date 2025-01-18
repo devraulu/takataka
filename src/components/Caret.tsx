@@ -1,27 +1,33 @@
-import { rem, useMantineTheme } from '@mantine/core';
+import clsx from 'clsx';
 import { motion } from 'motion/react';
 
 interface CaretProps {
     top: number;
     left: number;
+    fontHeight: number;
 }
 
-const Caret: React.FunctionComponent<CaretProps> = ({ top, left }) => {
-    const theme = useMantineTheme();
-
+const Caret: React.FunctionComponent<CaretProps> = ({
+    top,
+    left,
+    fontHeight,
+}) => {
     return (
-        <motion.div
-            style={{
-                background: theme.colors.primary['6'],
-                width: rem(2),
-                height: rem(34),
-                position: 'fixed',
-            }}
-            animate={{
-                left, top,
-            }}
-            transition={{duration: .1}}
-        />
+        console.log('fontHeight', fontHeight),
+        (
+            <motion.div
+                className={clsx('fixed bg-caret')}
+                style={{
+                    width: 3,
+                    height: fontHeight + 4,
+                }}
+                animate={{
+                    left,
+                    top,
+                }}
+                transition={{ duration: 0.1 }}
+            />
+        )
     );
 };
 

@@ -1,7 +1,7 @@
 import ThemePicker from '../ThemePicker';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { Button } from '../ui/button';
 import { Asterisk, Github, Mail, Paintbrush } from 'lucide-react';
+import SimpleTooltip from '../ui/simple-tooltip';
 
 function Footer() {
     const btnClasses = 'text-sub hover:text-text';
@@ -65,17 +65,5 @@ function Footer() {
         </div>
     );
 }
-
-type SimpleTooltipProps = {
-    children: React.ReactNode;
-    label: string | React.ReactNode;
-};
-
-const SimpleTooltip = ({ children, label }: SimpleTooltipProps) => (
-    <Tooltip>
-        <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent>{label}</TooltipContent>
-    </Tooltip>
-);
 
 export default Footer;

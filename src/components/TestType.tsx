@@ -1,41 +1,22 @@
-import { Group, Text, rem, useMantineTheme } from '@mantine/core';
 import { useAtomValue } from 'jotai';
-import { At, Hash } from 'tabler-icons-react';
 import { testConfigurationAtom } from '../atoms/test_configuration';
+import { AtSign, Hash } from 'lucide-react';
 
-interface TestTypeProps {}
-
-const TestType: React.FunctionComponent<TestTypeProps> = () => {
+function TestType() {
     const { numbers, punctuation, testSize } = useAtomValue(
         testConfigurationAtom,
     );
-    const theme = useMantineTheme();
     return (
-        <Group spacing={10}>
-            <Text
-                ff='Poppins, sans-serif'
-                fw={700}
-                fz={rem(28)}
-                color='primary'
-            >
+        <div className='flex gap-2 items-center'>
+            <div className='font-bold text-3xl text-main font-display tracking-tight'>
                 {testSize}
-            </Text>
+            </div>
             {punctuation && (
-                <At
-                    size={rem(24)}
-                    strokeWidth={3}
-                    color={theme.colors.primary['6']}
-                />
+                <AtSign className='size-6 text-main' strokeWidth={3} />
             )}
-            {numbers && (
-                <Hash
-                    size={rem(24)}
-                    strokeWidth={3}
-                    color={theme.colors.primary['6']}
-                />
-            )}
-        </Group>
+            {numbers && <Hash className='size-6 text-main' strokeWidth={3} />}
+        </div>
     );
-};
+}
 
 export default TestType;

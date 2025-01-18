@@ -1,24 +1,16 @@
-import {
-    ActionIcon,
-    Box,
-    Text,
-    rem,
-    Tooltip,
-    Group,
-    useMantineTheme,
-} from '@mantine/core';
-
 import { WpmErrorLog } from '../models/Log';
 import { useEffect, useState } from 'react';
 import ResultsChart from './ResultsChart';
 import Stats from '../models/Stats';
 import StatsInfo from './StatsInfo';
-import { ArrowBackUp, ChevronRight } from 'tabler-icons-react';
 import useResetTest from '../hooks/useResetTest';
 import TestType from './TestType';
 import { useAtomValue } from 'jotai';
 import { lastTestLogsAtom } from '../atoms/typing';
 import { calculateStats, computeWpmAndErrors } from '@/lib/utils/results';
+import SimpleTooltip from './ui/simple-tooltip';
+import { ArrowRight, Repeat2 } from 'lucide-react';
+import { Button } from './ui/button';
 
 // TODO: Fix mobile view of results, handle different breakpoints
 function Results() {
@@ -37,8 +29,6 @@ function Results() {
 
     const { reset, newTest } = useResetTest();
 
-    const theme = useMantineTheme();
-
     useEffect(() => {
         const testLogs = [...lastTestLogs];
         const newChartData = computeWpmAndErrors(testLogs);
@@ -50,52 +40,55 @@ function Results() {
     }, [lastTestLogs]);
 
     return (
-        <Box mx='auto' mt='md' w={'100%'}>
-            <Group position='apart' align='flex-end'>
+        <div className='mx-auto mt-4 w-full'>
+            <div className='flex justify-between items-end'>
                 <TestType />
-                <Group position='center' mt='lg'>
-                    <Tooltip label='Next test'>
-                        <ActionIcon onClick={newTest} size='lg' autoFocus>
-                            <ChevronRight
-                                size={rem(300)}
-                                strokeWidth={2}
-                                color={theme.colors.tertiary['6']}
-                            />
-                        </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label='Restart test'>
-                        <ActionIcon onClick={reset} size='lg'>
-                            <ArrowBackUp
-                                size={rem(300)}
-                                strokeWidth={2}
-                                color={theme.colors.tertiary['6']}
-                            />
-                        </ActionIcon>
-                    </Tooltip>
-                </Group>
-            </Group>
+                <div className='flex justify-center gap-2 mt-4'>
+                    <SimpleTooltip label='Next test'>
+                        <Button
+                            size='icon'
+                            variant='ghost'
+                            onClick={newTest}
+                            className='text-main'
+                            autoFocus
+                        >
+                            <ArrowRight strokeWidth={3} className='!size-6' />
+                        </Button>
+                    </SimpleTooltip>
+                    <SimpleTooltip label='Restart test'>
+                        <Button
+                            onClick={reset}
+                            size='icon'
+                            variant='ghost'
+                            className='text-main'
+                        >
+                            <Repeat2 strokeWidth={2} className='!size-6' />
+                        </Button>
+                    </SimpleTooltip>
+                </div>
+            </div>
 
-            <Group grow mt='lg'>
-                <Tooltip label={stats.avg.toFixed(2)}>
-                    <Box sx={{ flex: 1 }}>
+            <div className='flex flex-grow mt-6'>
+                <SimpleTooltip label={stats.avg.toFixed(2)}>
+                    <div className='flex-1'>
                         <TitleText>wpm</TitleText>
                         <ValueText>{stats.avg.toFixed(0)}</ValueText>
-                    </Box>
-                </Tooltip>
-                <Tooltip label={stats.accuracy.toFixed(2)}>
-                    <Box sx={{ flex: 1 }}>
+                    </div>
+                </SimpleTooltip>
+                <SimpleTooltip label={stats.accuracy.toFixed(2)}>
+                    <div className='flex-1'>
                         <TitleText>acc</TitleText>
                         <ValueText>{stats.accuracy.toFixed(0)}%</ValueText>
-                    </Box>
-                </Tooltip>
-            </Group>
-            <Box mt='md' w={'100%'} h={rem(200)}>
+                    </div>
+                </SimpleTooltip>
+            </div>
+            <div className='mt-4'>
                 <ResultsChart data={chartData} />
-            </Box>
-            <Box mt='md'>
+            </div>
+            <div className='mt-4'>
                 <StatsInfo stats={stats} />
-            </Box>
-        </Box>
+            </div>
+        </div>
     );
 }
 
@@ -104,22 +97,15 @@ type ResultsTextProps = {
 };
 
 const TitleText = ({ children }: ResultsTextProps) => (
-    <Text fw={400} color='tertiary' align='center' ff='Poppins, sans-serif'>
+    <div className='font-medium text-center text-sub font-display'>
         {children}
-    </Text>
+    </div>
 );
 
 const ValueText = ({ children }: ResultsTextProps) => (
-    <Text
-        fz={rem(45)}
-        fw={600}
-        lh={1}
-        color='primary'
-        align='center'
-        ff='Poppins, sans-serif'
-    >
+    <div className='font-bold text-center font-display text-3xl leading-none text-main'>
         {children}
-    </Text>
+    </div>
 );
 
 export default Results;

@@ -1,5 +1,4 @@
 import ConfigChip from './common/ConfigChip';
-import { At, Hash } from 'tabler-icons-react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
     handleToggleNumbers,
@@ -11,6 +10,7 @@ import {
 import { hasTestStartedAtom } from '../atoms/typing';
 import { useEffect } from 'react';
 import clsx from 'clsx';
+import { AtSign, Hash } from 'lucide-react';
 
 function TestConfigBar() {
     const { punctuation, numbers, testSize } = useAtomValue(
@@ -38,7 +38,7 @@ function TestConfigBar() {
         >
             <div className='flex justify-center'>
                 <ConfigChip checked={punctuation} onClick={togglePunctuation}>
-                    <At size={14} strokeWidth={2} /> punctuation
+                    <AtSign size={14} strokeWidth={2} /> punctuation
                 </ConfigChip>
                 <ConfigChip checked={numbers} onClick={toggleNumbers}>
                     <Hash size={14} strokeWidth={2} />

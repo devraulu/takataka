@@ -13,10 +13,12 @@ function Logo() {
 
     const mainTextVariants = {
         active: {
+            color: 'rgb(var(--main-color))',
             opacity: 1,
         },
         inactive: {
-            opacity: 0.3,
+            color: 'rgb(var(--sub-color))',
+            opacity: 0.9,
         },
     };
 
@@ -36,7 +38,9 @@ function Logo() {
     return (
         <div className='select-none'>
             <motion.div variants={smallTextVariants} animate={animate}>
-                <div className='text-sm font-bold font-sans pl-1 leading-none'>keys go</div>
+                <div className='text-sm font-bold font-sans pl-1 leading-none'>
+                    keys go
+                </div>
             </motion.div>
             <motion.div
                 variants={mainTextVariants}
@@ -46,7 +50,7 @@ function Logo() {
                 }}
                 onClick={newTest}
             >
-                <h1 className='text-5xl font-bold leading-none font-display text-main'>
+                <h1 className='text-5xl font-bold leading-none font-display'>
                     takataka
                 </h1>
             </motion.div>

@@ -1,93 +1,143 @@
+// import {
+//     ComposedChart,
+//     CartesianGrid,
+//     XAxis,
+//     YAxis,
+//     Tooltip,
+//     Area,
+//     Scatter,
+//     ResponsiveContainer,
+// } from 'recharts';
+import { Asterisk } from 'lucide-react';
+import { WpmErrorLog } from '../models/Log';
 import {
-    ComposedChart,
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from './ui/chart';
+import {
+    Area,
     CartesianGrid,
+    ComposedChart,
+    Cross,
+    Label,
+    LabelList,
+    Line,
+    Scatter,
     XAxis,
     YAxis,
-    Tooltip,
-    Area,
-    Scatter,
-    ResponsiveContainer,
 } from 'recharts';
-import { WpmErrorLog } from '../models/Log';
-import { useMantineTheme } from '@mantine/core';
-import CustomTooltip, { TooltipPayload } from './CustomTooltip';
 
 interface ResultsChartProps {
     data: WpmErrorLog[];
 }
 
 const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
-    const theme = useMantineTheme();
+    const chartConfig = {
+        second: {
+            label: 'second',
+            color: 'rgb(var(--sub-color))',
+        },
+        rawWpm: {
+            label: 'raw',
+            color: 'rgb(var(--sub-color))',
+        },
+        errors: {
+            label: 'errors',
+            color: 'rgb(var(--error-color))',
+        },
+        avgWpm: {
+            label: 'avg',
+            color: 'rgb(var(--main_color))',
+        },
+    } satisfies ChartConfig;
 
     return (
-        <ResponsiveContainer width='100%'>
-            <ComposedChart data={data}>
-                <CartesianGrid stroke={theme.colors.tertiary['6']} />
-                <XAxis dataKey='second' stroke={theme.colors.tertiary['5']} />
+        <ChartContainer
+            config={chartConfig}
+            className='min-h-[100px] h-[200px] w-full'
+        >
+            <ComposedChart
+                data={data.map(log => ({
+                    ...log,
+                    errors: log.errors > 0 ? log.errors : undefined,
+                }))}
+                accessibilityLayer
+                margin={{
+                    left: -20,
+                    right: 12,
+                }}
+            >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                    dataKey='second'
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                />
                 <YAxis
                     yAxisId='left'
                     dataKey='rawWpm'
-                    orientation='left'
-                    stroke={theme.colors.tertiary['5']}
-                    interval={0}
-                ></YAxis>
+                    tickLine={false}
+                    tickMargin={10}
+                    axisLine={false}
+                    tickCount={6}
+                    allowDataOverflow
+                    domain={[0, 'dataMax + 10']}
+                >
+                    <Label angle={-90} position={'left'}>
+                        WPM
+                    </Label>
+                </YAxis>
                 <YAxis
                     yAxisId='right'
                     dataKey='errors'
+                    tickLine={false}
+                    axisLine={false}
                     orientation='right'
-                    stroke={theme.colors.tertiary['5']}
-                    interval={0}
-                ></YAxis>
-                <Tooltip
-                    trigger='hover'
-                    content={props => (
-                        <CustomTooltip
-                            payload={props.payload as TooltipPayload[]}
-                            active={!!props.active}
-                            label={props.label}
+                    allowDecimals={false}
+                    allowDataOverflow
+                    tickCount={6}
+                >
+                    <Label angle={90} position={'right'}>
+                        Errors
+                    </Label>
+                </YAxis>
+                <ChartTooltip
+                    content={
+                        <ChartTooltipContent
+                            indicator='dot'
+                            labelKey='seconds'
+                            labelClassName='text-text'
                         />
-                    )}
+                    }
+                    cursor={false}
                 />
                 <Area
                     yAxisId='left'
-                    type='monotone'
-                    dataKey='avgWpm'
-                    stroke={theme.colors.primary['6']}
-                    fill={theme.colors.tertiary['2']}
-                    name='wpm'
-                />
-                <Area
-                    yAxisId='left'
-                    type='monotone'
                     dataKey='rawWpm'
-                    stroke={theme.colors.tertiary['7']}
-                    fill={theme.colors.tertiary['2']}
-                    name='raw'
+                    type={'natural'}
+                    // stackId='a'
+                    fill={'rgba(var(--sub-color) / 0.4)'}
+                    stroke={'rgba(var(--sub-color))'}
+                />
+                <Area
+                    yAxisId='left'
+                    dataKey='avgWpm'
+                    type={'natural'}
+                    // stackId='a'
+                    fill={'rgba(var(--main-color) / 0.2)'}
+                    stroke={'rgba(var(--main-color))'}
                 />
                 <Scatter
-                    fill='red'
                     yAxisId='right'
                     dataKey='errors'
-                    name='errors'
-                    shape={(props: Record<string, any>) => {
-                        const { cx, cy, payload } = props;
-
-                        return (
-                            <circle
-                                cx={cx}
-                                cy={cy}
-                                r={3}
-                                fill={
-                                    payload.errors === 0
-                                        ? 'none'
-                                        : theme.colors.red['5']
-                                }
-                            />
-                        );
-                    }}
+                    fill={'rgba(var(--error-color))'}
+                    // activeShape={<Asterisk className='w-3 h-3 text-error' />}
                 />
             </ComposedChart>
-        </ResponsiveContainer>
+        </ChartContainer>
     );
 };
 

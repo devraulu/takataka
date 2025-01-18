@@ -8,6 +8,15 @@ import { useSetAtom } from 'jotai';
 import { wordsContainerRefAtom } from '@/atoms/typing';
 import { useMergedRef } from '@mantine/hooks';
 
+// TODO: Refactor rendering logic, this is a mess
+// some early thoughts:
+//
+// * Use a single ref for the container
+// * Use add data attributes to each letter to be able to query them
+// * Programmatically assign classes depending on the state
+// * Track the current letter index by its data attribute by counting the words + letters typed
+// * Find a way to reduce the amount of rerenders
+
 function Words() {
     const [measureRef, { width: containerWidth }] = useMeasure({
         debounce: 200,
@@ -22,11 +31,11 @@ function Words() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [wordsContainerRef]);
 
-    const [fontRef, { height: fontHeight }] = useMeasure();
+    const [fontRef, { height: fontHeight, width: fontWidth }] = useMeasure();
     const [letterRef, { left, top }] = useMeasure();
 
+    const words = useRenderWords(fontWidth, containerWidth);
     const fz = 20;
-    const words = useRenderWords(fz, containerWidth);
 
     useTypedLog();
 
@@ -51,6 +60,7 @@ function Words() {
         <div>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
             {/* WARN: Is this really necessary? Since we know the font size beforehand */}
+            {/* At the moment this is used because even though the font size is fixed, the width may vary based on the weight */}
             <span
                 ref={fontRef}
                 className={'fixed invisible font-mono'}
@@ -145,7 +155,6 @@ function Words() {
                                                 ? letterRef
                                                 : undefined
                                         }
-                                        // style={{ width: fontWidth }}
                                         className='whitespace'
                                     >
                                         &nbsp;

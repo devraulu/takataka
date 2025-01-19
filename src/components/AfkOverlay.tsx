@@ -1,3 +1,4 @@
+import { MousePointerClick } from 'lucide-react';
 import usePromptOverlay from '../hooks/usePromptOverlay';
 import { motion } from 'motion/react';
 
@@ -25,7 +26,7 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
         <motion.div
             animate={show ? 'visible' : 'hidden'}
             variants={variants}
-            className='absolute top-0 right-0 left-0 bottom-0 z-50 flex justify-center'
+            className='absolute top-0 right-0 left-0 bottom-0 z-50 block'
             onClick={handleTouch}
             style={{
                 position: 'absolute',
@@ -40,9 +41,11 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
                      )',
             }}
         >
-            <div className='text-xl font-semibold text-center text-main font-display mt-6'>
-                Click here or start typing to start test...
-            </div>
+            <div className='h-1/5 w-2'></div>
+            <p className='text-lg font-medium text-center text-text font-display flex gap-2 justify-center'>
+                <MousePointerClick /> Click here or start typing to start
+                test...
+            </p>
         </motion.div>
     );
 };

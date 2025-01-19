@@ -1,9 +1,30 @@
+import defaultTheme from 'tailwindcss/defaultTheme';
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: ['class'],
     content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
     theme: {
         extend: {
+            fontFamily: {
+                // display: ['Badeen Display', 'system-ui', 'ui-serif'],
+                sans: ['"Montserrat"', ...defaultTheme.fontFamily.sans],
+                mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
+                logo: ['"Montserrat Alternates"', 'system-ui'],
+            },
+            animation: {
+                blink: 'blink 1s ease-out infinite',
+            },
+            keyframes: {
+                blink: {
+                    '0%': { opacity: 0 },
+                    '50%': { opacity: 1 },
+                    '100%': { opacity: 0 },
+                },
+            },
+            strokeWidth: {
+                3: '3px',
+                4: '4px',
+            },
             borderRadius: {
                 lg: 'var(--radius)',
                 md: 'calc(var(--radius) - 2px)',

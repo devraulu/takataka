@@ -1,0 +1,12 @@
+.matrix {
+    --bg-color: 0 0 0;
+    --main-color: 21 255 0;
+    --caret-color: 21 255 0;
+    --sub-color: 0 101 0;
+    --sub-alt-color: 3 32 0;
+    --text-color: 209 255 205;
+    --error-color: 218 51 51;
+    --error-extra-color: 121 23 23;
+    --colorful-error-color: 218 51 51;
+    --colorful-error-extra-color: 121 23 23;
+}

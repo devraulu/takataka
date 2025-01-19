@@ -29,9 +29,7 @@ export const handleToggleNumbers = atom(null, (get, set) =>
 );
 
 export const handleTogglePunctuation = atom(null, (get, set) =>
-    set(setTestConfiguration, {
-        punctuation: !get(testConfiguration).punctuation,
-    }),
+    set(setTestConfiguration, { punctuation: !get(testConfiguration).punctuation }),
 );
 
 export const handleTestSize = atom(null, (_, set, testSize: number) =>

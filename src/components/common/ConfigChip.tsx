@@ -12,16 +12,19 @@ const ConfigChip: FunctionComponent<ConfigChipProps> = ({
     checked,
     children,
     onClick,
+    className,
     ...rest
 }) => {
     return (
         <Button
             variant='ghost'
-            className={clsx('font-bold',
+            className={clsx(
+                'font-bold',
                 checked ? 'text-main' : 'text-sub',
+                className,
             )}
-            {...rest}
             onClick={onClick}
+            {...rest}
         >
             {children}
         </Button>

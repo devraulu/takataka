@@ -31,7 +31,7 @@ function StatsInfo({
         },
     ];
     return (
-        <div className='grid grid-cols-12 gap-4'>
+        <div className='grid grid-cols-12 gap-4 place-content-center'>
             {data.map((item, index) => (
                 <div key={item.title} className='col-span-6 md:col-span-3'>
                     <TooltipItem
@@ -62,7 +62,15 @@ const ValueText = ({ children }: StatsTextProps) => (
     </div>
 );
 
-const TooltipItem = ({ tooltipLabel, title, value }) => (
+const TooltipItem = ({
+    tooltipLabel,
+    title,
+    value,
+}: {
+    tooltipLabel: React.ReactNode | string[];
+    title: React.ReactNode | string[];
+    value: React.ReactNode | string[];
+}) => (
     <SimpleTooltip label={tooltipLabel}>
         <div>
             <TitleText>{title}</TitleText>

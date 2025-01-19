@@ -40,8 +40,8 @@ function Results() {
     }, [lastTestLogs]);
 
     return (
-        <div className='col-[content] row-start-2 row-span-1'>
-            <div className='flex justify-between items-end'>
+        <>
+            <div className='flex justify-between items-end row-start-1 col-[content]'>
                 <TestType />
                 <div className='flex justify-center gap-2 mt-4'>
                     <SimpleTooltip label='Next test'>
@@ -62,33 +62,35 @@ function Results() {
                             variant='ghost'
                             className='text-main'
                         >
-                            <Repeat2 strokeWidth={2} className='!size-6' />
+                            <Repeat2 strokeWidth={3} className='!size-6' />
                         </Button>
                     </SimpleTooltip>
                 </div>
             </div>
 
-            <div className='flex flex-grow mt-6'>
-                <SimpleTooltip label={stats.avg.toFixed(2)}>
-                    <div className='flex-1'>
-                        <TitleText>wpm</TitleText>
-                        <ValueText>{stats.avg.toFixed(0)}</ValueText>
-                    </div>
-                </SimpleTooltip>
-                <SimpleTooltip label={stats.accuracy.toFixed(2)}>
-                    <div className='flex-1'>
-                        <TitleText>acc</TitleText>
-                        <ValueText>{stats.accuracy.toFixed(0)}%</ValueText>
-                    </div>
-                </SimpleTooltip>
+            <div className='col-[content] row-start-2 row-span-1'>
+                <div className='flex flex-grow gap-2'>
+                    <SimpleTooltip label={stats.avg.toFixed(2)}>
+                        <div className='flex-1'>
+                            <TitleText>wpm</TitleText>
+                            <ValueText>{stats.avg.toFixed(0)}</ValueText>
+                        </div>
+                    </SimpleTooltip>
+                    <SimpleTooltip label={stats.accuracy.toFixed(2)}>
+                        <div className='flex-1'>
+                            <TitleText>acc</TitleText>
+                            <ValueText>{stats.accuracy.toFixed(0)}%</ValueText>
+                        </div>
+                    </SimpleTooltip>
+                </div>
+                <div className='mt-4'>
+                    <ResultsChart data={chartData} />
+                </div>
+                <div className='mt-4'>
+                    <StatsInfo stats={stats} />
+                </div>
             </div>
-            <div className='mt-4'>
-                <ResultsChart data={chartData} />
-            </div>
-            <div className='mt-4'>
-                <StatsInfo stats={stats} />
-            </div>
-        </div>
+        </>
     );
 }
 

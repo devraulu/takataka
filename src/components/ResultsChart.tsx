@@ -1,14 +1,3 @@
-// import {
-//     ComposedChart,
-//     CartesianGrid,
-//     XAxis,
-//     YAxis,
-//     Tooltip,
-//     Area,
-//     Scatter,
-//     ResponsiveContainer,
-// } from 'recharts';
-import { Asterisk } from 'lucide-react';
 import { WpmErrorLog } from '../models/Log';
 import {
     ChartConfig,
@@ -20,10 +9,6 @@ import {
     Area,
     CartesianGrid,
     ComposedChart,
-    Cross,
-    Label,
-    LabelList,
-    Line,
     Scatter,
     XAxis,
     YAxis,
@@ -85,11 +70,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     tickCount={8}
                     allowDataOverflow
                     domain={[0, 'dataMax + 10']}
-                >
-                    <Label angle={-90} position={'left'}>
-                        WPM
-                    </Label>
-                </YAxis>
+                />
                 <YAxis
                     yAxisId='right'
                     dataKey='errors'
@@ -99,11 +80,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     allowDecimals={false}
                     allowDataOverflow
                     tickCount={8}
-                >
-                    <Label angle={90} position={'right'}>
-                        Errors
-                    </Label>
-                </YAxis>
+                />
                 <ChartTooltip
                     content={
                         <ChartTooltipContent
@@ -118,7 +95,6 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     yAxisId='left'
                     dataKey='rawWpm'
                     type={'natural'}
-                    // stackId='a'
                     fill={'rgba(var(--sub-color) / 0.4)'}
                     stroke={'rgba(var(--sub-color))'}
                 />
@@ -126,7 +102,6 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     yAxisId='left'
                     dataKey='avgWpm'
                     type={'natural'}
-                    // stackId='a'
                     fill={'rgba(var(--main-color) / 0.2)'}
                     stroke={'rgba(var(--main-color))'}
                 />
@@ -134,7 +109,6 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     yAxisId='right'
                     dataKey='errors'
                     fill={'rgba(var(--error-color))'}
-                    // activeShape={<Asterisk className='w-3 h-3 text-error' />}
                 />
             </ComposedChart>
         </ChartContainer>

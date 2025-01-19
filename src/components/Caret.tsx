@@ -1,10 +1,11 @@
+import useIsTestActive from '@/hooks/useIsTestActive';
 import clsx from 'clsx';
 import { motion } from 'motion/react';
 
 interface CaretProps {
+    fontHeight: number;
     top: number;
     left: number;
-    fontHeight: number;
 }
 
 const Caret: React.FunctionComponent<CaretProps> = ({
@@ -12,12 +13,15 @@ const Caret: React.FunctionComponent<CaretProps> = ({
     left,
     fontHeight,
 }) => {
+    const testActive = useIsTestActive();
     return (
         <motion.div
-            className={clsx('fixed bg-caret')}
+            className={clsx('fixed bg-caret', {
+                'animate-blink': !testActive,
+            })}
             style={{
-                width: 3,
-                height: fontHeight + 4,
+                width: 2.5,
+                height: fontHeight - 6,
             }}
             animate={{
                 left,

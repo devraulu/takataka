@@ -10,19 +10,24 @@ import useCheckAFK from '../hooks/useCheckAFK';
 import { useSetAtom } from 'jotai';
 import { closeAfkOverlayAtom } from '../atoms/ui';
 import { isMobile } from '@/lib/utils';
+import { wordsContainerRefAtom } from '@/atoms/typing';
 
 export default function TestContainer() {
     const { handleKeys: handleKeyEvent } = useTyping();
     const { inputRef, isInputFocused, triggerTouchKeyboard } =
         useMobileTrigger();
 
+    const setContainerRef = useSetAtom(wordsContainerRefAtom);
+
+    useEffect(() => {
+        setContainerRef(inputRef);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inputRef]);
+
     const closeOverlay = useSetAtom(closeAfkOverlayAtom);
 
     const handleTouch = () => {
         triggerTouchKeyboard();
-
-        // if (document.activeElement)
-        //     (document.activeElement as HTMLElement).blur();
         closeOverlay();
     };
 
@@ -66,10 +71,12 @@ export default function TestContainer() {
                                 position: 'absolute',
                                 top: '-9999px',
                             }}
+                            autoFocus
+                            tabIndex={1}
                         />
                     </div>
                 )}
-                <div className='mt-4 gap-2 flex items-center'>
+                <div className='md:mt-4 gap-2 flex items-center'>
                     <TestProgress />
                     <RetryButton />
                 </div>

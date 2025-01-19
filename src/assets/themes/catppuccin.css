@@ -1,0 +1,12 @@
+.catppuccin {
+    --bg-color: 30 30 46;
+    --caret-color: 242 205 205;
+    --main-color: 203 166 247;
+    --sub-color: 127 132 156;
+    --sub-alt-color: 24 24 37;
+    --text-color: 205 214 244;
+    --error-color: 243 139 168;
+    --error-extra-color: 235 160 172;
+    --colorful-error-color: 243 139 168;
+    --colorful-error-extra-color: 235 160 172;
+}

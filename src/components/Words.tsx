@@ -1,12 +1,9 @@
 import useMeasure from 'react-use-measure';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import useTypedLog from '../hooks/useTypedLog';
 import clsx from 'clsx';
-import { useSetAtom } from 'jotai';
-import { wordsContainerRefAtom } from '@/atoms/typing';
-import { useMergedRef } from '@mantine/hooks';
 
 // TODO: Refactor rendering logic, this is a mess
 // some early thoughts:
@@ -21,15 +18,6 @@ function Words() {
     const [measureRef, { width: containerWidth }] = useMeasure({
         debounce: 200,
     });
-
-    const wordsContainerRef = useRef<HTMLDivElement | null>(null);
-    const mergedWordsContainerRef = useMergedRef(wordsContainerRef, measureRef);
-    const setContainerRef = useSetAtom(wordsContainerRefAtom);
-
-    useEffect(() => {
-        setContainerRef(wordsContainerRef);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [wordsContainerRef]);
 
     const [fontRef, { height: fontHeight, width: fontWidth }] = useMeasure();
     const [letterRef, { left, top }] = useMeasure();
@@ -68,12 +56,12 @@ function Words() {
             >
                 a
             </span>
+
             <Caret top={top} left={left} fontHeight={fontHeight} />
+
             {words.length > 0 && (
                 <div
-                    ref={mergedWordsContainerRef}
-                    tabIndex={1}
-                    autoFocus
+                    ref={measureRef}
                     className={'focus:outline-none font-mono'}
                     style={{ fontSize: fz }}
                 >

@@ -15,7 +15,7 @@ function App() {
     return (
         <Providers>
             <div className={clsx(theme)}>
-                <div className='min-h-screen bg-background'>
+                <div className='min-h-svh bg-background transition-colors duration-150 ease-out'>
                     <div className='max-w-screen-xl xl:mx-auto xl:container grid grid-rows-[[top-start]_auto_[content-start]_1fr_[content-end]_auto_[top-end]] min-h-screen gap-y-10 overflow-hidden content-grid'>
                         <div className='row-start-[top-start] row-end-[content-start] col-[content]'>
                             <Header />

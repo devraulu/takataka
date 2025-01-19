@@ -13,7 +13,7 @@ const btnClasses = 'text-sub hover:text-text';
 function Footer() {
     const active = useIsTestActive();
 
-    useEffect(() => { }, [active]);
+    useEffect(() => {}, [active]);
     return (
         <AnimatePresence>
             {!active ? (
@@ -23,23 +23,28 @@ function Footer() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className={clsx(
-                        'py-6 grid grid-cols-2 grid-rows-2 md:grid-cols-3 md:grid-rows-1',
+                        'py-3 grid grid-cols-2 gap-y-2 grid-rows-2 md:grid-cols-[auto_1fr_auto] md:grid-rows-1 md:place-content-center',
                     )}
                 >
                     <div className='row-start-1 col-start-1 col-span-1'>
                         <Links />
                     </div>
-                    <div className='col-span-2 row-start-2 md:col-start-2 md:row-start-1'>
-                        <CraftedBy />
-                    </div>
                     <div className='row-start-1 col-start-2 col-span-1 justify-self-end md:col-start-3'>
                         <ThemePicker>
-                            <SimpleTooltip label='Change theme'>
-                                <Button variant='link' className={btnClasses}>
+                            {open => (
+                                <Button
+                                    variant='link'
+                                    className={btnClasses}
+                                    onClick={open}
+                                >
                                     <Paintbrush size={48} strokeWidth={2} />
                                 </Button>
-                            </SimpleTooltip>
+                            )}
                         </ThemePicker>
+                    </div>
+
+                    <div className='ps-3 md:ps-0 col-span-2 row-start-2 md:col-start-2 md:row-start-1 md:col-span-1 md:mx-auto'>
+                        <CraftedBy />
                     </div>
                 </motion.div>
             ) : null}
@@ -74,7 +79,7 @@ const Links = () => (
 );
 
 const CraftedBy = () => (
-    <div className='copy text-xs md:text-sm text-sub mt-2 font-medium text-wrap md:flex items-center gap-1'>
+    <div className='copy text-xs md:text-sm text-sub mt-2 font-medium text-wrap items-center md:inline-flex md:gap-1'>
         <div className='flex flex-nowrap'>
             <p className=''>crafted by</p>
             <a
@@ -86,7 +91,7 @@ const CraftedBy = () => (
                 Ra&uacute;l Luis.
             </a>
         </div>
-        <p className=''>
+        <p className='mt-1 md:mt-0'>
             heavily inspired by{' '}
             <a
                 href='https://monkeytype.com/'

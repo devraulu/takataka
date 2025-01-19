@@ -11,7 +11,7 @@ function Logo() {
             color: 'rgb(var(--main-color))',
             opacity: 1,
         },
-        inactive: {
+        subtle: {
             color: 'rgb(var(--sub-color))',
             opacity: 0.9,
         },
@@ -33,7 +33,7 @@ function Logo() {
     return (
         <div className='select-none'>
             <motion.div variants={smallTextVariants} animate={animate}>
-                <div className='text-sm font-bold font-sans pl-1 leading-none'>
+                <div className='text-xs md:text-sm text-sub font-bold font-sans pl-1 leading-none'>
                     keys go
                 </div>
             </motion.div>
@@ -45,7 +45,7 @@ function Logo() {
                 }}
                 onClick={newTest}
             >
-                <h1 className='text-5xl font-bold leading-none font-display'>
+                <h1 className='text-4xl md:text-5xl font-bold tracking-tight leading-none font-logo'>
                     takataka
                 </h1>
             </motion.div>

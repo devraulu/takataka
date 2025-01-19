@@ -1,5 +1,6 @@
-import { Button, ButtonProps } from '@mantine/core';
 import { FunctionComponent } from 'react';
+import { Button, ButtonProps } from '../ui/button';
+import clsx from 'clsx';
 
 interface ConfigChipProps extends ButtonProps {
     children: string | string[] | React.ReactNode;
@@ -11,15 +12,19 @@ const ConfigChip: FunctionComponent<ConfigChipProps> = ({
     checked,
     children,
     onClick,
+    className,
     ...rest
 }) => {
     return (
         <Button
-            variant='subtle'
-            compact
-            color={checked ? 'primary' : 'tertiary.6'}
-            {...rest}
+            variant='ghost'
+            className={clsx(
+                'font-bold',
+                checked ? 'text-main' : 'text-sub',
+                className,
+            )}
             onClick={onClick}
+            {...rest}
         >
             {children}
         </Button>

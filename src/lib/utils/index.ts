@@ -1,4 +1,9 @@
-import { Tuple } from '@mantine/core';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
+}
 
 export const isLetter = (char: string) => {
     return char.length === 1 && !!char.match(/[a-zA-Z]/i);
@@ -9,7 +14,7 @@ export const isSpace = (char: string) => {
 };
 
 export const isPunctuation = (char: string) => {
-    return char.length === 1 && !!char.match(/[.,\/#!$%\^&\*;:{}=\-_`~()?¡¿]/);
+    return char.length === 1 && !!char.match(/[.,/#!$%^&*;:{}=\-_`~()?¡¿]/);
 };
 
 export const isNumber = (char: string) => {
@@ -34,14 +39,14 @@ export function deepEqual(obj1: any, obj2: any): boolean {
         return false;
     }
 
-    let keys1 = Object.keys(obj1);
-    let keys2 = Object.keys(obj2);
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
 
     if (keys1.length !== keys2.length) {
         return false;
     }
 
-    for (let key of keys1) {
+    for (const key of keys1) {
         if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
             return false;
         }
@@ -54,6 +59,6 @@ export function isMobile() {
     // Logic to check if the device is a mobile device
     // You can use user-agent detection or any other method
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
+        navigator.userAgent,
     );
 }

@@ -1,4 +1,4 @@
-import { Letter, Word } from '../models/Word';
+import { Letter, Word } from '@/models/Word';
 
 export function fitsInCurrentLine(
     word: Word,
@@ -18,7 +18,7 @@ export function fitsInCurrentLine(
         0,
     );
 
-    return lineWidth + wordWidth < containerWidth;
+    return lineWidth + wordWidth <= containerWidth;
 }
 
 export function findActiveLineIndex(

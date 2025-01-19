@@ -1,0 +1,12 @@
+.rose-pine {
+    --bg-color: 31 29 39;
+    --main-color: 156 207 216;
+    --caret-color: 246 193 119;
+    --sub-color: 196 167 231;
+    --sub-alt-color: 40 37 51;
+    --text-color: 224 222 244;
+    --error-color: 235 111 146;
+    --error-extra-color: 235 188 186;
+    --colorful-error-color: 235 111 146;
+    --colorful-error-extra-color: 235 188 186;
+}

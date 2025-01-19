@@ -1,10 +1,7 @@
-import { Text, rem } from '@mantine/core';
 import { useAtomValue } from 'jotai';
 import { hasTestStartedAtom, textAtom, typedAtom } from '../atoms/typing';
 
-interface TestProgressProps {}
-
-const TestProgress: React.FunctionComponent<TestProgressProps> = () => {
+function TestProgress() {
     const text = useAtomValue(textAtom);
     const typed = useAtomValue(typedAtom);
     const hasTestStarted = useAtomValue(hasTestStartedAtom);
@@ -12,10 +9,10 @@ const TestProgress: React.FunctionComponent<TestProgressProps> = () => {
     if (!hasTestStarted) return null;
 
     return (
-        <Text size='lg' color={'primary.4'} fw={600} fz={rem(24)}>
+        <div className='text-2xl font-bold text-main'>
             {typed.length - 1}/{text.split(' ').length}
-        </Text>
+        </div>
     );
-};
+}
 
 export default TestProgress;

@@ -1,64 +1,71 @@
 import useMeasure from 'react-use-measure';
-import { Box, Flex, rem, useMantineTheme } from '@mantine/core';
-import { css } from '@emotion/react';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
 import React from 'react';
 import useTypedLog from '../hooks/useTypedLog';
+import clsx from 'clsx';
 
-interface WordsProps {}
+// TODO: Refactor rendering logic, this is a mess
+// some early thoughts:
+//
+// * Use a single ref for the container
+// * Use add data attributes to each letter to be able to query them
+// * Programmatically assign classes depending on the state
+// * Track the current letter index by its data attribute by counting the words + letters typed
+// * Find a way to reduce the amount of rerenders
 
-const Words: React.FunctionComponent<WordsProps> = ({}) => {
-    const [containerRef, { width: containerWidth }] = useMeasure({
+function Words() {
+    const [measureRef, { width: containerWidth }] = useMeasure({
         debounce: 200,
     });
-    const [fontRef, { width: fontWidth }] = useMeasure();
+
+    const [fontRef, { height: fontHeight, width: fontWidth }] = useMeasure();
     const [letterRef, { left, top }] = useMeasure();
 
-    const fz = 24;
-
     const words = useRenderWords(fontWidth, containerWidth);
-    const theme = useMantineTheme();
+    const fz = 20;
 
     useTypedLog();
 
-    const fontStyles = (
+    const getTextColor = (
         isTyped?: boolean,
         isCorrect?: boolean,
         isExtra?: boolean,
-    ) => {
-        let color = theme.colors.tertiary['5'];
+    ): React.CSSProperties => {
+        let color = 'sub-color';
 
         if (isTyped)
-            if (isCorrect) color = theme.colors.secondary['5'];
-            else color = theme.colors.red['5'];
-        if (isExtra) color = theme.colors.red['8'];
+            if (isCorrect) color = 'main-color';
+            else color = 'error-color';
+        if (isExtra) color = 'error-extra-color';
 
-        return css`
-            font-family: 'Jetbrains Mono', monospace;
-            color: ${color};
-            font-size: ${rem(fz)};
-            word-spacing: ${rem(200)};
-        `;
+        return {
+            color: `rgb(var(--${color}))`,
+        };
     };
 
     return (
-        <Box>
+        <div>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
+            {/* WARN: Is this really necessary? Since we know the font size beforehand */}
+            {/* At the moment this is used because even though the font size is fixed, the width may vary based on the weight */}
             <span
                 ref={fontRef}
-                css={css`
-                    ${fontStyles()}
-                    position: fixed;
-                    visibility: hidden;
-                `}
+                className={'fixed invisible font-mono'}
+                style={{ fontSize: fz }}
             >
                 a
             </span>
-            <Caret top={top} left={left} />
+
+            <Caret top={top} left={left} fontHeight={fontHeight} />
+
             {words.length > 0 && (
-                <Box ref={containerRef}>
-                    <Flex wrap='wrap'>
+                <div
+                    ref={measureRef}
+                    className={'focus:outline-none font-mono'}
+                    style={{ fontSize: fz }}
+                >
+                    <div className='flex flex-wrap'>
                         {words.map((elem, i) => {
                             const {
                                 word,
@@ -67,24 +74,24 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                 isComplete,
                                 isLastWordBeingTyped,
                             } = elem;
-                            const wordStyles = css`
-                                border-bottom: ${incorrectlyTypedWord
-                                        ? rem(2)
-                                        : 0}
-                                    solid ${theme.colors.red[5]};
-                                display: flex;
-                                flex-wrap: nowrap;
-                            `;
 
                             return (
                                 <div
-                                    css={css`
-                                        display: flex;
-                                        flex-wrap: nowrap;
-                                    `}
                                     key={word + i}
+                                    className='flex flex-nowrap'
                                 >
-                                    <div css={wordStyles}>
+                                    <div
+                                        className={clsx(
+                                            'flex flex-nowrap',
+                                            {
+                                                'border-b':
+                                                    incorrectlyTypedWord,
+                                            },
+                                            incorrectlyTypedWord
+                                                ? 'border-error'
+                                                : 'border-sub',
+                                        )}
+                                    >
                                         {letters.map(
                                             (
                                                 {
@@ -106,10 +113,13 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                                                     ? letterRef
                                                                     : undefined
                                                             }
-                                                            css={fontStyles(
+                                                            style={getTextColor(
                                                                 isTyped,
                                                                 isCorrect,
                                                                 isExtraLetter,
+                                                            )}
+                                                            className={clsx(
+                                                                'font-mono font-semibold ',
                                                             )}
                                                         >
                                                             {letter}
@@ -133,18 +143,18 @@ const Words: React.FunctionComponent<WordsProps> = ({}) => {
                                                 ? letterRef
                                                 : undefined
                                         }
-                                        style={{ width: fontWidth }}
+                                        className='whitespace'
                                     >
                                         &nbsp;
                                     </div>
                                 </div>
                             );
                         })}
-                    </Flex>
-                </Box>
+                    </div>
+                </div>
             )}
-        </Box>
+        </div>
     );
-};
+}
 
 export default Words;

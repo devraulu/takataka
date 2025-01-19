@@ -1,57 +1,41 @@
-import { Box, Text, Title, rem, useMantineTheme } from '@mantine/core';
 import useResetTest from '../hooks/useResetTest';
-import useIsTestFinished from '../hooks/useIsTestFinished';
-import { useAtomValue } from 'jotai';
-import { hasTestStartedAtom } from '../atoms/typing';
 import { motion } from 'motion/react';
+import useIsTestActive from '@/hooks/useIsTestActive';
 
-interface LogoProps {}
-
-const Logo: React.FunctionComponent<LogoProps> = () => {
-    const hasTestStarted = useAtomValue(hasTestStartedAtom);
+function Logo() {
     const { newTest } = useResetTest();
-    const theme = useMantineTheme();
-    theme.colors[theme.primaryColor];
-    const isTestFinished = useIsTestFinished();
-
-    const showAnimation = hasTestStarted && !isTestFinished;
+    const isTestActive = useIsTestActive();
 
     const mainTextVariants = {
         active: {
+            color: 'rgb(var(--main-color))',
             opacity: 1,
-            color: theme.colors.secondary['5'],
         },
-        inactive: {
-            opacity: 0.5,
-            color: theme.colors.tertiary['5'],
+        subtle: {
+            color: 'rgb(var(--sub-color))',
+            opacity: 0.9,
         },
     };
 
     const smallTextVariants = {
         active: {
+            color: 'rgb(var(--text-color))',
             opacity: 1,
-            color: theme.colors.secondary['5'],
         },
-        inactive: {
+        subtle: {
+            color: 'rgb(var(--text-color))',
             opacity: 0,
         },
     };
 
-    const animate = showAnimation ? 'inactive' : 'active';
+    const animate = isTestActive ? 'subtle' : 'active';
 
     return (
-        <Box className='select-none'>
+        <div className='select-none'>
             <motion.div variants={smallTextVariants} animate={animate}>
-                <Text
-                    fz={rem(12)}
-                    fw={600}
-                    sx={{ fontFamily: 'Montserrat, sans-serif' }}
-                    pl='xs'
-                    opacity={0.6}
-                    color={'tertiary'}
-                >
+                <div className='text-xs md:text-sm text-sub font-bold font-sans pl-1 leading-none'>
                     keys go
-                </Text>
+                </div>
             </motion.div>
             <motion.div
                 variants={mainTextVariants}
@@ -61,20 +45,12 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
                 }}
                 onClick={newTest}
             >
-                <Title
-                    order={1}
-                    fz={rem(50)}
-                    lh={0.8}
-                    fw={600}
-                    sx={{
-                        fontFamily: 'Poppins, sans-serif',
-                    }}
-                >
+                <h1 className='text-4xl md:text-5xl font-bold tracking-tight leading-none font-logo'>
                     takataka
-                </Title>
+                </h1>
             </motion.div>
-        </Box>
+        </div>
     );
-};
+}
 
 export default Logo;

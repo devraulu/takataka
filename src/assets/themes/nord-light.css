@@ -1,0 +1,12 @@
+.nord-light {
+    --bg-color: 236 239 244;
+    --caret-color: 143 188 187;
+    --main-color: 143 188 187;
+    --sub-color: 106 119 145;
+    --sub-alt-color: 216 222 233;
+    --text-color: 143 188 187;
+    --error-color: 191 97 106;
+    --error-extra-color: 121 62 68;
+    --colorful-error-color: 191 97 106;
+    --colorful-error-extra-color: 121 62 68;
+}

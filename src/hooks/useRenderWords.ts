@@ -3,7 +3,7 @@ import {
     findActiveLineIndex,
     fitsInCurrentLine,
     checkWords,
-} from '../utils/words';
+} from '@/lib/utils/words';
 import { Word } from '../models/Word';
 import { useAtomValue } from 'jotai';
 import { textAtom, typedAtom } from '../atoms/typing';
@@ -27,7 +27,7 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
                 fitsInCurrentLine(item, currentLine, fontWidth, containerWidth)
             ) {
                 currentLine.push(item);
-                return [...acc.slice(0, acc.length - 1), currentLine];
+                return [...acc.slice(0, -1), currentLine];
             } else return [...acc, [item]];
         },
         [[]],

@@ -1,10 +1,10 @@
-import { notifications } from '@mantine/notifications';
 import useResetTest from './useResetTest';
 import { useIdle, useTimeout } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { hasTestStartedAtom, typedAtom } from '../atoms/typing';
 import { showResultsAtom } from '../atoms/results';
+import { toast } from 'sonner';
 
 function useCheckAFK() {
     const typed = useAtomValue(typedAtom);
@@ -16,22 +16,19 @@ function useCheckAFK() {
     const afk = useIdle(1000, { initialState: false });
 
     const { start, clear } = useTimeout(() => {
-        console.log('afk detected');
-        notifications.show({
-            title: 'AFK Detected',
-            message: 'Test stopped because user is AFK',
-            color: 'red.5',
-            autoClose: false,
-            withCloseButton: true,
+        toast.error('AFK Detected', {
+            description: 'Test stopped because user is AFK',
         });
         reset();
-    }, 20 * 1000);
+    }, 8 * 1000);
 
     useEffect(() => {
         // console.log('afk', afk, run);
-        if (run && afk) start();
-        else clear();
-    }, [run, typed, afk]);
+        if (run && afk) {
+            start();
+        } else clear();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [run, typed.length, afk]);
 }
 
 export default useCheckAFK;

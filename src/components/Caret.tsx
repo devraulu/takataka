@@ -1,26 +1,33 @@
-import { rem, useMantineTheme } from '@mantine/core';
+import useIsTestActive from '@/hooks/useIsTestActive';
+import clsx from 'clsx';
 import { motion } from 'motion/react';
 
 interface CaretProps {
+    fontHeight: number;
     top: number;
     left: number;
 }
 
-const Caret: React.FunctionComponent<CaretProps> = ({ top, left }) => {
-    const theme = useMantineTheme();
-
+const Caret: React.FunctionComponent<CaretProps> = ({
+    top,
+    left,
+    fontHeight,
+}) => {
+    const testActive = useIsTestActive();
     return (
         <motion.div
+            className={clsx('fixed bg-caret', {
+                'animate-blink': !testActive,
+            })}
             style={{
-                background: theme.colors.primary['6'],
-                width: rem(2),
-                height: rem(34),
-                position: 'fixed',
+                width: 2.5,
+                height: fontHeight - 6,
             }}
             animate={{
-                left, top,
+                left,
+                top,
             }}
-            transition={{duration: .1}}
+            transition={{ duration: 0.1 }}
         />
     );
 };

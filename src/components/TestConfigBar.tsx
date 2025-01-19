@@ -1,76 +1,86 @@
-import { Group, MediaQuery, Space, rem, useMantineTheme } from '@mantine/core';
 import ConfigChip from './common/ConfigChip';
-import { At, Hash } from 'tabler-icons-react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
     handleToggleNumbers,
     handleTogglePunctuation,
     handleTestSize,
     testConfigurationAtom,
-    createNewTestAtom,
 } from '../atoms/test_configuration';
-import { hasTestStartedAtom } from '../atoms/typing';
-import { useEffect } from 'react';
+import clsx from 'clsx';
+import { AtSign, Hash } from 'lucide-react';
+import useIsTestActive from '@/hooks/useIsTestActive';
+import * as motion from 'motion/react-client';
+import { showAfkOverlayAtom } from '@/atoms/ui';
 
-interface TestConfigBarProps {}
-
-const TestConfigBar: React.FunctionComponent<TestConfigBarProps> = () => {
+function TestConfigBar() {
     const { punctuation, numbers, testSize } = useAtomValue(
         testConfigurationAtom,
     );
-    const theme = useMantineTheme();
 
     const toggleNumbers = useSetAtom(handleToggleNumbers);
     const togglePunctuation = useSetAtom(handleTogglePunctuation);
     const setTestSize = useSetAtom(handleTestSize);
-    const hasTestStarted = useAtomValue(hasTestStartedAtom);
+    const isTestActive = useIsTestActive();
     const sizes = [10, 25, 50, 100];
 
-    const createNewTest = useSetAtom(createNewTestAtom);
-    useEffect(() => {
-        createNewTest();
-    }, []);
+    const setShowAfkOverlay = useSetAtom(showAfkOverlayAtom);
+
+    const variants = {
+        active: {
+            opacity: 1,
+            translateX: '0',
+        },
+        inactive: {
+            opacity: 0,
+            translateX: '100%',
+        },
+    };
 
     return (
-        <Group
-            position='center'
-            sx={{
-                visibility: hasTestStarted ? 'hidden' : 'initial',
-            }}
-            bg={theme.colors.background[6]}
+        <motion.div
+            animate={!isTestActive ? 'active' : 'inactive'}
+            variants={variants}
+            className={clsx(
+                'inline-flex mx-auto items-center bg-sub-alt md:gap-2 rounded-md',
+                {
+                    'pointer-events-none': isTestActive,
+                },
+            )}
+            onClick={() => setShowAfkOverlay(false)}
         >
-            <Group position='center'>
+            <div className='flex justify-center'>
                 <ConfigChip
                     checked={punctuation}
                     onClick={togglePunctuation}
-                    leftIcon={<At size={14} strokeWidth={2} />}
+                    className='text-xs md:text-sm'
                 >
-                    punctuation
+                    <AtSign className='stroke-3 size-3' />
+                    <span className='hidden md:block'>punctuation</span>
                 </ConfigChip>
                 <ConfigChip
                     checked={numbers}
                     onClick={toggleNumbers}
-                    leftIcon={<Hash size={14} strokeWidth={2} />}
+                    className='text-xs md:text-sm'
                 >
-                    numbers
+                    <Hash className='stroke-3 size-3' />
+                    <span className='hidden md:block'>numbers</span>
                 </ConfigChip>
-            </Group>
-            <MediaQuery smallerThan={'xs'} styles={{ display: 'none' }}>
-                <Space w='xl' />
-            </MediaQuery>
-            <Group position='center'>
+            </div>
+            <span className='h-1 w-1 bg-main opacity-75 rounded-full mx-2'></span>
+            <div className='flex justify-center'>
                 {sizes.map(s => (
                     <ConfigChip
                         key={'test-size-' + s}
                         checked={testSize == s}
                         onClick={() => setTestSize(s)}
+                        className='text-xs md:text-sm'
                     >
                         {s}
                     </ConfigChip>
                 ))}
-            </Group>
-        </Group>
+            </div>
+        </motion.div>
     );
-};
+}
 
 export default TestConfigBar;

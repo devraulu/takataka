@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import useMobileTrigger from '../hooks/useMobileTrigger';
-import { isMobile } from '../utils';
 import useTyping from '../hooks/useTyping';
-import { Box, Group } from '@mantine/core';
 import AfkOverlay from './AfkOverlay';
 import RetryButton from './RetryButton';
 import TestConfigBar from './TestConfigBar';
@@ -11,11 +9,20 @@ import Words from './Words';
 import useCheckAFK from '../hooks/useCheckAFK';
 import { useSetAtom } from 'jotai';
 import { closeAfkOverlayAtom } from '../atoms/ui';
+import { isMobile } from '@/lib/utils';
+import { wordsContainerRefAtom } from '@/atoms/typing';
 
 export default function TestContainer() {
     const { handleKeys: handleKeyEvent } = useTyping();
     const { inputRef, isInputFocused, triggerTouchKeyboard } =
         useMobileTrigger();
+
+    const setContainerRef = useSetAtom(wordsContainerRefAtom);
+
+    useEffect(() => {
+        setContainerRef(inputRef);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inputRef]);
 
     const closeOverlay = useSetAtom(closeAfkOverlayAtom);
 
@@ -24,13 +31,16 @@ export default function TestContainer() {
         closeOverlay();
     };
 
-    const handleKeys = (event: KeyboardEvent) => {
-        if (isMobile() && !isInputFocused()) {
-            triggerTouchKeyboard();
-        }
+    const handleKeys = useCallback(
+        (event: KeyboardEvent) => {
+            if (isMobile() && !isInputFocused()) {
+                triggerTouchKeyboard();
+            }
 
-        handleKeyEvent(event);
-    };
+            handleKeyEvent(event);
+        },
+        [handleKeyEvent, isInputFocused, triggerTouchKeyboard],
+    );
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeys);
@@ -44,8 +54,13 @@ export default function TestContainer() {
 
     return (
         <>
-            <TestConfigBar />
-            <Box mt='md' onClick={handleTouch}>
+            <div className='row-span-1 col-[content] mx-auto'>
+                <TestConfigBar />
+            </div>
+            <div
+                className='row-span-1 col-[content] mt-4'
+                onClick={handleTouch}
+            >
                 {isMobile() && (
                     <div>
                         <input
@@ -56,18 +71,20 @@ export default function TestContainer() {
                                 position: 'absolute',
                                 top: '-9999px',
                             }}
+                            autoFocus
+                            tabIndex={1}
                         />
                     </div>
                 )}
-                <Group mt='md' align='center'>
+                <div className='md:mt-4 gap-2 flex items-center'>
                     <TestProgress />
                     <RetryButton />
-                </Group>
-                <Box sx={{ position: 'relative' }} p='md' mt='sm'>
+                </div>
+                <div className='relative p-4 mt-3'>
                     <AfkOverlay handleTouch={handleTouch} />
                     <Words />
-                </Box>
-            </Box>
+                </div>
+            </div>
         </>
     );
 }

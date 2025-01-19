@@ -14,6 +14,7 @@ function Footer() {
     const active = useIsTestActive();
 
     useEffect(() => {}, [active]);
+
     return (
         <AnimatePresence>
             {!active ? (
@@ -104,4 +105,5 @@ const CraftedBy = () => (
         </p>
     </div>
 );
+
 export default Footer;

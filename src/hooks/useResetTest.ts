@@ -15,11 +15,8 @@ const useResetTest = () => {
     const setTypedLog = useSetAtom(typedLogAtom);
     const setHistory = useSetAtom(historyAtom);
     const setLastTestLog = useSetAtom(lastTestLogsAtom);
-
     const setResults = useSetAtom(showResultsAtom);
-
     const resetBtnRef = useAtomValue(resetBtnRefAtom);
-
     const createNewTest = useSetAtom(createNewTestAtom);
 
     const reset = () => {

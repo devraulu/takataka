@@ -1,5 +1,6 @@
 import { atom } from 'jotai';
 import Log from '../models/Log';
+import { showResultsAtom } from './results';
 
 export const INITIAL_TYPED = [''];
 export const typedAtom = atom(INITIAL_TYPED);
@@ -24,3 +25,11 @@ export const appendHistoryAtom = atom(null, (_, set, update: string) =>
 export const hasTestStartedAtom = atom(get => get(typedLogAtom).length > 0);
 
 export const testLostFocusAtom = atom(false);
+
+export const resetTestAtom = atom(null, (_, set) => {
+    set(typedAtom, INITIAL_TYPED);
+    set(historyAtom, []);
+    set(showResultsAtom, false);
+    set(lastTestLogsAtom, []);
+    set(typedLogAtom, []);
+});

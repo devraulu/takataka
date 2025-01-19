@@ -61,21 +61,19 @@ export default function TestContainer() {
                 className='row-span-1 col-[content] mt-4'
                 onClick={handleTouch}
             >
-                {isMobile() && (
-                    <div>
-                        <input
-                            ref={inputRef}
-                            type='text'
-                            style={{
-                                opacity: 0,
-                                position: 'absolute',
-                                top: '-9999px',
-                            }}
-                            autoFocus
-                            tabIndex={1}
-                        />
-                    </div>
-                )}
+                <div>
+                    <input
+                        ref={inputRef}
+                        type='text'
+                        style={{
+                            opacity: 0,
+                            position: 'absolute',
+                            top: '-9999px',
+                        }}
+                        autoFocus
+                        tabIndex={1}
+                    />
+                </div>
                 <div className='md:mt-4 gap-2 flex items-center'>
                     <TestProgress />
                     <RetryButton />

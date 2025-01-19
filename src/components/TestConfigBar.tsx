@@ -5,7 +5,7 @@ import {
     handleTogglePunctuation,
     handleTestSize,
     testConfigurationAtom,
-} from '../atoms/test_configuration';
+} from '@/atoms/test_configuration';
 import clsx from 'clsx';
 import { AtSign, Hash } from 'lucide-react';
 import useIsTestActive from '@/hooks/useIsTestActive';
@@ -20,8 +20,10 @@ function TestConfigBar() {
     const toggleNumbers = useSetAtom(handleToggleNumbers);
     const togglePunctuation = useSetAtom(handleTogglePunctuation);
     const setTestSize = useSetAtom(handleTestSize);
-    const isTestActive = useIsTestActive();
+
     const sizes = [10, 25, 50, 100];
+
+    const isTestActive = useIsTestActive();
 
     const setShowAfkOverlay = useSetAtom(showAfkOverlayAtom);
 
@@ -51,7 +53,9 @@ function TestConfigBar() {
             <div className='flex justify-center'>
                 <ConfigChip
                     checked={punctuation}
-                    onClick={togglePunctuation}
+                    onClick={() => {
+                        togglePunctuation();
+                    }}
                     className='text-xs md:text-sm'
                 >
                     <AtSign className='stroke-3 size-3' />

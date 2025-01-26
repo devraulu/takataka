@@ -36,6 +36,7 @@ function RetryButton() {
             variant='ghost'
             size={'icon'}
             tabIndex={2}
+            aria-label='Restart test'
         >
             <Repeat2 strokeWidth={3} className='!size-6' />
         </Button>

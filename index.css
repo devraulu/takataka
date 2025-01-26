@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --bg-color: 23.75% 0.0192 294.06;
+        --main-color: 82.19% 0.0543 209.56;
+        --caret-color: 84.29% 0.11 74.6;
+        --sub-color: 77.6% 0.0945 304.99;
+        --sub-alt-color: 27.4% 0.0259 294.45;
+        --text-color: 90.88% 0.0299 289.97;
+        --error-color: 69.77% 0.1565 4.22;
+        --error-extra-color: 83.63% 0.0544 21.14;
+        --colorful-error-color: 69.77% 0.1565 4.22;
+        --colorful-error-extra-color: 83.63% 0.0544 21.14;
+
+        --card: 100% 0 106.37;
+        --card-foreground: 14.05% 0.0044 285.82;
+        --popover: 100% 0 106.37;
+        --popover-foreground: 14.05% 0.0044 285.82;
+        --primary: 21.03% 0.0059 285.88;
+        --primary-foreground: 98.48% 0 0;
+        --secondary: 96.76% 0.0013 286.38;
+        --secondary-foreground: 21.03% 0.0059 285.88;
+        --muted: 96.76% 0.0013 286.38 240 4.8% 95.9%;
+        --muted-foreground: 55.19% 0.0137 285.94;
+        --accent: 96.76% 0.0013 286.38;
+        --accent-foreground: 21.03% 0.0059 285.88;
+        --destructive: 63.68% 0.2078 25.33;
+        --destructive-foreground: 98.48% 0 0;
+        --border: 21.03% 0.0059 285.88;
+        --input: 21.03% 0.0059 285.88;
+        --ring: 14.05% 0.0044 285.82;
+        --chart-1: 67.72% 0.1571 35.19;
+        --chart-2: 63.09% 0.1013 183.49;
+        --chart-3: 37.87% 0.044 225.54;
+        --chart-4: 83.36% 0.1186 88.15;
+        --chart-5: 78.34% 0.1261 58.75;
+        --radius: 0.5rem;
+    }
+
+    * {
+        border-color: oklch(--border);
+    }
+    body {
+        background-color: oklch(--bg-color);
+        color: oklch(--text-color);
+    }
+}
+
+@layer components {
+    .link {
+        text-decoration-style: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    .link:hover {
+        color: oklch(--text-color);
+    }
+}
+
+@layer utilities {
+    .font-variation-mono {
+        font-variation-settings: 'MONO' 1;
+    }
+
+    .font-variation-casual {
+        font-variation-settings: 'CASL' 1;
+    }
+
+    .font-variation-slant {
+        font-variation-settings: 'slnt' 1;
+    }
+
+    .content-grid {
+        --padding-inline: 2rem;
+        --content-max-width: 1280px;
+        grid-template-columns:
+            [full-width-start]
+            minmax(0, var(--padding-inline)) [full-width-padding-start]
+            minmax(0, 1fr) [content-start]
+            min(100% - var(--padding-inline) * 2, var(--content-max-width))
+            [content-end] minmax(0, 1fr) [full-width-padding-end]
+            minmax(0, var(--padding-inline)) [full-width-end];
+    }
+}

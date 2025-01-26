@@ -23,7 +23,7 @@ function Words() {
     const [letterRef, { left, top }] = useMeasure();
 
     const words = useRenderWords(fontWidth, containerWidth);
-    const fz = 20;
+    const fz = 24;
 
     useTypedLog();
 
@@ -40,18 +40,18 @@ function Words() {
         if (isExtra) color = 'error-extra-color';
 
         return {
-            color: `rgb(var(--${color}))`,
+            color: `oklch(var(--${color}))`,
         };
     };
 
     return (
-        <div>
+        <div className='font-variation-mono'>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
             {/* WARN: Is this really necessary? Since we know the font size beforehand */}
             {/* At the moment this is used because even though the font size is fixed, the width may vary based on the weight */}
             <span
                 ref={fontRef}
-                className={'fixed invisible font-mono'}
+                className={'fixed invisible '}
                 style={{ fontSize: fz }}
             >
                 a
@@ -62,7 +62,7 @@ function Words() {
             {words.length > 0 && (
                 <div
                     ref={measureRef}
-                    className={'focus:outline-none font-mono'}
+                    className={'focus:outline-none '}
                     style={{ fontSize: fz }}
                 >
                     <div className='flex flex-wrap'>
@@ -119,7 +119,7 @@ function Words() {
                                                                 isExtraLetter,
                                                             )}
                                                             className={clsx(
-                                                                'font-mono font-semibold ',
+                                                                ' font-semibold ',
                                                             )}
                                                         >
                                                             {letter}

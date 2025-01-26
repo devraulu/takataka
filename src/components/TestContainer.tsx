@@ -72,6 +72,7 @@ export default function TestContainer() {
                         }}
                         autoFocus
                         tabIndex={1}
+                        aria-label='Type here'
                     />
                 </div>
                 <div className='md:mt-4 gap-2 flex items-center'>

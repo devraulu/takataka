@@ -57,6 +57,7 @@ function TestConfigBar() {
                         togglePunctuation();
                     }}
                     className='text-xs md:text-sm'
+                    aria-label={`Punctuation: ${punctuation ? 'on' : 'off'}`}
                 >
                     <AtSign className='stroke-3 size-3' />
                     <span className='hidden md:block'>punctuation</span>
@@ -65,6 +66,7 @@ function TestConfigBar() {
                     checked={numbers}
                     onClick={toggleNumbers}
                     className='text-xs md:text-sm'
+                    aria-label={`Numbers: ${numbers ? 'on' : 'off'}`}
                 >
                     <Hash className='stroke-3 size-3' />
                     <span className='hidden md:block'>numbers</span>
@@ -78,6 +80,7 @@ function TestConfigBar() {
                         checked={testSize == s}
                         onClick={() => setTestSize(s)}
                         className='text-xs md:text-sm'
+                        aria-label={`Test size: ${s}`}
                     >
                         {s}
                     </ConfigChip>

@@ -6,8 +6,9 @@ import Providers from './components/Providers';
 import { useAtomValue } from 'jotai';
 import { themeAtom } from './atoms/ui';
 
+import '@/assets/fonts.css';
 import '@/assets/themes/themes.css';
-import './App.css';
+import '../index.css';
 
 function App() {
     const theme = useAtomValue(themeAtom);

@@ -1,6 +1,5 @@
 import { Asterisk, Github, Mail, Paintbrush } from 'lucide-react';
-import { AnimatePresence } from 'motion/react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import clsx from 'clsx';
 import useIsTestActive from '@/hooks/useIsTestActive';
 import { useEffect } from 'react';

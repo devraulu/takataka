@@ -29,7 +29,7 @@ function RetryButton() {
             onClick={() => {
                 newTest();
                 if (document.activeElement !== wordsContainerRef?.current) {
-                    wordsContainerRef?.current?.focus();
+                    wordsContainerRef?.current?.focus({ preventScroll: true });
                     setTestLostFocus(false);
                 }
             }}

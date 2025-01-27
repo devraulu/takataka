@@ -20,7 +20,7 @@ function TypingApp() {
     );
 
     return (
-        <div className={'grid grid-rows-[1fr_auto] gap-y-8 content-grid'}>
+        <div className={'grid grid-rows-[1fr_auto] content-grid'}>
             <Suspense fallback={<div>Loading...</div>}>
                 {showResults ? <Results /> : <TestContainer />}
             </Suspense>

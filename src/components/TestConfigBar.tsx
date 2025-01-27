@@ -9,7 +9,7 @@ import {
 import clsx from 'clsx';
 import { AtSign, Hash } from 'lucide-react';
 import useIsTestActive from '@/hooks/useIsTestActive';
-import * as motion from 'motion/react-client';
+import { motion } from 'motion/react';
 import { showAfkOverlayAtom } from '@/atoms/ui';
 
 function TestConfigBar() {

@@ -76,6 +76,8 @@
     .content-grid {
         --padding-inline: 2rem;
         --content-max-width: 1280px;
+
+        display: grid;
         grid-template-columns:
             [full-width-start]
             minmax(0, var(--padding-inline)) [full-width-padding-start]
@@ -83,5 +85,24 @@
             min(100% - var(--padding-inline) * 2, var(--content-max-width))
             [content-end] minmax(0, 1fr) [full-width-padding-end]
             minmax(0, var(--padding-inline)) [full-width-end];
+        row-gap: 3rem;
+    }
+
+    .layout-grid {
+        display: grid;
+        grid-template-rows: [top-start] auto [content-start] 1fr [content-end] auto [top-end];
+
+        min-height: 100dvh;
+        row-gap: 3rem;
+        overflow: hidden;
+    }
+
+    @media (max-height: 500px) {
+        .layout-grid {
+            row-gap: 1rem;
+        }
+        .content-grid {
+            row-gap: 1rem;
+        }
     }
 }

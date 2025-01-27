@@ -9,7 +9,7 @@ function useMobileTrigger() {
 
     const triggerTouchKeyboard = () => {
         if (inputRef.current) {
-            inputRef.current.focus();
+            inputRef.current.focus({ preventScroll: true });
         }
     };
 

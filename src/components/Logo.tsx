@@ -9,11 +9,9 @@ function Logo() {
 
     const mainTextVariants = {
         active: {
-            color: 'oklch(var(--main-color))',
             opacity: 1,
         },
         subtle: {
-            color: 'oklch(var(--sub-color))',
             opacity: 0.9,
         },
     };
@@ -46,7 +44,12 @@ function Logo() {
                 }}
                 onClick={newTest}
             >
-                <h1 className='font-variation-slant text-4xl md:text-5xl font-bold tracking-tight leading-none'>
+                <h1
+                    className={clsx(
+                        'font-variation-slant text-4xl md:text-5xl font-bold tracking-tight leading-none transition-colors duration-200 text-main',
+                        isTestActive && 'text-sub',
+                    )}
+                >
                     takataka
                 </h1>
             </motion.div>

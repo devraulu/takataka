@@ -1,12 +1,12 @@
 .dracula {
-    --bg-color: 40 42 54;
-    --main-color: 189 147 249;
-    --caret-color: 189 147 249;
-    --sub-color: 98 114 164;
-    --sub-alt-color: 32 34 44;
-    --text-color: 248 248 242;
-    --error-color: 255 85 85;
-    --error-extra-color: 241 250 140;
-    --colorful-error-color: 255 85 85;
-    --colorful-error-extra-color: 241 250 140;
+    --bg-color: 28.82% 0.0221 277.51;
+    --main-color: 74.2% 0.1485 301.88;
+    --caret-color: 74.2% 0.1485 301.88;
+    --sub-color: 55.98% 0.0803 270.09;
+    --sub-alt-color: 25.44% 0.0191 276.1;
+    --text-color: 97.75% 0.0079 106.55;
+    --error-color: 68.22% 0.2063 24.43;
+    --error-extra-color: 95.53% 0.1342 112.76;
+    --colorful-error-color: 68.22% 0.2063 24.43;
+    --colorful-error-extra-color: 95.53% 0.1342 112.76;
 }

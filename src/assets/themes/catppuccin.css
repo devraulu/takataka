@@ -1,12 +1,12 @@
 .catppuccin {
-    --bg-color: 30 30 46;
-    --caret-color: 242 205 205;
-    --main-color: 203 166 247;
-    --sub-color: 127 132 156;
-    --sub-alt-color: 24 24 37;
-    --text-color: 205 214 244;
-    --error-color: 243 139 168;
-    --error-extra-color: 235 160 172;
-    --colorful-error-color: 243 139 168;
-    --colorful-error-extra-color: 235 160 172;
+    --bg-color: 24.29% 0.0304 283.91;
+    --caret-color: 87.97% 0.0418 17.98;
+    --main-color: 78.71% 0.1187 304.77;
+    --sub-color: 65.76% 0.0367 276;
+    --sub-alt-color: 26.55% 0.0254 284.06;
+    --text-color: 87.87% 0.0426 272.28;
+    --error-color: 75.56% 0.1297 2.76;
+    --error-extra-color: 78.21% 0.0903 8.85;
+    --colorful-error-color: 75.56% 0.1297 2.76;
+    --colorful-error-extra-color: 78.21% 0.0903 8.85;
 }

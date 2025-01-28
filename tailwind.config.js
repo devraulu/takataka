@@ -6,10 +6,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                // display: ['Badeen Display', 'system-ui', 'ui-serif'],
-                sans: ['"Montserrat"', ...defaultTheme.fontFamily.sans],
-                mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
-                logo: ['"Montserrat Alternates"', 'system-ui'],
+                sans: ['"Recursive Variable"', ...defaultTheme.fontFamily.sans],
+                mono: ['"Recursive Variable"', ...defaultTheme.fontFamily.mono],
             },
             animation: {
                 blink: 'blink 1s ease-out infinite',
@@ -31,48 +29,48 @@ export default {
                 sm: 'calc(var(--radius) - 4px)',
             },
             colors: {
-                background: 'rgb(var(--bg-color))',
-                foreground: 'rgb(var(--main-color))',
-                main: 'rgb(var(--main-color))',
-                caret: 'rgb(var(--caret-color))',
+                background: 'oklch(var(--bg-color))',
+                foreground: 'oklch(var(--main-color))',
+                main: 'oklch(var(--main-color))',
+                caret: 'oklch(var(--caret-color))',
 
-                sub: 'rgb(var(--sub-color))',
-                'sub-alt': 'rgb(var(--sub-alt-color))',
+                sub: 'oklch(var(--sub-color))',
+                'sub-alt': 'oklch(var(--sub-alt-color))',
 
-                text: 'rgb(var(--text-color))',
+                text: 'oklch(var(--text-color))',
 
-                error: 'rgb(var(--error-color))',
-                'error-extra': 'rgb(var(--error-extra-color))',
+                error: 'oklch(var(--error-color))',
+                'error-extra': 'oklch(var(--error-extra-color))',
 
-                'colorful-error': 'rgb(var(--colorful-error-color))',
+                'colorful-error': 'oklch(var(--colorful-error-color))',
                 'colorful-error-extra':
-                    'rgb(var(--colorful-error-extra-color))',
+                    'oklch(var(--colorful-error-extra-color))',
 
                 card: {
-                    DEFAULT: 'hsl(var(--card))',
-                    foreground: 'hsl(var(--card-foreground))',
+                    DEFAULT: 'oklch(var(--card))',
+                    foreground: 'oklch(var(--card-foreground))',
                 },
                 popover: {
-                    DEFAULT: 'hsl(var(--popover))',
-                    foreground: 'hsl(var(--popover-foreground))',
+                    DEFAULT: 'oklch(var(--popover))',
+                    foreground: 'oklch(var(--popover-foreground))',
                 },
                 muted: {
-                    DEFAULT: 'hsl(var(--muted))',
-                    foreground: 'hsl(var(--muted-foreground))',
+                    DEFAULT: 'oklch(var(--muted))',
+                    foreground: 'oklch(var(--muted-foreground))',
                 },
                 accent: {
-                    DEFAULT: 'hsl(var(--accent))',
-                    foreground: 'hsl(var(--accent-foreground))',
+                    DEFAULT: 'oklch(var(--accent))',
+                    foreground: 'oklch(var(--accent-foreground))',
                 },
-                border: 'hsl(var(--border))',
-                input: 'hsl(var(--input))',
-                ring: 'hsl(var(--ring))',
+                border: 'oklch(var(--border))',
+                input: 'oklch(var(--input))',
+                ring: 'oklch(var(--ring))',
                 chart: {
-                    1: 'hsl(var(--chart-1))',
-                    2: 'hsl(var(--chart-2))',
-                    3: 'hsl(var(--chart-3))',
-                    4: 'hsl(var(--chart-4))',
-                    5: 'hsl(var(--chart-5))',
+                    1: 'oklch(var(--chart-1))',
+                    2: 'oklch(var(--chart-2))',
+                    3: 'oklch(var(--chart-3))',
+                    4: 'oklch(var(--chart-4))',
+                    5: 'oklch(var(--chart-5))',
                 },
             },
         },

@@ -22,19 +22,19 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
     const chartConfig = {
         second: {
             label: 'second',
-            color: 'rgb(var(--sub-color))',
+            color: 'oklch(var(--sub-color))',
         },
         rawWpm: {
             label: 'raw',
-            color: 'rgb(var(--sub-color))',
+            color: 'oklch(var(--sub-color))',
         },
         errors: {
             label: 'errors',
-            color: 'rgb(var(--error-color))',
+            color: 'oklch(var(--error-color))',
         },
         avgWpm: {
             label: 'avg',
-            color: 'rgb(var(--main_color))',
+            color: 'oklch(var(--main_color))',
         },
     } satisfies ChartConfig;
 
@@ -50,7 +50,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                 }))}
                 accessibilityLayer
                 margin={{
-                    left: -20,
+                    left: 0,
                     right: 12,
                 }}
             >
@@ -95,20 +95,20 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     yAxisId='left'
                     dataKey='rawWpm'
                     type={'natural'}
-                    fill={'rgba(var(--sub-color) / 0.4)'}
-                    stroke={'rgba(var(--sub-color))'}
+                    fill={'oklch(var(--sub-color) / 0.4)'}
+                    stroke={'oklch(var(--sub-color))'}
                 />
                 <Area
                     yAxisId='left'
                     dataKey='avgWpm'
                     type={'natural'}
-                    fill={'rgba(var(--main-color) / 0.2)'}
-                    stroke={'rgba(var(--main-color))'}
+                    fill={'oklch(var(--main-color) / 0.2)'}
+                    stroke={'oklch(var(--main-color))'}
                 />
                 <Scatter
                     yAxisId='right'
                     dataKey='errors'
-                    fill={'rgba(var(--error-color))'}
+                    fill={'oklch(var(--error-color))'}
                 />
             </ComposedChart>
         </ChartContainer>

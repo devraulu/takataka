@@ -1,12 +1,11 @@
-import ThemePicker from '../ThemePicker';
-import { Button } from '../ui/button';
 import { Asterisk, Github, Mail, Paintbrush } from 'lucide-react';
-import SimpleTooltip from '../ui/simple-tooltip';
-import { AnimatePresence } from 'motion/react';
-import * as motion from 'motion/react-client';
+import { AnimatePresence, motion } from 'motion/react';
 import clsx from 'clsx';
 import useIsTestActive from '@/hooks/useIsTestActive';
 import { useEffect } from 'react';
+import ThemePicker from './ThemePicker';
+import { Button } from './ui/button';
+import SimpleTooltip from './ui/simple-tooltip';
 
 const btnClasses = 'text-sub hover:text-text';
 
@@ -37,6 +36,7 @@ function Footer() {
                                     variant='link'
                                     className={btnClasses}
                                     onClick={open}
+                                    aria-label='Change theme'
                                 >
                                     <Paintbrush size={48} strokeWidth={2} />
                                 </Button>
@@ -58,7 +58,12 @@ const Links = () => (
         <SimpleTooltip
             label='GitHub'
             children={
-                <Button variant='link' className={btnClasses} asChild>
+                <Button
+                    variant='link'
+                    className={btnClasses}
+                    asChild
+                    aria-label="GitHub's repository"
+                >
                     <a
                         href='https://github.com/devraulu/takataka'
                         target='_blank'
@@ -70,7 +75,12 @@ const Links = () => (
             }
         />
         <SimpleTooltip label='Contact me'>
-            <Button variant='link' className={btnClasses} asChild>
+            <Button
+                variant='link'
+                className={btnClasses}
+                asChild
+                aria-label='Contact me via email'
+            >
                 <a href='mailto:me@rauluis.com'>
                     <Mail size={48} strokeWidth={2} />
                 </a>
@@ -80,7 +90,7 @@ const Links = () => (
 );
 
 const CraftedBy = () => (
-    <div className='copy text-xs md:text-sm text-sub mt-2 font-medium text-wrap items-center md:inline-flex md:gap-1'>
+    <div className='copy text-xs md:text-sm text-sub mt-2 text-wrap items-center md:inline-flex md:gap-1'>
         <div className='flex flex-nowrap'>
             <p className=''>crafted by</p>
             <a

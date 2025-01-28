@@ -1,6 +1,5 @@
 import { WpmErrorLog } from '../models/Log';
 import { useEffect, useState } from 'react';
-import ResultsChart from './ResultsChart';
 import Stats from '../models/Stats';
 import StatsInfo from './StatsInfo';
 import useResetTest from '../hooks/useResetTest';
@@ -11,8 +10,8 @@ import { calculateStats, computeWpmAndErrors } from '@/lib/utils/results';
 import SimpleTooltip from './ui/simple-tooltip';
 import { ArrowRight, Repeat2 } from 'lucide-react';
 import { Button } from './ui/button';
+import ResultsChart from './ResultsChart';
 
-// TODO: Fix mobile view of results, handle different breakpoints
 function Results() {
     const lastTestLogs = useAtomValue(lastTestLogsAtom);
     const [chartData, setChartData] = useState<WpmErrorLog[]>([]);
@@ -51,6 +50,7 @@ function Results() {
                             onClick={newTest}
                             className='text-main'
                             autoFocus
+                            aria-label='Start new test'
                         >
                             <ArrowRight strokeWidth={3} className='!size-6' />
                         </Button>
@@ -61,6 +61,7 @@ function Results() {
                             size='icon'
                             variant='ghost'
                             className='text-main'
+                            aria-label='Retry test'
                         >
                             <Repeat2 strokeWidth={3} className='!size-6' />
                         </Button>
@@ -83,10 +84,10 @@ function Results() {
                         </div>
                     </SimpleTooltip>
                 </div>
-                <div className='mt-4'>
+                <div className='mt-6'>
                     <ResultsChart data={chartData} />
                 </div>
-                <div className='mt-4'>
+                <div className='mt-6'>
                     <StatsInfo stats={stats} />
                 </div>
             </div>

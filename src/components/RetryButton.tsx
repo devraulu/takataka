@@ -29,13 +29,14 @@ function RetryButton() {
             onClick={() => {
                 newTest();
                 if (document.activeElement !== wordsContainerRef?.current) {
-                    wordsContainerRef?.current?.focus();
+                    wordsContainerRef?.current?.focus({ preventScroll: true });
                     setTestLostFocus(false);
                 }
             }}
             variant='ghost'
             size={'icon'}
             tabIndex={2}
+            aria-label='Restart test'
         >
             <Repeat2 strokeWidth={3} className='!size-6' />
         </Button>

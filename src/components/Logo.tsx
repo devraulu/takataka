@@ -1,6 +1,7 @@
 import useResetTest from '../hooks/useResetTest';
 import { motion } from 'motion/react';
 import useIsTestActive from '@/hooks/useIsTestActive';
+import clsx from 'clsx';
 
 function Logo() {
     const { newTest } = useResetTest();
@@ -8,22 +9,20 @@ function Logo() {
 
     const mainTextVariants = {
         active: {
-            color: 'rgb(var(--main-color))',
             opacity: 1,
         },
         subtle: {
-            color: 'rgb(var(--sub-color))',
             opacity: 0.9,
         },
     };
 
     const smallTextVariants = {
         active: {
-            color: 'rgb(var(--text-color))',
+            color: 'oklch(var(--text-color))',
             opacity: 1,
         },
         subtle: {
-            color: 'rgb(var(--text-color))',
+            color: 'oklch(var(--text-color))',
             opacity: 0,
         },
     };
@@ -45,7 +44,12 @@ function Logo() {
                 }}
                 onClick={newTest}
             >
-                <h1 className='text-4xl md:text-5xl font-bold tracking-tight leading-none font-logo'>
+                <h1
+                    className={clsx(
+                        'font-variation-slant text-4xl md:text-5xl font-bold tracking-tight leading-none transition-colors duration-200 text-main',
+                        isTestActive && 'text-sub',
+                    )}
+                >
                     takataka
                 </h1>
             </motion.div>

@@ -14,11 +14,11 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
     const variants = {
         hidden: {
             opacity: 0,
-            backgroundColor: 'rgb(var(--bg-color))',
+            backgroundColor: 'oklch(var(--bg-color))',
         },
         visible: {
             opacity: 1,
-            backgroundColor: 'rgb(var(--bg-color) / 0.8)',
+            backgroundColor: 'oklch(var(--bg-color) / 0.8)',
         },
     };
 

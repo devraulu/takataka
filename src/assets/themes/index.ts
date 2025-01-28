@@ -1,3 +1,3 @@
-const themes = ['dracula', 'rose-pine', 'nord-light', 'matrix'];
+const themes = ['catppuccin', 'nord-light', 'matrix'];
 
 export default themes;

@@ -57,10 +57,7 @@ export default function TestContainer() {
             <div className='row-span-1 col-[content] mx-auto'>
                 <TestConfigBar />
             </div>
-            <div
-                className='row-span-1 col-[content] mt-4'
-                onClick={handleTouch}
-            >
+            <div className='row-span-1 col-[content]' onClick={handleTouch}>
                 <div>
                     <input
                         ref={inputRef}
@@ -72,9 +69,17 @@ export default function TestContainer() {
                         }}
                         autoFocus
                         tabIndex={1}
+                        aria-label='Type here'
+                        autoComplete='off'
+                        autoCorrect='off'
+                        autoCapitalize='off'
+                        autoSave='off'
+                        spellCheck={false}
+                        list='autocompleteOff'
+                        data-enable-grammarly='false'
                     />
                 </div>
-                <div className='md:mt-4 gap-2 flex items-center'>
+                <div className='gap-2 flex items-center'>
                     <TestProgress />
                     <RetryButton />
                 </div>

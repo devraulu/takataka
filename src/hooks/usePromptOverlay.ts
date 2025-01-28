@@ -5,7 +5,7 @@ import { useAtom, useAtomValue } from 'jotai';
 import { showAfkOverlayAtom } from '../atoms/ui';
 
 function usePromptOverlay() {
-    const idle = useIdle(4000, { initialState: false });
+    const idle = useIdle(10 * 1000, { initialState: false });
     const hasTestStarted = useAtomValue(hasTestStartedAtom);
 
     const [show, setShow] = useAtom(showAfkOverlayAtom);

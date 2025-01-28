@@ -17,13 +17,14 @@ function useCheckAFK() {
 
     const { start, clear } = useTimeout(() => {
         toast.error('AFK Detected', {
+            id: 'afk-toast',
             description: 'Test stopped because user is AFK',
+            duration: 5000,
         });
         reset();
-    }, 8 * 1000);
+    }, 10 * 1000);
 
     useEffect(() => {
-        // console.log('afk', afk, run);
         if (run && afk) {
             start();
         } else clear();

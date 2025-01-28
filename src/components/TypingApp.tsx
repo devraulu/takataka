@@ -1,10 +1,11 @@
-import Results from './Results';
 import { useAtomValue } from 'jotai';
 import { showResultsAtom } from '../atoms/results';
 import TestContainer from './TestContainer';
 import { useSetAtom } from 'jotai';
 import { createNewTestAtom } from '@/atoms/test_configuration';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
+
+const Results = lazy(() => import('./Results'));
 
 function TypingApp() {
     const showResults = useAtomValue(showResultsAtom);
@@ -19,8 +20,10 @@ function TypingApp() {
     );
 
     return (
-        <div className={'grid grid-rows-[1fr_auto] gap-y-8 content-grid'}>
-            {showResults ? <Results /> : <TestContainer />}
+        <div className={'grid grid-rows-[1fr_auto] content-grid'}>
+            <Suspense fallback={<div>Loading...</div>}>
+                {showResults ? <Results /> : <TestContainer />}
+            </Suspense>
         </div>
     );
 }

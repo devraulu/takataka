@@ -50,7 +50,7 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                 }))}
                 accessibilityLayer
                 margin={{
-                    left: -20,
+                    left: 0,
                     right: 12,
                 }}
             >

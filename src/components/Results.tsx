@@ -84,10 +84,10 @@ function Results() {
                         </div>
                     </SimpleTooltip>
                 </div>
-                <div className='mt-4'>
+                <div className='mt-6'>
                     <ResultsChart data={chartData} />
                 </div>
-                <div className='mt-4'>
+                <div className='mt-6'>
                     <StatsInfo stats={stats} />
                 </div>
             </div>

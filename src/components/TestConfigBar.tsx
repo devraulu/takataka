@@ -43,14 +43,14 @@ function TestConfigBar() {
             animate={!isTestActive ? 'active' : 'inactive'}
             variants={variants}
             className={clsx(
-                'inline-flex mx-auto items-center bg-sub-alt md:gap-2 rounded-md',
+                'inline-flex mx-auto items-center bg-sub-alt md:gap-2 rounded-md px-2 py-1.5',
                 {
                     'pointer-events-none': isTestActive,
                 },
             )}
             onClick={() => setShowAfkOverlay(false)}
         >
-            <div className='flex justify-center'>
+            <div className='flex justify-center gap-2'>
                 <ConfigChip
                     checked={punctuation}
                     onClick={() => {
@@ -73,7 +73,7 @@ function TestConfigBar() {
                 </ConfigChip>
             </div>
             <span className='h-1 w-1 bg-main opacity-75 rounded-full mx-2'></span>
-            <div className='flex justify-center'>
+            <div className='flex justify-center gap-2'>
                 {sizes.map(s => (
                     <ConfigChip
                         key={'test-size-' + s}

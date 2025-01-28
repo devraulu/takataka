@@ -56,6 +56,6 @@ pnpm build
 
 Raúl Luis - me@rauluis.com
 
-Project Link: [https://github.com/devRauLuis/takataka](https://github.com/devRauLuis/takataka)
+Project Link: [https://github.com/devraulu/takataka](https://github.com/devraulu/takataka)
 
 ---

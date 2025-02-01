@@ -98,6 +98,9 @@
     }
 
     @media (max-height: 500px) {
+        .content-grid {
+            --padding-inline: 0.5rem;
+        }
         .layout-grid {
             row-gap: 1rem;
         }

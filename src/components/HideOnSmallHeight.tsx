@@ -11,13 +11,7 @@ export default function HideOnSmallHeight({ children }: Props) {
     const [show, setShow] = useState(true);
 
     const handleResize = useCallback(() => {
-        console.table({
-            innerHeight: window.innerHeight,
-            HEIGHT_BREAKPOINT,
-        });
-
         if (window.innerHeight < HEIGHT_BREAKPOINT) {
-            console.log('hide');
             setShow(false);
         } else setShow(true);
     }, []);

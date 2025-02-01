@@ -35,7 +35,6 @@ function ThemePicker({ children }: ThemePickerProps) {
         >
             <PopoverTrigger asChild>
                 {children(() => {
-                    console.log('called show');
                     show();
                 })}
             </PopoverTrigger>
@@ -43,7 +42,6 @@ function ThemePicker({ children }: ThemePickerProps) {
                 onInteractOutside={e => {
                     if (e.target === e.currentTarget) {
                         e.preventDefault();
-                        console.log('interacted outside', e);
                         setTheme(savedTheme);
                         close();
                     }

@@ -1,11 +1,11 @@
-import useMeasure from 'react-use-measure';
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
-import React from 'react';
+import React, { useRef } from 'react';
 import useTypedLog from '../hooks/useTypedLog';
 import clsx from 'clsx';
+import { motion } from 'motion/react';
 
-// TODO: Refactor rendering logic, this is a mess
+// TODO: Refactor rendering logic, this is a bit of a mess
 // some early thoughts:
 //
 // * Use a single ref for the container
@@ -13,42 +13,25 @@ import clsx from 'clsx';
 // * Programmatically assign classes depending on the state
 // * Track the current letter index by its data attribute by counting the words + letters typed
 // * Find a way to reduce the amount of rerenders
+// * Only render lines that are visible, or at least remove lines that already been typed
 
 function Words() {
-    const [measureRef, { width: containerWidth }] = useMeasure({
-        debounce: 200,
-    });
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const { width: containerWidth } =
+        containerRef.current?.getBoundingClientRect() ?? { width: 0 };
 
-    const [fontRef, { height: fontHeight, width: fontWidth }] = useMeasure();
-    const [letterRef, { left, top }] = useMeasure();
+    const fontRef = useRef<HTMLSpanElement | null>(null);
+    const { height: fontHeight, width: fontWidth } =
+        fontRef.current?.getBoundingClientRect() ?? { height: 0, width: 0 };
 
     const words = useRenderWords(fontWidth, containerWidth);
-    const fz = 24;
+    const fz = 30;
 
     useTypedLog();
 
-    const getTextColor = (
-        isTyped?: boolean,
-        isCorrect?: boolean,
-        isExtra?: boolean,
-    ): React.CSSProperties => {
-        let color = 'sub-color';
-
-        if (isTyped)
-            if (isCorrect) color = 'main-color';
-            else color = 'error-color';
-        if (isExtra) color = 'error-extra-color';
-
-        return {
-            color: `oklch(var(--${color}))`,
-        };
-    };
-
     return (
-        <div className='font-variation-mono'>
+        <motion.div className='font-variation-mono'>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
-            {/* WARN: Is this really necessary? Since we know the font size beforehand */}
-            {/* At the moment this is used because even though the font size is fixed, the width may vary based on the weight */}
             <span
                 ref={fontRef}
                 className={'fixed invisible '}
@@ -57,11 +40,11 @@ function Words() {
                 a
             </span>
 
-            <Caret top={top} left={left} fontHeight={fontHeight} />
+            <Caret containerRef={containerRef} fontHeight={fontHeight} />
 
             {words.length > 0 && (
                 <div
-                    ref={measureRef}
+                    ref={containerRef}
                     className={'focus:outline-none '}
                     style={{ fontSize: fz }}
                 >
@@ -78,7 +61,7 @@ function Words() {
                             return (
                                 <div
                                     key={word + i}
-                                    className='flex flex-nowrap'
+                                    className='flex flex-nowrap word'
                                 >
                                     <div
                                         className={clsx(
@@ -91,6 +74,8 @@ function Words() {
                                                 ? 'border-error'
                                                 : 'border-sub',
                                         )}
+                                        data-word={word}
+                                        data-index={i}
                                     >
                                         {letters.map(
                                             (
@@ -108,40 +93,31 @@ function Words() {
                                                         key={word + j}
                                                     >
                                                         <div
-                                                            ref={
-                                                                isLastLetterBeingTyped
-                                                                    ? letterRef
-                                                                    : undefined
-                                                            }
                                                             style={getTextColor(
                                                                 isTyped,
                                                                 isCorrect,
                                                                 isExtraLetter,
                                                             )}
-                                                            className={clsx(
-                                                                ' font-semibold ',
-                                                            )}
+                                                            className={
+                                                                'font-semibold letter'
+                                                            }
+                                                            data-active={
+                                                                isLastLetterBeingTyped
+                                                            }
+                                                            data-extra={
+                                                                isExtraLetter
+                                                            }
                                                         >
                                                             {letter}
                                                         </div>
-
-                                                        <div
-                                                            ref={
-                                                                isExtraLetter
-                                                                    ? letterRef
-                                                                    : undefined
-                                                            }
-                                                        />
                                                     </React.Fragment>
                                                 );
                                             },
                                         )}
                                     </div>
                                     <div
-                                        ref={
+                                        data-active={
                                             isLastWordBeingTyped && isComplete
-                                                ? letterRef
-                                                : undefined
                                         }
                                         className='whitespace'
                                     >
@@ -153,8 +129,25 @@ function Words() {
                     </div>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }
+
+const getTextColor = (
+    isTyped?: boolean,
+    isCorrect?: boolean,
+    isExtra?: boolean,
+): React.CSSProperties => {
+    let color = 'sub-color';
+
+    if (isTyped)
+        if (isCorrect) color = 'main-color';
+        else color = 'error-color';
+    if (isExtra) color = 'error-extra-color';
+
+    return {
+        color: `oklch(var(--${color}))`,
+    };
+};
 
 export default Words;

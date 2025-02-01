@@ -31,10 +31,10 @@ export function computeWpmAndErrors(logsArr: Log[]): WpmErrorLog[] {
         const avgWpm =
             wpmLogs.length > 0
                 ? Math.floor(
-                    wpmLogs
-                        ?.map(item => item.rawWpm)
-                        ?.reduce((acc, item) => acc + item) / wpmLogs.length,
-                )
+                      wpmLogs
+                          ?.map(item => item.rawWpm)
+                          ?.reduce((acc, item) => acc + item) / wpmLogs.length,
+                  )
                 : rawWpm;
 
         // Add this second's log to the array.
@@ -44,8 +44,6 @@ export function computeWpmAndErrors(logsArr: Log[]): WpmErrorLog[] {
         charCount = 0;
         errorCount = 0;
     }
-
-    // console.log('finalLogs', wpmLogs);
 
     return wpmLogs.map((item, i) => ({ ...item, second: i + 1 }));
 }

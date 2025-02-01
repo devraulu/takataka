@@ -56,8 +56,11 @@ export function checkWords(words: string[], typed: string[]) {
             const isTyped = typedNotEmpty && !!typed[i] && !!typed[i][j];
             const isCorrect = isTyped && letter === typed[i][j];
             const isExtraLetter = isExtra && j >= word.length;
+
             const isLastLetterBeingTyped =
-                isLastWordBeingTyped && j === typed[i]?.length;
+                isLastWordBeingTyped &&
+                (j === typed[i]?.length ||
+                    (isExtra && j === typed[i]?.length - 1));
 
             const checkedLetter: Letter = {
                 letter,

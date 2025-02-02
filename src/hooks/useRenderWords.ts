@@ -1,20 +1,11 @@
-import { useMemo } from 'react';
-import {
-    findActiveLineIndex,
-    fitsInCurrentLine,
-    checkWords,
-} from '@/lib/utils/words';
+import { findActiveLineIndex, fitsInCurrentLine } from '@/lib/utils/words';
 import { Word } from '../models/Word';
 import { useAtomValue } from 'jotai';
-import { textAtom, typedAtom } from '../atoms/typing';
+import { checkedWordsAtom, typedAtom } from '../atoms/typing';
 
 const useRenderWords = (fontWidth: number, containerWidth: number) => {
-    const text = useAtomValue(textAtom);
     const typed = useAtomValue(typedAtom);
-
-    const splitText = text.split(' ');
-
-    const checkedWords = checkWords(splitText, typed);
+    const checkedWords = useAtomValue(checkedWordsAtom);
 
     const lines = checkedWords.reduce(
         (acc: Word[][], item: Word) => {
@@ -46,9 +37,7 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
         .reduce((acc, elem) => (acc += elem.length), 0);
 
     // Return the relevant lines
-    const wordsToRender = useMemo(() => {
-        return checkedWords.slice(startWordsIndex, endWordsIndex);
-    }, [checkedWords, lines]);
+    const wordsToRender = checkedWords.slice(startWordsIndex, endWordsIndex);
 
     return wordsToRender;
 };

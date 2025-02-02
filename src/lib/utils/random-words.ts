@@ -8,12 +8,23 @@ export function generateTestWords(
     punctuation?: boolean,
     numbers?: boolean,
 ): string {
-    const generatedWords = generate(size);
+    const generatedWordsSet = new Set<string>();
+
+    while (generatedWordsSet.size < size) {
+        const missingWordsSize = size - generatedWordsSet.size;
+        const generatedWords = generate({
+            exactly: missingWordsSize,
+        }) as string[];
+
+        generatedWords.forEach(word => {
+            generatedWordsSet.add(word);
+        });
+    }
+
+    let words = Array.from(generatedWordsSet);
 
     // since our test size is always more than 1 word long and generate returns string or string[]
     // we convert it to string[] to be able to use map
-    let words =
-        typeof generatedWords === 'string' ? [generatedWords] : generatedWords;
 
     // Optionally include numbers
     if (numbers)
@@ -28,7 +39,7 @@ export function generateTestWords(
         });
 
     // Define possible punctuation marks
-    const punctuationMarks = ['.', ',', ':', ';', '?', '!'];
+    const punctuationMarks = '.,:;?!'.split('');
 
     // Optionally include punctuation
     if (punctuation) {
@@ -51,7 +62,11 @@ export function generateTestWords(
 
             return word;
         });
-        words[words.length - 1] = words[words.length - 1] + '.';
+        const lastWord = words[words.length - 1];
+        const lastCharacter = lastWord[lastWord.length - 1];
+        if (!'?!'.includes(lastCharacter)) {
+            words[words.length - 1] = words[words.length - 1] + '.';
+        }
     }
 
     return words.join(' ');

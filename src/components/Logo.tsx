@@ -16,13 +16,17 @@ function Logo() {
         },
     };
 
+    const resolvedTextColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--text-color')
+        .trim();
+
     const smallTextVariants = {
         active: {
-            color: 'oklch(var(--text-color))',
+            color: `oklch(${resolvedTextColor})`,
             opacity: 1,
         },
         subtle: {
-            color: 'oklch(var(--text-color))',
+            color: `oklch(${resolvedTextColor})`,
             opacity: 0,
         },
     };

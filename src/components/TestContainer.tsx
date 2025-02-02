@@ -11,6 +11,7 @@ import { useSetAtom } from 'jotai';
 import { closeAfkOverlayAtom } from '../atoms/ui';
 import { isMobile } from '@/lib/utils';
 import { wordsContainerRefAtom } from '@/atoms/typing';
+import ShowAfterDelay from './ShowAfterDelay';
 
 export default function TestContainer() {
     const { handleKeys: handleKeyEvent } = useTyping();
@@ -85,7 +86,9 @@ export default function TestContainer() {
                 </div>
                 <div className='relative p-4 mt-3'>
                     <AfkOverlay handleTouch={handleTouch} />
-                    <Words />
+                    <ShowAfterDelay>
+                        <Words />
+                    </ShowAfterDelay>
                 </div>
             </div>
         </>

@@ -30,16 +30,16 @@ function TestConfigBar() {
     const variants = {
         active: {
             opacity: 1,
-            translateX: '0',
+            translateY: 0,
         },
         inactive: {
             opacity: 0,
-            translateX: '100%',
         },
     };
 
     return (
         <motion.div
+            initial={{ opacity: 0, translateY: 20 }}
             animate={!isTestActive ? 'active' : 'inactive'}
             variants={variants}
             className={clsx(

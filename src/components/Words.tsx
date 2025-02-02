@@ -3,17 +3,7 @@ import useRenderWords from '../hooks/useRenderWords';
 import React, { useRef } from 'react';
 import useTypedLog from '../hooks/useTypedLog';
 import clsx from 'clsx';
-import { motion } from 'motion/react';
-
-// TODO: Refactor rendering logic, this is a bit of a mess
-// some early thoughts:
-//
-// * Use a single ref for the container
-// * Use add data attributes to each letter to be able to query them
-// * Programmatically assign classes depending on the state
-// * Track the current letter index by its data attribute by counting the words + letters typed
-// * Find a way to reduce the amount of rerenders
-// * Only render lines that are visible, or at least remove lines that already been typed
+import ShowAfterDelay from './ShowAfterDelay';
 
 function Words() {
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -30,7 +20,7 @@ function Words() {
     useTypedLog();
 
     return (
-        <motion.div className='font-variation-mono'>
+        <div ref={containerRef} className='font-variation-mono'>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
             <span
                 ref={fontRef}
@@ -42,94 +32,85 @@ function Words() {
 
             <Caret containerRef={containerRef} fontHeight={fontHeight} />
 
-            {words.length > 0 && (
-                <div
-                    ref={containerRef}
-                    className={'focus:outline-none '}
-                    style={{ fontSize: fz }}
-                >
-                    <div className='flex flex-wrap'>
-                        {words.map((elem, i) => {
-                            const {
-                                word,
-                                incorrectlyTypedWord,
-                                letters,
-                                isComplete,
-                                isLastWordBeingTyped,
-                            } = elem;
+            <ShowAfterDelay>
+                {words.length > 0 && (
+                    <div
+                        className={'focus:outline-none '}
+                        style={{ fontSize: fz }}
+                    >
+                        <div className='flex flex-wrap'>
+                            {words.map((elem, i) => {
+                                const {
+                                    word,
+                                    incorrectlyTypedWord,
+                                    letters,
+                                    isComplete,
+                                    index: wordIndex,
+                                } = elem;
 
-                            return (
-                                <div
-                                    key={word + i}
-                                    className='flex flex-nowrap word'
-                                >
+                                return (
                                     <div
-                                        className={clsx(
-                                            'flex flex-nowrap',
-                                            {
-                                                'border-b':
-                                                    incorrectlyTypedWord,
-                                            },
-                                            incorrectlyTypedWord
-                                                ? 'border-error'
-                                                : 'border-sub',
-                                        )}
-                                        data-word={word}
-                                        data-index={i}
+                                        key={word + i}
+                                        className='flex flex-nowrap'
                                     >
-                                        {letters.map(
-                                            (
+                                        <div
+                                            className={clsx(
+                                                'flex flex-nowrap',
                                                 {
-                                                    letter,
-                                                    isLastLetterBeingTyped,
-                                                    isCorrect,
-                                                    isTyped,
-                                                    isExtraLetter,
+                                                    'border-b':
+                                                        incorrectlyTypedWord,
                                                 },
-                                                j,
-                                            ) => {
-                                                return (
-                                                    <React.Fragment
-                                                        key={word + j}
-                                                    >
+                                                incorrectlyTypedWord
+                                                    ? 'border-error'
+                                                    : 'border-sub',
+                                            )}
+                                            data-word={word}
+                                            data-index={wordIndex}
+                                            data-active={isComplete}
+                                        >
+                                            {letters.map(
+                                                (
+                                                    {
+                                                        letter,
+                                                        isCorrect,
+                                                        isTyped,
+                                                        isExtraLetter,
+                                                    },
+                                                    j,
+                                                ) => {
+                                                    return (
                                                         <div
+                                                            key={word + j}
                                                             style={getTextColor(
                                                                 isTyped,
                                                                 isCorrect,
                                                                 isExtraLetter,
                                                             )}
                                                             className={
-                                                                'font-semibold letter'
+                                                                'font-semibold'
                                                             }
-                                                            data-active={
-                                                                isLastLetterBeingTyped
-                                                            }
+                                                            data-letter={letter}
+                                                            data-index={j}
                                                             data-extra={
                                                                 isExtraLetter
                                                             }
+                                                            data-typed={isTyped}
                                                         >
                                                             {letter}
                                                         </div>
-                                                    </React.Fragment>
-                                                );
-                                            },
-                                        )}
+                                                    );
+                                                },
+                                            )}
+                                        </div>
+                                        <div className='whitespace'>&nbsp;</div>
                                     </div>
-                                    <div
-                                        data-active={
-                                            isLastWordBeingTyped && isComplete
-                                        }
-                                        className='whitespace'
-                                    >
-                                        &nbsp;
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-            )}
-        </motion.div>
+                )}
+            </ShowAfterDelay>
+        </div>
     );
 }
 

@@ -4,6 +4,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
     appendHistoryAtom,
     resetBtnRefAtom,
+    setTypedAtom,
     testLostFocusAtom,
     textAtom,
     typedAtom,
@@ -26,7 +27,8 @@ const useTyping = () => {
     }, [isTestFinished]);
 
     const [text, setText] = useAtom(textAtom);
-    const [typed, setTyped] = useAtom(typedAtom);
+    const typed = useAtomValue(typedAtom);
+    const setTyped = useSetAtom(setTypedAtom);
     const appendHistory = useSetAtom(appendHistoryAtom);
     const resetBtnRef = useAtomValue(resetBtnRefAtom);
     const setTestLostFocus = useSetAtom(testLostFocusAtom);
@@ -43,8 +45,6 @@ const useTyping = () => {
 
             if (e.ctrlKey) {
                 // continue as usual and let the user use the ctrl (cmd) key to navigate etc.
-                // e.
-
                 return;
             }
 

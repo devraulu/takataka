@@ -1,23 +1,14 @@
-import { useMemo } from 'react';
-import {
-    findActiveLineIndex,
-    fitsInCurrentLine,
-    checkWords,
-} from '@/lib/utils/words';
-import { Word } from '../models/Word';
+import { findActiveLineIndex, fitsInCurrentLine } from '@/lib/utils/words';
 import { useAtomValue } from 'jotai';
-import { textAtom, typedAtom } from '../atoms/typing';
+import { checkedWordsAtom, textAtom, typedAtom } from '../atoms/typing';
 
 const useRenderWords = (fontWidth: number, containerWidth: number) => {
-    const text = useAtomValue(textAtom);
     const typed = useAtomValue(typedAtom);
+    const text = useAtomValue(textAtom).split(' ');
+    const checkedWords = useAtomValue(checkedWordsAtom);
 
-    const splitText = text.split(' ');
-
-    const checkedWords = checkWords(splitText, typed);
-
-    const lines = checkedWords.reduce(
-        (acc: Word[][], item: Word) => {
+    const lines = text.reduce(
+        (acc: string[][], item: string) => {
             if (acc.length < 1) acc.push([]);
             const currentLine = acc[acc.length - 1];
 
@@ -38,17 +29,17 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
     // Get the start and end indices for slicing the array
     const start = activeLine > 0 ? activeLine - 1 : 0;
     const end = activeLine > 0 ? activeLine + 2 : 3;
+
     const startWordsIndex = lines
         .slice(0, start)
         .reduce((acc, elem) => (acc += elem.length), 0);
-    const endWordsIndex = lines
-        .slice(0, end)
-        .reduce((acc, elem) => (acc += elem.length), 0);
+
+    const endWordsIndex = lines.slice(0, end).reduce((acc, elem) => {
+        return (acc += elem.length);
+    }, 0);
 
     // Return the relevant lines
-    const wordsToRender = useMemo(() => {
-        return checkedWords.slice(startWordsIndex, endWordsIndex);
-    }, [checkedWords, lines]);
+    const wordsToRender = checkedWords.slice(startWordsIndex, endWordsIndex);
 
     return wordsToRender;
 };

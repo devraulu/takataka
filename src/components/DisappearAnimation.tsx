@@ -14,9 +14,9 @@ export default function DisappearAnimation({
         <AnimatePresence>
             {show ? (
                 <motion.div
-                    initial={{ height: 0, scale: 0 }}
-                    animate={{ height: 'auto', scale: 1 }}
-                    exit={{ height: 0, scale: 0 }}
+                    initial={{ translateY: 30 }}
+                    animate={{ height: 'auto', translateY: 0 }}
+                    exit={{ height: 0, opacity: 0 }}
                     {...props}
                 >
                     {children}

@@ -1,14 +1,9 @@
-import { typedAtom } from '@/atoms/typing';
+import { currentlyTypingIndexAtom, typedAtom } from '@/atoms/typing';
 import useIsTestActive from '@/hooks/useIsTestActive';
 import { sleep } from '@/lib/utils/time';
 import clsx from 'clsx';
 import { useAtomValue } from 'jotai';
-import {
-    motion,
-    SpringOptions,
-    useMotionValue,
-    useSpring,
-} from 'motion/react';
+import { motion, SpringOptions, useMotionValue, useSpring } from 'motion/react';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 interface CaretProps {
@@ -21,6 +16,7 @@ const Caret: React.FunctionComponent<CaretProps> = ({
     fontHeight,
 }) => {
     const typed = useAtomValue(typedAtom);
+    const currentlyTypingIndex = useAtomValue(currentlyTypingIndexAtom);
     const testActive = useIsTestActive();
 
     const [dimensions, setDimensions] = useState({
@@ -33,7 +29,7 @@ const Caret: React.FunctionComponent<CaretProps> = ({
 
     const spring: SpringOptions = {
         mass: 0.2,
-        stiffness: 400,
+        stiffness: 460,
         damping: 20,
     };
     const top = useSpring(topMotionValue, spring);
@@ -42,8 +38,8 @@ const Caret: React.FunctionComponent<CaretProps> = ({
     const handleResize = () =>
         setDimensions({ height: window.innerHeight, width: window.innerWidth });
 
-    const setInitialPosition = async () => {
-        await sleep(300);
+    const setInitialPosition = async (delay = 400) => {
+        await sleep(delay);
 
         containerRef.current?.querySelector('letter');
         const rect = containerRef.current?.getBoundingClientRect();
@@ -63,24 +59,32 @@ const Caret: React.FunctionComponent<CaretProps> = ({
     }, []);
 
     useLayoutEffect(() => {
-        if (typed.length === 0) return;
-        const activeLetter =
-            containerRef.current?.querySelector('[data-active=true]');
+        if (typed?.[0].length == 0) {
+            setInitialPosition(0);
+            return;
+        }
+        const activeWord = containerRef.current?.querySelector(
+            `[data-word][data-index="${typed.length - 1}"]`,
+        );
+
+        const activeLetter = activeWord?.querySelector(
+            `[data-letter][data-index="${currentlyTypingIndex}"]`,
+        );
 
         const rect = activeLetter?.getBoundingClientRect();
-
-        const isExtra = activeLetter?.getAttribute('data-extra') === 'true';
+        const isTyped = activeLetter?.getAttribute('data-typed') === 'true';
 
         if (!rect) return;
-        const leftCalc = rect.left + (isExtra ? rect.width : 0);
+        const leftCalc = rect.left + (isTyped ? rect.width : 0);
         topMotionValue.set(rect.top);
         leftMotionValue.set(leftCalc);
-    }, [typed, dimensions]);
+    }, [typed, dimensions, currentlyTypingIndex]);
 
     return (
         <motion.div
             className={clsx('fixed bg-caret', {
                 'animate-blink': !testActive,
+                hidden: top.get() == 0,
             })}
             style={{
                 top,

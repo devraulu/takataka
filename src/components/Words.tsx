@@ -3,6 +3,7 @@ import useRenderWords from '../hooks/useRenderWords';
 import React, { useRef } from 'react';
 import useTypedLog from '../hooks/useTypedLog';
 import clsx from 'clsx';
+import ShowAfterDelay from './ShowAfterDelay';
 
 function Words() {
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -19,7 +20,7 @@ function Words() {
     useTypedLog();
 
     return (
-        <div className='font-variation-mono'>
+        <div ref={containerRef} className='font-variation-mono'>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
             <span
                 ref={fontRef}
@@ -31,85 +32,84 @@ function Words() {
 
             <Caret containerRef={containerRef} fontHeight={fontHeight} />
 
-            {words.length > 0 && (
-                <div
-                    ref={containerRef}
-                    className={'focus:outline-none '}
-                    style={{ fontSize: fz }}
-                >
+            <ShowAfterDelay>
+                {words.length > 0 && (
                     <div
-                        className='flex flex-wrap'
-                        style={{ columnGap: '1ch' }}
+                        className={'focus:outline-none '}
+                        style={{ fontSize: fz }}
                     >
-                        {words.map((elem, i) => {
-                            const {
-                                word,
-                                incorrectlyTypedWord,
-                                letters,
-                                isComplete,
-                                index: wordIndex,
-                            } = elem;
+                        <div className='flex flex-wrap'>
+                            {words.map((elem, i) => {
+                                const {
+                                    word,
+                                    incorrectlyTypedWord,
+                                    letters,
+                                    isComplete,
+                                    index: wordIndex,
+                                } = elem;
 
-                            return (
-                                <div
-                                    key={word + i}
-                                    className='flex flex-nowrap'
-                                >
+                                return (
                                     <div
-                                        className={clsx(
-                                            'flex flex-nowrap',
-                                            {
-                                                'border-b':
-                                                    incorrectlyTypedWord,
-                                            },
-                                            incorrectlyTypedWord
-                                                ? 'border-error'
-                                                : 'border-sub',
-                                        )}
-                                        data-word={word}
-                                        data-index={wordIndex}
-                                        data-active={isComplete}
+                                        key={word + i}
+                                        className='flex flex-nowrap'
                                     >
-                                        {letters.map(
-                                            (
+                                        <div
+                                            className={clsx(
+                                                'flex flex-nowrap',
                                                 {
-                                                    letter,
-                                                    isCorrect,
-                                                    isTyped,
-                                                    isExtraLetter,
+                                                    'border-b':
+                                                        incorrectlyTypedWord,
                                                 },
-                                                j,
-                                            ) => {
-                                                return (
-                                                    <div
-                                                        key={word + j}
-                                                        style={getTextColor(
-                                                            isTyped,
-                                                            isCorrect,
-                                                            isExtraLetter,
-                                                        )}
-                                                        className={
-                                                            'font-semibold'
-                                                        }
-                                                        data-letter={letter}
-                                                        data-index={j}
-                                                        data-extra={
-                                                            isExtraLetter
-                                                        }
-                                                        data-typed={isTyped}
-                                                    >
-                                                        {letter}
-                                                    </div>
-                                                );
-                                            },
-                                        )}
+                                                incorrectlyTypedWord
+                                                    ? 'border-error'
+                                                    : 'border-sub',
+                                            )}
+                                            data-word={word}
+                                            data-index={wordIndex}
+                                            data-active={isComplete}
+                                        >
+                                            {letters.map(
+                                                (
+                                                    {
+                                                        letter,
+                                                        isCorrect,
+                                                        isTyped,
+                                                        isExtraLetter,
+                                                    },
+                                                    j,
+                                                ) => {
+                                                    return (
+                                                        <div
+                                                            key={word + j}
+                                                            style={getTextColor(
+                                                                isTyped,
+                                                                isCorrect,
+                                                                isExtraLetter,
+                                                            )}
+                                                            className={
+                                                                'font-semibold'
+                                                            }
+                                                            data-letter={letter}
+                                                            data-index={j}
+                                                            data-extra={
+                                                                isExtraLetter
+                                                            }
+                                                            data-typed={isTyped}
+                                                        >
+                                                            {letter}
+                                                        </div>
+                                                    );
+                                                },
+                                            )}
+                                        </div>
+                                        <div className='whitespace'>&nbsp;</div>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </ShowAfterDelay>
         </div>
     );
 }

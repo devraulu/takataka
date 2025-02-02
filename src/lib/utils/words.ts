@@ -1,20 +1,20 @@
 import { Letter, Word } from '@/models/Word';
 
 export function fitsInCurrentLine(
-    word: Word,
-    line: Word[],
+    word: string,
+    line: string[],
     fontWidth: number,
     containerWidth: number,
 ) {
     // We calculate the width of the word using the width of the current font at it's current size
     // and multiply it by the length of the word plus one space
 
-    const wordWidth = (word.word.length + 1) * fontWidth;
+    const wordWidth = (word.length + 1) * fontWidth;
 
     // To know the width of the line we calculate the width of each word,
     //  then add each width
     const lineWidth = line.reduce(
-        (acc, item) => acc + (item.word.length + 1) * fontWidth,
+        (acc, item) => acc + (item.length + 1) * fontWidth,
         0,
     );
 
@@ -22,7 +22,7 @@ export function fitsInCurrentLine(
 }
 
 export function findActiveLineIndex(
-    lines: Word[][],
+    lines: string[][],
     currentTypingIndex: number,
 ) {
     const index = lines.findIndex((elem, i, arr) => {

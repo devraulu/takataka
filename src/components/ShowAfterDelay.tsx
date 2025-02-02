@@ -23,9 +23,9 @@ export default function ShowAfterDelay({
                 <motion.div
                     initial={{
                         opacity: 0,
-                        scale: 0,
+                        translateY: 20,
                     }}
-                    animate={{ opacity: 1, scale: 1 }}
+                    animate={{ opacity: 1, translateY: 0 }}
                     exit={{ opacity: 0, scale: 0 }}
                     {...props}
                 >

@@ -21,7 +21,6 @@ export default function TestContainer() {
 
     useEffect(() => {
         setContainerRef(inputRef);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputRef]);
 
     const closeOverlay = useSetAtom(closeAfkOverlayAtom);

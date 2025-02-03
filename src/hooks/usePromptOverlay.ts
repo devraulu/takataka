@@ -17,7 +17,6 @@ function usePromptOverlay() {
     useEffect(() => {
         if (idle && !hasTestStarted) open();
         if (hasTestStarted) close();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idle, hasTestStarted]);
 
     return {

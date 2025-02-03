@@ -126,8 +126,12 @@ const getTextColor = (
         else color = 'error-color';
     if (isExtra) color = 'error-extra-color';
 
+    const resolvedColor = getComputedStyle(
+        document.documentElement,
+    ).getPropertyValue(`--${color}`);
+
     return {
-        color: `oklch(var(--${color}))`,
+        color: `oklch(${resolvedColor})`,
     };
 };
 

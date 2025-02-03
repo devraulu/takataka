@@ -28,7 +28,6 @@ function useCheckAFK() {
         if (run && afk) {
             start();
         } else clear();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [run, typed.length, afk]);
 }
 

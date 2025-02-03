@@ -2,7 +2,7 @@ import Logo from './Logo';
 
 function Header() {
     return (
-        <div className={'flex justify-center pt-8 xl:pt-24'}>
+        <div className={'flex justify-center mt-8 xl:mt-16'}>
             <Logo />
         </div>
     );

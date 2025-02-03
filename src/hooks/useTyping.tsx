@@ -23,7 +23,6 @@ const useTyping = () => {
             setShowResults(true);
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isTestFinished]);
 
     const [text, setText] = useAtom(textAtom);
@@ -99,7 +98,6 @@ const useTyping = () => {
                 blurResetBtn();
             }
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [text, typed],
     );
 

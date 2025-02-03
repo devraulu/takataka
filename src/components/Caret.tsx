@@ -24,7 +24,7 @@ const Caret: React.FunctionComponent<CaretProps> = ({
 
     const spring: SpringOptions = {
         mass: 0.2,
-        stiffness: 460,
+        stiffness: 500,
         damping: 20,
     };
     const top = useSpring(topMotionValue, spring);

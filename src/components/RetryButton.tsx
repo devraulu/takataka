@@ -1,23 +1,14 @@
 import useResetTest from '../hooks/useResetTest';
 import { useEffect, useRef } from 'react';
 import { useSetAtom } from 'jotai';
-import {
-    resetBtnRefAtom,
-    testLostFocusAtom,
-    testInputRefAtom,
-} from '../atoms/typing';
+import { resetBtnRefAtom } from '../atoms/typing';
 import { Button } from './ui/button';
 import { Repeat2 } from 'lucide-react';
-import { useAtomValue } from 'jotai';
-import { focusInputAndScrollIntoView } from '@/lib/utils';
 
 function RetryButton() {
-    const { createNewTest } = useResetTest();
+    const reset = useResetTest();
     const resetBtn = useRef<HTMLButtonElement | null>(null);
     const setResetBtnRef = useSetAtom(resetBtnRefAtom);
-
-    const setTestLostFocus = useSetAtom(testLostFocusAtom);
-    const testInputRef = useAtomValue(testInputRefAtom);
 
     useEffect(() => {
         setResetBtnRef(resetBtn);
@@ -27,16 +18,7 @@ function RetryButton() {
         <Button
             ref={resetBtn}
             className='restart size-9 text-sub'
-            onClick={() => {
-                createNewTest();
-                if (
-                    testInputRef &&
-                    document.activeElement !== testInputRef?.current
-                ) {
-                    focusInputAndScrollIntoView(testInputRef);
-                    setTestLostFocus(false);
-                }
-            }}
+            onClick={() => reset()}
             variant='ghost'
             size={'icon'}
             tabIndex={2}

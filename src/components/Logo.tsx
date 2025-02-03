@@ -2,14 +2,10 @@ import useResetTest from '../hooks/useResetTest';
 import { motion } from 'motion/react';
 import useIsTestActive from '@/hooks/useIsTestActive';
 import clsx from 'clsx';
-import { focusInputAndScrollIntoView } from '@/lib/utils';
-import { useAtomValue } from 'jotai';
-import { testInputRefAtom } from '@/atoms/typing';
 
 function Logo() {
-    const { createNewTest: newTest } = useResetTest();
+    const reset = useResetTest();
     const isTestActive = useIsTestActive();
-    const testInputRef = useAtomValue(testInputRefAtom);
 
     const mainTextVariants = {
         active: {
@@ -50,10 +46,7 @@ function Logo() {
                 style={{
                     cursor: 'pointer',
                 }}
-                onClick={() => {
-                    newTest();
-                    focusInputAndScrollIntoView(testInputRef);
-                }}
+                onClick={() => reset()}
             >
                 <h1
                     className={clsx(

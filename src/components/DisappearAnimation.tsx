@@ -2,12 +2,12 @@ import { AnimatePresence, HTMLMotionProps, motion } from 'motion/react';
 
 type Props = {
     children: React.ReactNode;
-    show: boolean;
+    show?: boolean;
 } & HTMLMotionProps<'div'>;
 
 export default function DisappearAnimation({
     children,
-    show,
+    show = true,
     ...props
 }: Props) {
     return (
@@ -18,6 +18,7 @@ export default function DisappearAnimation({
                     animate={{ height: 'auto', translateY: 0 }}
                     exit={{ height: 0, opacity: 0 }}
                     {...props}
+
                 >
                     {children}
                 </motion.div>

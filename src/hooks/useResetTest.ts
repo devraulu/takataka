@@ -5,11 +5,14 @@ import {
     INITIAL_TYPED,
     lastTestLogsAtom,
     resetBtnRefAtom,
+    testInputRefAtom,
+    testLostFocusAtom,
     typedAtom,
     typedLogAtom,
 } from '../atoms/typing';
 import { createNewTestAtom } from '../atoms/test_configuration';
 import { showResultsAtom } from '../atoms/results';
+import { focusInputAndScrollIntoView } from '@/lib/utils';
 
 const useResetTest = () => {
     const setTyped = useSetAtom(typedAtom);
@@ -21,7 +24,10 @@ const useResetTest = () => {
     const resetBtnRef = useAtomValue(resetBtnRefAtom);
     const generateNewTest = useSetAtom(createNewTestAtom);
 
-    const reset = () => {
+    const testInputRef = useAtomValue(testInputRefAtom);
+    const setTestLostFocus = useSetAtom(testLostFocusAtom);
+
+    const reset = (newTest = true) => {
         setTyped(INITIAL_TYPED);
         setCheckedWords([]);
         setHistory([]);
@@ -29,14 +35,15 @@ const useResetTest = () => {
         setLastTestLog([]);
         setTypedLog([]);
         resetBtnRef?.current?.blur();
+        if (newTest) generateNewTest();
+
+        if (testInputRef && document.activeElement !== testInputRef?.current) {
+            focusInputAndScrollIntoView(testInputRef);
+            setTestLostFocus(false);
+        }
     };
 
-    const createNewTest = () => {
-        reset();
-        generateNewTest();
-    };
-
-    return { reset, createNewTest };
+    return reset;
 };
 
 export default useResetTest;

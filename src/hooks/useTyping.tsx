@@ -11,7 +11,13 @@ import {
     testInputRefAtom,
 } from '../atoms/typing';
 import { showResultsAtom } from '../atoms/results';
-import { focusInputAndScrollIntoView, isLetter, isNumber, isPunctuation, isSpace } from '@/lib/utils';
+import {
+    focusInputAndScrollIntoView,
+    isLetter,
+    isNumber,
+    isPunctuation,
+    isSpace,
+} from '@/lib/utils';
 import { toast } from 'sonner';
 
 const useTyping = () => {
@@ -41,7 +47,7 @@ const useTyping = () => {
                 return;
             }
 
-            if (e.ctrlKey) {
+            if (e.ctrlKey || e.metaKey || e.altKey) {
                 // continue as usual and let the user use the ctrl (cmd) key to navigate etc.
                 return;
             }
@@ -54,10 +60,13 @@ const useTyping = () => {
 
                 appendHistory(key);
 
-                if (testInputRef && document.activeElement !== testInputRef?.current) {
+                if (
+                    testInputRef &&
+                    document.activeElement !== testInputRef?.current
+                ) {
                     focusInputAndScrollIntoView(testInputRef);
-
                     setTestLostFocus(false);
+
                     toast.dismiss();
                 }
 

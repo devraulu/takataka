@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 function useCheckAFK() {
     const typed = useAtomValue(typedAtom);
     const hasTestStarted = useAtomValue(hasTestStartedAtom);
-    const { reset } = useResetTest();
+    const reset = useResetTest();
     const showResults = useAtomValue(showResultsAtom);
     const run = hasTestStarted && !showResults;
 

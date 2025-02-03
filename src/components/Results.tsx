@@ -26,7 +26,7 @@ function Results() {
         extra: 0,
     });
 
-    const { reset, newTest } = useResetTest();
+    const reset = useResetTest();
 
     useEffect(() => {
         const testLogs = [...lastTestLogs];
@@ -47,7 +47,7 @@ function Results() {
                         <Button
                             size='icon'
                             variant='ghost'
-                            onClick={newTest}
+                            onClick={() => reset()}
                             className='text-main'
                             autoFocus
                             aria-label='Start new test'
@@ -57,7 +57,7 @@ function Results() {
                     </SimpleTooltip>
                     <SimpleTooltip label='Restart test'>
                         <Button
-                            onClick={reset}
+                            onClick={() => reset(false)}
                             size='icon'
                             variant='ghost'
                             className='text-main'

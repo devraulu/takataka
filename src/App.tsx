@@ -15,8 +15,8 @@ function App() {
 
     return (
         <Providers>
-            <div className={theme}>
-                <div className='min-h-svh bg-background transition-colors duration-150 ease-out'>
+            <div className={theme + ' antialiased'}>
+                <div className='min-h-svh transition-colors duration-150 ease-out'>
                     <div className='max-w-screen-xl xl:mx-auto xl:container content-grid layout-grid'>
                         <div className='row-start-[top-start] row-end-[content-start] col-[content]'>
                             <HideOnSmallHeight>

@@ -28,6 +28,7 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
 
     return (
         <motion.div
+            initial='hidden'
             animate={show ? 'visible' : 'hidden'}
             variants={variants}
             className='absolute top-0 right-0 left-0 bottom-0 z-50 block'
@@ -36,7 +37,7 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
                 position: 'absolute',
                 inset: 0,
                 height: '200%',
-                backdropFilter: 'blur(3px)',
+                backdropFilter: 'blur(4.5px)',
                 maskImage:
                     'linear-gradient(           \
                         to bottom,              \
@@ -46,7 +47,7 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
             }}
         >
             <div className='h-1/5 w-2'></div>
-            <p className='text-lg font-medium text-center text-text font-display flex gap-2 justify-center'>
+            <p className='text-lg font-semibold text-center text-text font-display flex gap-2 justify-center'>
                 <MousePointerClick /> Click here or start typing to start
                 test...
             </p>

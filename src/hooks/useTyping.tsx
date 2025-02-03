@@ -8,10 +8,16 @@ import {
     testLostFocusAtom,
     textAtom,
     typedAtom,
-    wordsContainerRefAtom,
+    testInputRefAtom,
 } from '../atoms/typing';
 import { showResultsAtom } from '../atoms/results';
-import { isLetter, isNumber, isPunctuation, isSpace } from '@/lib/utils';
+import {
+    focusInputAndScrollIntoView,
+    isLetter,
+    isNumber,
+    isPunctuation,
+    isSpace,
+} from '@/lib/utils';
 import { toast } from 'sonner';
 
 const useTyping = () => {
@@ -22,7 +28,6 @@ const useTyping = () => {
         if (isTestFinished) {
             setShowResults(true);
         }
-
     }, [isTestFinished]);
 
     const [text, setText] = useAtom(textAtom);
@@ -31,7 +36,7 @@ const useTyping = () => {
     const appendHistory = useSetAtom(appendHistoryAtom);
     const resetBtnRef = useAtomValue(resetBtnRefAtom);
     const setTestLostFocus = useSetAtom(testLostFocusAtom);
-    const wordsContainerRef = useAtomValue(wordsContainerRefAtom);
+    const testInputRef = useAtomValue(testInputRefAtom);
 
     const handleKeys = useCallback(
         (e: KeyboardEvent) => {
@@ -42,7 +47,7 @@ const useTyping = () => {
                 return;
             }
 
-            if (e.ctrlKey) {
+            if (e.ctrlKey || e.metaKey || e.altKey) {
                 // continue as usual and let the user use the ctrl (cmd) key to navigate etc.
                 return;
             }
@@ -55,10 +60,13 @@ const useTyping = () => {
 
                 appendHistory(key);
 
-                if (document.activeElement !== wordsContainerRef?.current) {
-                    wordsContainerRef?.current?.focus({ preventScroll: true });
-
+                if (
+                    testInputRef &&
+                    document.activeElement !== testInputRef?.current
+                ) {
+                    focusInputAndScrollIntoView(testInputRef);
                     setTestLostFocus(false);
+
                     toast.dismiss();
                 }
 

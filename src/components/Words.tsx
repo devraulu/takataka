@@ -20,7 +20,7 @@ function Words() {
     useTypedLog();
 
     return (
-        <div ref={containerRef} className='font-variation-mono'>
+        <div ref={containerRef} className='font-variation-mono relative'>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
             <span
                 ref={fontRef}

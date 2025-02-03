@@ -65,8 +65,7 @@ export const appendCheckedWordsAtom = atom(null, (_, set, update: Word) =>
     set(checkedWordsAtom, prev => [...prev, update]),
 );
 
-export const wordsContainerRefAtom =
-    atom<React.RefObject<HTMLDivElement | null>>();
+export const testInputRefAtom = atom<React.RefObject<HTMLInputElement>>();
 
 export const appendTypedLogAtom = atom(null, (_, set, update: Log) =>
     set(typedLogAtom, prev => [...prev, update]),

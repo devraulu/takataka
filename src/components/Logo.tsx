@@ -4,7 +4,7 @@ import useIsTestActive from '@/hooks/useIsTestActive';
 import clsx from 'clsx';
 
 function Logo() {
-    const { newTest } = useResetTest();
+    const reset = useResetTest();
     const isTestActive = useIsTestActive();
 
     const mainTextVariants = {
@@ -46,7 +46,7 @@ function Logo() {
                 style={{
                     cursor: 'pointer',
                 }}
-                onClick={newTest}
+                onClick={() => reset()}
             >
                 <h1
                     className={clsx(

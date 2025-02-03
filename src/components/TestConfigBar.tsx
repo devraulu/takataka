@@ -39,6 +39,7 @@ function TestConfigBar() {
 
     return (
         <motion.div
+            id='test-config-bar'
             initial={{ opacity: 0, translateY: 20 }}
             animate={!isTestActive ? 'active' : 'inactive'}
             variants={variants}

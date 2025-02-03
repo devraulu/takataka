@@ -41,11 +41,12 @@
     }
 
     * {
-        border-color: oklch(--border);
+        border-color: oklch(var(--border));
     }
+
     body {
-        background-color: oklch(--bg-color);
-        color: oklch(--text-color);
+        background-color: oklch(var(--bg-color));
+        color: oklch(var(--text-color));
     }
 }
 
@@ -74,7 +75,7 @@
     }
 
     .content-grid {
-        --padding-inline: 2rem;
+        --padding-inline: 4rem;
         --content-max-width: 1280px;
 
         display: grid;
@@ -98,9 +99,6 @@
     }
 
     @media (max-height: 500px) {
-        .content-grid {
-            --padding-inline: 0.5rem;
-        }
         .layout-grid {
             row-gap: 1rem;
         }

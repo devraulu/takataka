@@ -26,7 +26,7 @@ function Results() {
         extra: 0,
     });
 
-    const { reset, newTest } = useResetTest();
+    const { reset, createNewTest: newTest } = useResetTest();
 
     useEffect(() => {
         const testLogs = [...lastTestLogs];

@@ -1,5 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
+    checkedWordsAtom,
     historyAtom,
     INITIAL_TYPED,
     lastTestLogsAtom,
@@ -15,12 +16,14 @@ const useResetTest = () => {
     const setTypedLog = useSetAtom(typedLogAtom);
     const setHistory = useSetAtom(historyAtom);
     const setLastTestLog = useSetAtom(lastTestLogsAtom);
+    const setCheckedWords = useSetAtom(checkedWordsAtom);
     const setResults = useSetAtom(showResultsAtom);
     const resetBtnRef = useAtomValue(resetBtnRefAtom);
-    const createNewTest = useSetAtom(createNewTestAtom);
+    const generateNewTest = useSetAtom(createNewTestAtom);
 
     const reset = () => {
         setTyped(INITIAL_TYPED);
+        setCheckedWords([]);
         setHistory([]);
         setResults(false);
         setLastTestLog([]);
@@ -28,12 +31,12 @@ const useResetTest = () => {
         resetBtnRef?.current?.blur();
     };
 
-    const newTest = () => {
+    const createNewTest = () => {
         reset();
-        createNewTest();
+        generateNewTest();
     };
 
-    return { reset, newTest };
+    return { reset, createNewTest };
 };
 
 export default useResetTest;

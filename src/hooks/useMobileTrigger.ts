@@ -1,3 +1,4 @@
+import { focusInputAndScrollIntoView } from '@/lib/utils';
 import { useRef } from 'react';
 
 function useMobileTrigger() {
@@ -8,9 +9,7 @@ function useMobileTrigger() {
     };
 
     const triggerTouchKeyboard = () => {
-        if (inputRef.current) {
-            inputRef.current.focus({ preventScroll: true });
-        }
+        focusInputAndScrollIntoView(inputRef);
     };
 
     return { inputRef, isInputFocused, triggerTouchKeyboard };

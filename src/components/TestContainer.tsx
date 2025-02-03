@@ -10,14 +10,14 @@ import useCheckAFK from '../hooks/useCheckAFK';
 import { useSetAtom } from 'jotai';
 import { closeAfkOverlayAtom } from '../atoms/ui';
 import { isMobile } from '@/lib/utils';
-import { wordsContainerRefAtom } from '@/atoms/typing';
+import { testInputRefAtom } from '@/atoms/typing';
 
 export default function TestContainer() {
     const { handleKeys: handleKeyEvent } = useTyping();
     const { inputRef, isInputFocused, triggerTouchKeyboard } =
         useMobileTrigger();
 
-    const setContainerRef = useSetAtom(wordsContainerRefAtom);
+    const setContainerRef = useSetAtom(testInputRefAtom);
 
     useEffect(() => {
         setContainerRef(inputRef);
@@ -64,9 +64,22 @@ export default function TestContainer() {
                         style={{
                             opacity: 0,
                             position: 'absolute',
-                            top: '-9999px',
+                            // top: '-9999px',
+                            width: '1ch',
+                            fontSize: '1rem',
+                            height: '1rem',
+                            padding: 0,
+                            margin: '0 auto',
+                            border: 'none',
+                            outline: 'none',
+                            display: 'block',
+                            resize: 'none',
+                            zIndex: '-1',
+                            cursor: 'default',
+                            pointerEvents: 'none',
+                            borderRadius: 0,
                         }}
-                        autoFocus
+                        // autoFocus
                         tabIndex={1}
                         aria-label='Type here'
                         autoComplete='off'

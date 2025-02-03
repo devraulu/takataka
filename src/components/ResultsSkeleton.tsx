@@ -1,6 +1,6 @@
 export default function ResultsSkeleton() {
     return (
-        <div className='animate-pulse row-start-1 col-[content]'>
+        <div className='animate-pulse '>
             <div className='flex justify-between items-end'>
                 <div className='w-14 h-12 rounded-lg bg-sub-alt' />
 
@@ -10,7 +10,7 @@ export default function ResultsSkeleton() {
                 </div>
             </div>
 
-            <div className='col-[content] row-start-2 row-span-1'>
+            <div className='row-start-2 row-span-1 mt-6'>
                 <div className='flex flex-grow gap-2'>
                     <div className='flex-1 flex justify-center'>
                         <div className='w-16 h-16 rounded-lg bg-sub-alt' />

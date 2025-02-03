@@ -106,7 +106,7 @@
 
     @media (max-width: 480px) {
         .content-grid {
-            --padding-inline: 0.5rem;
+            --padding-inline: 1rem;
         }
     }
 

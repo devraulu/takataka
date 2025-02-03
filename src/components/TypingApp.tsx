@@ -29,9 +29,11 @@ function TypingApp() {
             {showResults ? (
                 <Suspense
                     fallback={
-                        <DissapearAnimation>
-                            <ResultsSkeleton />
-                        </DissapearAnimation>
+                        <div className='row-start-1 col-[content]'>
+                            <DissapearAnimation>
+                                <ResultsSkeleton />
+                            </DissapearAnimation>
+                        </div>
                     }
                 >
                     <Results />

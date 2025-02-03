@@ -98,6 +98,18 @@
         overflow: hidden;
     }
 
+    @media (max-width: 640px) {
+        .content-grid {
+            --padding-inline: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .content-grid {
+            --padding-inline: 0.5rem;
+        }
+    }
+
     @media (max-height: 500px) {
         .layout-grid {
             row-gap: 1rem;

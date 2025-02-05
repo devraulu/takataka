@@ -34,7 +34,7 @@ export function isMobile() {
 }
 
 export function focusInputAndScrollIntoView(
-    input: React.RefObject<HTMLInputElement> | null | undefined,
+    input: React.RefObject<HTMLInputElement | null>,
 ) {
     if (input?.current) {
         input.current.focus({ preventScroll: true });

@@ -20,6 +20,7 @@ export default function TestContainer() {
     const setContainerRef = useSetAtom(testInputRefAtom);
 
     useEffect(() => {
+        if(inputRef.current === null) return;
         setContainerRef(inputRef);
     }, [inputRef]);
 

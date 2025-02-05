@@ -7,7 +7,7 @@ import { motion, SpringOptions, useMotionValue, useSpring } from 'motion/react';
 import { useLayoutEffect } from 'react';
 
 interface CaretProps {
-    containerRef: React.RefObject<HTMLDivElement>;
+    containerRef: React.RefObject<HTMLDivElement | null>;
     fontHeight: number;
 }
 

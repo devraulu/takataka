@@ -1,6 +1,6 @@
 import Caret from './Caret';
 import useRenderWords from '../hooks/useRenderWords';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import useTypedLog from '../hooks/useTypedLog';
 import clsx from 'clsx';
 import ShowAfterDelay from './ShowAfterDelay';
@@ -81,14 +81,14 @@ function Words() {
                                                     return (
                                                         <div
                                                             key={word + j}
-                                                            style={getTextColor(
-                                                                isTyped,
-                                                                isCorrect,
-                                                                isExtraLetter,
+                                                            className={clsx(
+                                                                'font-semibold',
+                                                                getTextColor(
+                                                                    isTyped,
+                                                                    isCorrect,
+                                                                    isExtraLetter,
+                                                                ),
                                                             )}
-                                                            className={
-                                                                'font-semibold'
-                                                            }
                                                             data-letter={letter}
                                                             data-index={j}
                                                             data-extra={
@@ -118,21 +118,15 @@ const getTextColor = (
     isTyped?: boolean,
     isCorrect?: boolean,
     isExtra?: boolean,
-): React.CSSProperties => {
-    let color = 'sub-color';
+): string => {
+    let color = 'text-sub-color';
 
     if (isTyped)
-        if (isCorrect) color = 'main-color';
-        else color = 'error-color';
-    if (isExtra) color = 'error-extra-color';
+        if (isCorrect) color = 'text-main';
+        else color = 'text-error';
+    if (isExtra) color = 'text-error-extra';
 
-    const resolvedColor = getComputedStyle(
-        document.documentElement,
-    ).getPropertyValue(`--${color}`);
-
-    return {
-        color: `oklch(${resolvedColor})`,
-    };
+    return color;
 };
 
 export default Words;

@@ -24,7 +24,7 @@ function Words() {
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
             <span
                 ref={fontRef}
-                className={'fixed invisible '}
+                className={'fixed invisible'}
                 style={{ fontSize: fz }}
             >
                 a
@@ -35,7 +35,7 @@ function Words() {
             <ShowAfterDelay>
                 {words.length > 0 && (
                     <div
-                        className={'focus:outline-none '}
+                        className={'focus:outline-hidden '}
                         style={{ fontSize: fz }}
                     >
                         <div className='flex flex-wrap'>
@@ -82,7 +82,7 @@ function Words() {
                                                         <div
                                                             key={word + j}
                                                             className={clsx(
-                                                                'font-semibold',
+                                                                'font-medium',
                                                                 getTextColor(
                                                                     isTyped,
                                                                     isCorrect,
@@ -119,7 +119,7 @@ const getTextColor = (
     isCorrect?: boolean,
     isExtra?: boolean,
 ): string => {
-    let color = 'text-sub-color';
+    let color = 'text-sub';
 
     if (isTyped)
         if (isCorrect) color = 'text-main';

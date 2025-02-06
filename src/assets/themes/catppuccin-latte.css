@@ -1,0 +1,90 @@
+.catppuccin-latte {
+    --rosewater: oklch(from hsl(11deg, 59%, 67%) l c h);
+    --flamingo: oklch(from hsl(0deg, 60%, 67%) l c h);
+    --pink: oklch(from hsl(316deg, 73%, 69%) calc(l * 0.95) c h);
+    --mauve: oklch(from hsl(266deg, 85%, 58%) l c h);
+    --red: oklch(from hsl(347deg, 87%, 44%) l c h);
+    --maroon: oklch(from hsl(355deg, 70%, 59%) l c h);
+    --peach: oklch(from hsl(22deg, 99%, 52%) l c h);
+    --yellow: oklch(from hsl(35deg, 77%, 49%) calc(l * 0.95) c h);
+    --green: oklch(from hsl(109deg, 58%, 40%) l c h);
+    --teal: oklch(from hsl(183deg, 74%, 35%) l c h);
+    --sky: oklch(from hsl(179deg, 97%, 46%) calc(l * 0.9) c h);
+    --sapphire: oklch(from hsl(189deg, 72%, 42%) l c h);
+    --blue: oklch(from hsl(220deg, 91%, 54%) l c h);
+    --lavender: oklch(from hsl(231deg, 69%, 72%) l c h);
+    --text: oklch(from hsl(234deg, 16%, 35%) l c h);
+    --subtext-1: oklch(from hsl(233deg, 13%, 41%) l c h);
+    --subtext-0: oklch(from hsl(233deg, 10%, 47%) l c h);
+    --overlay-2: oklch(from hsl(232deg, 19%, 53%) l c h);
+    --overlay-1: oklch(from hsl(231deg, 10%, 50%) l c h);
+    --overlay-0: oklch(from hsl(232deg, 11%, 65%) l c h);
+    --surface-2: oklch(from hsl(227deg, 12%, 71%) l c h);
+    --surface-1: oklch(from hsl(225deg, 14%, 77%) l c h);
+    --surface-0: oklch(from hsl(223deg, 16%, 83%) l c h);
+    --base: oklch(from hsl(223deg, 23%, 95%) calc(l * 1.1) c h);
+    --mantle: oklch(from hsl(228deg, 22%, 92%) l c h);
+    --crust: oklch(from hsl(226deg, 21%, 90%) l c h);
+
+    --surface1-color: var(--base);
+    --surface2-color: var(--crust);
+    --surface3-color: var(--surface-1);
+    --caret-color: var(--green);
+    --main-color: var(--mauve);
+    --sub-color: var(--subtext-1);
+    --sub-alt-color: var(--subtext-0);
+    --text-color: var(--text);
+    --text2-color: oklch(67.87% 0.0426 272.28);
+    --error-color: var(--red);
+    --error-extra-color: var(--maroon);
+
+    #test-config-bar {
+        background-color: var(--surface1-color);
+    }
+
+    [data-state='on'] {
+        &#punctuation {
+            color: var(--yellow);
+        }
+        &#numbers {
+            color: var(--pink);
+        }
+        &[id^='test-size-'] {
+            color: var(--peach);
+        }
+    }
+
+    a:hover {
+        color: var(--blue);
+    }
+
+    #test-type-size {
+        color: var(--peach);
+    }
+
+    #test-type-punctuation {
+        color: var(--pink);
+    }
+
+    #test-type-numbers {
+        color: var(--yellow);
+    }
+
+    #retry-test-button {
+        color: var(--mauve);
+        &:hover,
+        &:focus {
+            color: var(--surface1-color);
+            background-color: var(--mauve);
+        }
+    }
+
+    #next-test-button {
+        color: var(--sky);
+        &:hover,
+        &:focus {
+            color: var(--surface1-color);
+            background-color: var(--sky);
+        }
+    }
+}

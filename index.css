@@ -1,119 +1,194 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-    --bg-color: 23.75% 0.0192 294.06;
-    --main-color: 82.19% 0.0543 209.56;
-    --caret-color: 84.29% 0.11 74.6;
-    --sub-color: 77.6% 0.0945 304.99;
-    --sub-alt-color: 27.4% 0.0259 294.45;
-    --text-color: 90.88% 0.0299 289.97;
-    --error-color: 69.77% 0.1565 4.22;
-    --error-extra-color: 83.63% 0.0544 21.14;
-    --colorful-error-color: 69.77% 0.1565 4.22;
-    --colorful-error-extra-color: 83.63% 0.0544 21.14;
+@plugin 'tailwindcss-animate';
 
-    --card: 100% 0 106.37;
-    --card-foreground: 14.05% 0.0044 285.82;
-    --popover: 100% 0 106.37;
-    --popover-foreground: 14.05% 0.0044 285.82;
-    --primary: 21.03% 0.0059 285.88;
-    --primary-foreground: 98.48% 0 0;
-    --secondary: 96.76% 0.0013 286.38;
-    --secondary-foreground: 21.03% 0.0059 285.88;
-    --muted: 96.76% 0.0013 286.38 240 4.8% 95.9%;
-    --muted-foreground: 55.19% 0.0137 285.94;
-    --accent: 96.76% 0.0013 286.38;
-    --accent-foreground: 21.03% 0.0059 285.88;
-    --destructive: 63.68% 0.2078 25.33;
-    --destructive-foreground: 98.48% 0 0;
-    --border: 21.03% 0.0059 285.88;
-    --input: 21.03% 0.0059 285.88;
-    --ring: 14.05% 0.0044 285.82;
-    --chart-1: 67.72% 0.1571 35.19;
-    --chart-2: 63.09% 0.1013 183.49;
-    --chart-3: 37.87% 0.044 225.54;
-    --chart-4: 83.36% 0.1186 88.15;
-    --chart-5: 78.34% 0.1261 58.75;
-    --radius: 0.5rem;
+@theme {
+    --font-sans: 'Recursive Variable', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+    --font-mono: 'Recursive Variable', ui-monospace, SFMono-Regular, Menlo,
+        Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+    --animate-blink: blink 1s ease-out infinite;
+
+    --stroke-width-3: 3px;
+    --stroke-width-4: 4px;
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-surface1: var(--surface1-color);
+    --color-surface2: var(--surface2-color);
+    --color-surface3: var(--surface3-color);
+    --color-foreground: var(--main-color);
+    --color-main: var(--main-color);
+    --color-caret: var(--caret-color);
+    --color-sub: var(--sub-color);
+    --color-sub-alt: var(--sub-alt-color);
+    --color-text: var(--text-color);
+    --color-text2: var(--text2-color);
+    --color-error: var(--error-color);
+    --color-error-extra: var(--error-extra-color);
+    --color-colorful-error: var(--colorful-error-color);
+    --color-colorful-error-extra: var(--colorful-error-extra-color);
+
+    --color-card: oklch(var(--card));
+    --color-card-foreground: oklch(var(--card-foreground));
+
+    --color-popover: oklch(var(--popover));
+    --color-popover-foreground: oklch(var(--popover-foreground));
+
+    --color-muted: oklch(var(--muted));
+    --color-muted-foreground: oklch(var(--muted-foreground));
+
+    --color-accent: oklch(var(--accent));
+    --color-accent-foreground: oklch(var(--accent-foreground));
+
+    --color-border: oklch(var(--border));
+    --color-input: oklch(var(--input));
+    --color-ring: oklch(var(--ring));
+
+    --color-chart-1: oklch(var(--chart-1));
+    --color-chart-2: oklch(var(--chart-2));
+    --color-chart-3: oklch(var(--chart-3));
+    --color-chart-4: oklch(var(--chart-4));
+    --color-chart-5: oklch(var(--chart-5));
+
+    @keyframes blink {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
 }
 
-* {
-    border-color: oklch(var(--border));
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
 }
 
-body {
-    background-color: oklch(var(--bg-color));
-    color: oklch(var(--text-color));
+/* @utility link { */
+/*     text-decoration-style: underline; */
+/*     text-decoration-thickness: 2px; */
+/**/
+/*     &:hover { */
+/*         color: oklch(--text-color); */
+/*     } */
+/* } */
+/**/
+
+@utility font-variation-mono {
+    font-variation-settings: 'MONO' 1;
 }
 
-@layer components {
-    .link {
-        text-decoration-style: underline;
-        text-decoration-thickness: 2px;
+@utility font-variation-casual {
+    font-variation-settings: 'CASL' 1;
+}
+
+@utility font-variation-slant {
+    font-variation-settings: 'slnt' 1;
+}
+
+@utility content-grid {
+    --padding-inline: 4rem;
+    --content-max-width: 1280px;
+
+    display: grid;
+    grid-template-columns:
+        [full-width-start]
+        minmax(0, var(--padding-inline)) [full-width-padding-start]
+        minmax(0, 1fr) [content-start]
+        min(100% - var(--padding-inline) * 2, var(--content-max-width))
+        [content-end] minmax(0, 1fr) [full-width-padding-end]
+        minmax(0, var(--padding-inline)) [full-width-end];
+    row-gap: 3rem;
+
+    .fullbleed {
+        grid-column: full-width;
     }
 
-    .link:hover {
-        color: oklch(--text-color);
+    @media (max-width: 640px) {
+        --padding-inline: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+        --padding-inline: 1rem;
+    }
+
+    @media (max-height: 500px) {
+        row-gap: 1rem;
+    }
+
+    & > * {
+        grid-template-columns: subgrid;
+    }
+}
+
+@utility layout-grid {
+    display: grid;
+    grid-template-rows: [top-start] auto [content-start] 1fr [content-end] auto [top-end];
+
+    min-height: 100dvh;
+    row-gap: 3rem;
+    overflow: hidden;
+
+    @media (max-height: 500px) {
+        row-gap: 1rem;
     }
 }
 
 @layer utilities {
-    .font-variation-mono {
-        font-variation-settings: 'MONO' 1;
+    :root {
+        --card: 100% 0 106.37;
+        --card-foreground: 14.05% 0.0044 285.82;
+        --popover: 100% 0 106.37;
+        --popover-foreground: 14.05% 0.0044 285.82;
+        --primary: 21.03% 0.0059 285.88;
+        --primary-foreground: 98.48% 0 0;
+        --secondary: 96.76% 0.0013 286.38;
+        --secondary-foreground: 21.03% 0.0059 285.88;
+        --muted: 96.76% 0.0013 286.38 240 4.8% 95.9%;
+        --muted-foreground: 55.19% 0.0137 285.94;
+        --accent: 96.76% 0.0013 286.38;
+        --accent-foreground: 21.03% 0.0059 285.88;
+        --destructive: 63.68% 0.2078 25.33;
+        --destructive-foreground: 98.48% 0 0;
+        --border: 21.03% 0.0059 285.88;
+        --input: 21.03% 0.0059 285.88;
+        --ring: 14.05% 0.0044 285.82;
+        --chart-1: 67.72% 0.1571 35.19;
+        --chart-2: 63.09% 0.1013 183.49;
+        --chart-3: 37.87% 0.044 225.54;
+        --chart-4: 83.36% 0.1186 88.15;
+        --chart-5: 78.34% 0.1261 58.75;
+        --radius: 0.5rem;
     }
 
-    .font-variation-casual {
-        font-variation-settings: 'CASL' 1;
+    * {
+        border-color: oklch(var(--border));
     }
 
-    .font-variation-slant {
-        font-variation-settings: 'slnt' 1;
-    }
-
-    .content-grid {
-        --padding-inline: 4rem;
-        --content-max-width: 1280px;
-
-        display: grid;
-        grid-template-columns:
-            [full-width-start]
-            minmax(0, var(--padding-inline)) [full-width-padding-start]
-            minmax(0, 1fr) [content-start]
-            min(100% - var(--padding-inline) * 2, var(--content-max-width))
-            [content-end] minmax(0, 1fr) [full-width-padding-end]
-            minmax(0, var(--padding-inline)) [full-width-end];
-        row-gap: 3rem;
-    }
-
-    .layout-grid {
-        display: grid;
-        grid-template-rows: [top-start] auto [content-start] 1fr [content-end] auto [top-end];
-
-        min-height: 100dvh;
-        row-gap: 3rem;
-        overflow: hidden;
-    }
-
-    @media (max-width: 640px) {
-        .content-grid {
-            --padding-inline: 1.5rem;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .content-grid {
-            --padding-inline: 1rem;
-        }
-    }
-
-    @media (max-height: 500px) {
-        .layout-grid {
-            row-gap: 1rem;
-        }
-        .content-grid {
-            row-gap: 1rem;
-        }
+    body {
+        background-color: var(--surface1-color);
+        color: var(--text-color);
     }
 }

@@ -1,12 +1,10 @@
 .rose-pine {
-    --bg-color: 23.75% 0.0192 294.06;
-    --main-color: 82.19% 0.0543 209.56;
-    --caret-color: 84.29% 0.11 74.6;
-    --sub-color: 77.6% 0.0945 304.99;
-    --sub-alt-color: 27.4% 0.0259 294.45;
-    --text-color: 90.88% 0.0299 289.97;
-    --error-color: 69.77% 0.1565 4.22;
-    --error-extra-color: 83.63% 0.0544 21.14;
-    --colorful-error-color: 69.77% 0.1565 4.22;
-    --colorful-error-extra-color: 83.63% 0.0544 21.14;
+    --bg-color: oklch(23.75% 0.0192 294.06);
+    --main-color: oklch(82.19% 0.0543 209.56);
+    --caret-color: oklch(84.29% 0.11 74.6);
+    --sub-color: oklch(77.6% 0.0945 304.99);
+    --sub-alt-color: oklch(27.4% 0.0259 294.45);
+    --text-color: oklch(90.88% 0.0299 289.97);
+    --error-color: oklch(69.77% 0.1565 4.22);
+    --error-extra-color: oklch(83.63% 0.0544 21.14);
 }

@@ -8,9 +8,8 @@ import { useAtomValue } from 'jotai';
 import { themeAtom } from './atoms/ui';
 
 import '../index.css';
-import '@/assets/fonts.css';
 import '@/assets/themes/themes.css';
-import './App.css';
+import recursiveVariableWoff2 from '@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2?url';
 
 import { useEffect } from 'react';
 
@@ -26,27 +25,38 @@ function App() {
     }, [theme]);
 
     return (
-        <Providers>
-            <div className={'antialiased bg-background text-text'}>
-                <div className='min-h-svh transition-colors duration-150 ease-out'>
-                    <div className='max-w-screen-xl xl:mx-auto xl:container content-grid layout-grid'>
-                        <div className='row-start-[top-start] row-end-[content-start] col-[content]'>
-                            <HideOnSmallHeight>
-                                <Header />
-                            </HideOnSmallHeight>
-                        </div>
-                        <div className='row-start-[content-start] row-end-[content-end] [grid-column:full-width]'>
-                            <TypingApp />
-                        </div>
-                        <div className='row-start-[content-end] row-end-[top-end] col-start-[content-start] col-end-[content-end]'>
-                            <HideOnSmallHeight>
-                                <Footer />
-                            </HideOnSmallHeight>
+        <>
+            <head>
+                <link
+                    rel='preload'
+                    href={recursiveVariableWoff2}
+                    as='font'
+                    type='font/woff2'
+                    crossOrigin='anonymous'
+                />
+            </head>
+            <Providers>
+                <div className={'antialiased'}>
+                    <div className='min-h-svh transition-colors duration-150 ease-out'>
+                        <div className='max-w-(--breakpoint-xl) xl:mx-auto xl:container content-grid layout-grid'>
+                            <div className='row-start-[top-start] row-end-[content-start] col-[content]'>
+                                <HideOnSmallHeight>
+                                    <Header />
+                                </HideOnSmallHeight>
+                            </div>
+                            <div className='row-start-[content-start] row-end-[content-end] fullbleed'>
+                                <TypingApp />
+                            </div>
+                            <div className='row-start-[content-end] row-end-[top-end] col-start-[content-start] col-end-[content-end]'>
+                                <HideOnSmallHeight>
+                                    <Footer />
+                                </HideOnSmallHeight>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </Providers>
+            </Providers>
+        </>
     );
 }
 

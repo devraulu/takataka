@@ -11,18 +11,14 @@ const AfkOverlay: React.FunctionComponent<AfkOverlayProps> = ({
 }) => {
     const { show } = usePromptOverlay();
 
-    const resolvedBgColor = getComputedStyle(
-        document.documentElement,
-    ).getPropertyValue('--bg-color');
-
     const variants = {
         hidden: {
             opacity: 0,
-            backgroundColor: `oklch(${resolvedBgColor})`,
+            backgroundColor: `var(--surface1-color)`,
         },
         visible: {
             opacity: 1,
-            backgroundColor: `oklch(${resolvedBgColor} / 0.8)`,
+            backgroundColor: `oklch(from var(--surface1-color) l c h / 0.8)`,
         },
     };
 

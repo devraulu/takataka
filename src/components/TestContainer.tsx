@@ -20,7 +20,7 @@ export default function TestContainer() {
     const setContainerRef = useSetAtom(testInputRefAtom);
 
     useEffect(() => {
-        if(inputRef.current === null) return;
+        if (inputRef.current === null) return;
         setContainerRef(inputRef);
     }, [inputRef]);
 
@@ -54,7 +54,7 @@ export default function TestContainer() {
 
     return (
         <>
-            <div className='row-span-1 col-[content] mx-auto'>
+            <div className='row-span-1 col-[full-width] mx-auto'>
                 <TestConfigBar />
             </div>
             <div className='row-span-1 col-[content]' onClick={handleTouch}>
@@ -65,7 +65,6 @@ export default function TestContainer() {
                         style={{
                             opacity: 0,
                             position: 'absolute',
-                            // top: '-9999px',
                             width: '1ch',
                             fontSize: '1rem',
                             height: '1rem',

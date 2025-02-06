@@ -1,24 +1,22 @@
-import ConfigChip from './common/ConfigChip';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
-    handleToggleNumbers,
-    handleTogglePunctuation,
     handleTestSize,
     testConfigurationAtom,
+    setTestConfigurationAtom,
 } from '@/atoms/test_configuration';
 import clsx from 'clsx';
 import { AtSign, Hash } from 'lucide-react';
 import useIsTestActive from '@/hooks/useIsTestActive';
 import { motion } from 'motion/react';
 import { showAfkOverlayAtom } from '@/atoms/ui';
+import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group';
 
 function TestConfigBar() {
     const { punctuation, numbers, testSize } = useAtomValue(
         testConfigurationAtom,
     );
 
-    const toggleNumbers = useSetAtom(handleToggleNumbers);
-    const togglePunctuation = useSetAtom(handleTogglePunctuation);
+    const setTestConfiguration = useSetAtom(setTestConfigurationAtom);
     const setTestSize = useSetAtom(handleTestSize);
 
     const sizes = [10, 25, 50, 100];
@@ -44,7 +42,7 @@ function TestConfigBar() {
             animate={!isTestActive ? 'active' : 'inactive'}
             variants={variants}
             className={clsx(
-                'inline-flex mx-auto items-center bg-sub-alt md:gap-2 rounded-md px-2 py-1.5',
+                'inline-flex mx-auto items-center bg-surface2 md:gap-2 rounded-md px-2 py-1.5 fullbleed',
                 {
                     'pointer-events-none': isTestActive,
                 },
@@ -52,40 +50,55 @@ function TestConfigBar() {
             onClick={() => setShowAfkOverlay(false)}
         >
             <div className='flex justify-center gap-2'>
-                <ConfigChip
-                    checked={punctuation}
-                    onClick={() => {
-                        togglePunctuation();
+                <ToggleGroup
+                    type='multiple'
+                    value={[
+                        punctuation ? 'punctuation' : '',
+                        numbers ? 'numbers' : '',
+                    ]}
+                    onValueChange={value => {
+                        setTestConfiguration({
+                            punctuation: value.includes('punctuation'),
+                            numbers: value.includes('numbers'),
+                        });
                     }}
-                    className='text-xs md:text-sm'
-                    aria-label={`Punctuation: ${punctuation ? 'on' : 'off'}`}
                 >
-                    <AtSign className='stroke-3 size-3' />
-                    <span className='hidden md:block'>punctuation</span>
-                </ConfigChip>
-                <ConfigChip
-                    checked={numbers}
-                    onClick={toggleNumbers}
-                    className='text-xs md:text-sm'
-                    aria-label={`Numbers: ${numbers ? 'on' : 'off'}`}
-                >
-                    <Hash className='stroke-3 size-3' />
-                    <span className='hidden md:block'>numbers</span>
-                </ConfigChip>
+                    <ToggleGroupItem
+                        id='punctuation'
+                        value='punctuation'
+                        aria-label='Toggle punctuation'
+                    >
+                        <AtSign />
+                        <span className='hidden md:block'>punctuation</span>
+                    </ToggleGroupItem>
+                    <ToggleGroupItem
+                        id='numbers'
+                        value='numbers'
+                        aria-label={'Toggle numbers'}
+                    >
+                        <Hash />
+                        <span className='hidden md:block'>numbers</span>
+                    </ToggleGroupItem>
+                </ToggleGroup>
             </div>
             <span className='h-1 w-1 bg-main opacity-75 rounded-full mx-2'></span>
             <div className='flex justify-center gap-2'>
-                {sizes.map(s => (
-                    <ConfigChip
-                        key={'test-size-' + s}
-                        checked={testSize == s}
-                        onClick={() => setTestSize(s)}
-                        className='text-xs md:text-sm'
-                        aria-label={`Test size: ${s}`}
-                    >
-                        {s}
-                    </ConfigChip>
-                ))}
+                <ToggleGroup
+                    type='single'
+                    value={testSize + ''}
+                    onValueChange={value => setTestSize(parseInt(value))}
+                >
+                    {sizes.map(s => (
+                        <ToggleGroupItem
+                            key={'test-size-' + s}
+                            id={'test-size-' + s}
+                            aria-label={`Select test size ${s}`}
+                            value={s + ''}
+                        >
+                            {s}
+                        </ToggleGroupItem>
+                    ))}
+                </ToggleGroup>
             </div>
         </motion.div>
     );

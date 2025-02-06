@@ -45,6 +45,7 @@ function Results() {
                 <div className='flex justify-center gap-2 mt-4'>
                     <SimpleTooltip label='Next test'>
                         <Button
+                            id='next-test-button'
                             size='icon'
                             variant='ghost'
                             onClick={() => reset()}
@@ -52,25 +53,26 @@ function Results() {
                             autoFocus
                             aria-label='Start new test'
                         >
-                            <ArrowRight strokeWidth={3} className='!size-6' />
+                            <ArrowRight strokeWidth={3} className='size-6!' />
                         </Button>
                     </SimpleTooltip>
                     <SimpleTooltip label='Restart test'>
                         <Button
+                            id='retry-test-button'
                             onClick={() => reset(false)}
                             size='icon'
                             variant='ghost'
                             className='text-main'
                             aria-label='Retry test'
                         >
-                            <Repeat2 strokeWidth={3} className='!size-6' />
+                            <Repeat2 strokeWidth={3} className='size-6!' />
                         </Button>
                     </SimpleTooltip>
                 </div>
             </div>
 
             <div className='col-[content] row-start-2 row-span-1'>
-                <div className='flex flex-grow gap-2'>
+                <div className='flex grow gap-2'>
                     <SimpleTooltip label={stats.avg.toFixed(2)}>
                         <div className='flex-1'>
                             <TitleText>wpm</TitleText>

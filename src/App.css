@@ -1,8 +1,0 @@
-* {
-    border-color: oklch(var(--border));
-}
-
-body {
-    /* background-color: oklch(var(--bg-color)); */
-    /* color: oklch(var(--text-color)); */
-}

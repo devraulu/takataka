@@ -22,19 +22,19 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
     const chartConfig = {
         second: {
             label: 'second',
-            color: 'oklch(var(--sub-color))',
+            color: 'var(--sub-color)',
         },
         rawWpm: {
             label: 'raw',
-            color: 'oklch(var(--sub-color))',
+            color: 'var(--sub-color)',
         },
         errors: {
             label: 'errors',
-            color: 'oklch(var(--error-color))',
+            color: 'var(--error-color)',
         },
         avgWpm: {
             label: 'avg',
-            color: 'oklch(var(--main_color))',
+            color: 'var(--main_color)',
         },
     } satisfies ChartConfig;
 
@@ -95,20 +95,20 @@ const ResultsChart: React.FunctionComponent<ResultsChartProps> = ({ data }) => {
                     yAxisId='left'
                     dataKey='rawWpm'
                     type={'natural'}
-                    fill={'oklch(var(--sub-color) / 0.4)'}
-                    stroke={'oklch(var(--sub-color))'}
+                    fill={'oklch(from var(--sub-color) l c h / 0.4)'}
+                    stroke={'var(--sub-color)'}
                 />
                 <Area
                     yAxisId='left'
                     dataKey='avgWpm'
                     type={'natural'}
-                    fill={'oklch(var(--main-color) / 0.2)'}
-                    stroke={'oklch(var(--main-color))'}
+                    fill={'oklch(from var(--main-color) l c h / 0.2)'}
+                    stroke={'var(--main-color)'}
                 />
                 <Scatter
                     yAxisId='right'
                     dataKey='errors'
-                    fill={'oklch(var(--error-color))'}
+                    fill={'var(--error-color)'}
                 />
             </ComposedChart>
         </ChartContainer>

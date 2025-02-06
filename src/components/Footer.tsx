@@ -69,7 +69,7 @@ const Links = () => (
                         target='_blank'
                         rel='noopener'
                     >
-                        <Github size={48} strokeWidth={2} />
+                        <Github />
                     </a>
                 </Button>
             }
@@ -82,7 +82,7 @@ const Links = () => (
                 aria-label='Contact me via email'
             >
                 <a href='mailto:me@rauluis.com'>
-                    <Mail size={48} strokeWidth={2} />
+                    <Mail />
                 </a>
             </Button>
         </SimpleTooltip>

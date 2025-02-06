@@ -58,7 +58,7 @@ function ThemePicker({ children }: ThemePickerProps) {
                             className={clsx(
                                 'cursor-pointer flex justify-between px-4 py-1 rounded-md',
                                 active ? 'bg-text' : 'bg-transparent',
-                                active ? 'text-background' : 'text-sub',
+                                active ? 'text-surface1' : 'text-sub',
                             )}
                             key={name}
                             onMouseEnter={() => setHovered(name)}
@@ -85,12 +85,32 @@ function ThemePicker({ children }: ThemePickerProps) {
                             <div className={name}>
                                 <div
                                     className={clsx(
-                                        'flex border-4 border-b-8 border-background m-0 p-0',
+                                        'flex border-4 border-b-8 m-0 p-0',
                                     )}
+                                    style={{
+                                        borderColor: 'var(--surface1-color)',
+                                    }}
                                 >
-                                    <div className='w-4 h-4 bg-main' />
-                                    <div className='w-4 h-4 bg-sub' />
-                                    <div className='w-4 h-4 bg-text' />
+                                    <div
+                                        className='w-4 h-4'
+                                        style={{
+                                            backgroundColor:
+                                                'var(--main-color)',
+                                        }}
+                                    />
+                                    <div
+                                        className='w-4 h-4'
+                                        style={{
+                                            backgroundColor: 'var(--sub-color)',
+                                        }}
+                                    />
+                                    <div
+                                        className='w-4 h-4'
+                                        style={{
+                                            backgroundColor:
+                                                'var(--text-color)',
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>

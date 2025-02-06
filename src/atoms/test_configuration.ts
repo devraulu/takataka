@@ -6,7 +6,7 @@ import { generateTestWords } from '@/lib/utils/random-words';
 const initialTestConfiguration = {
     numbers: false,
     punctuation: false,
-    testSize: 25,
+    testSize: 10,
 };
 
 const testConfiguration = atomWithStorage(
@@ -16,7 +16,7 @@ const testConfiguration = atomWithStorage(
 
 export const testConfigurationAtom = atom(get => get(testConfiguration));
 
-const setTestConfiguration = atom(
+export const setTestConfigurationAtom = atom(
     null,
     (_, set, update: Partial<typeof initialTestConfiguration>) => {
         set(testConfiguration, prev => ({ ...prev, ...update }));
@@ -24,23 +24,14 @@ const setTestConfiguration = atom(
     },
 );
 
-export const handleToggleNumbers = atom(null, (get, set) =>
-    set(setTestConfiguration, { numbers: !get(testConfiguration).numbers }),
-);
-
-export const handleTogglePunctuation = atom(null, (get, set) =>
-    set(setTestConfiguration, {
-        punctuation: !get(testConfiguration).punctuation,
-    }),
-);
-
 export const handleTestSize = atom(null, (_, set, testSize: number) =>
-    set(setTestConfiguration, { testSize }),
+    set(setTestConfigurationAtom, { testSize }),
 );
 
 export const createNewTestAtom = atom(null, (get, set) => {
     const { numbers, punctuation, testSize } = get(testConfiguration);
+    console.log('createNewTest', numbers, punctuation, testSize);
 
-    set(textAtom, generateTestWords(testSize, punctuation, numbers));
+    set(textAtom, generateTestWords(testSize ?? 10, punctuation, numbers));
     set(resetTestAtom);
 });

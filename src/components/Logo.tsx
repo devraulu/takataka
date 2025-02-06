@@ -16,17 +16,13 @@ function Logo() {
         },
     };
 
-    const resolvedTextColor = getComputedStyle(document.documentElement)
-        .getPropertyValue('--text-color')
-        .trim();
-
     const smallTextVariants = {
         active: {
-            color: `oklch(${resolvedTextColor})`,
+            color: `var(--text-color)`,
             opacity: 1,
         },
         subtle: {
-            color: `oklch(${resolvedTextColor})`,
+            color: `var(--text-color)`,
             opacity: 0,
         },
     };
@@ -34,7 +30,7 @@ function Logo() {
     const animate = isTestActive ? 'subtle' : 'active';
 
     return (
-        <div className='select-none'>
+        <div className='select-none' id='logo'>
             <motion.div variants={smallTextVariants} animate={animate}>
                 <div className='text-xs md:text-sm text-sub font-bold font-sans pl-1 leading-none'>
                     keys go

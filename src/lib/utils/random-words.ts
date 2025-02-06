@@ -9,7 +9,6 @@ export function generateTestWords(
     numbers?: boolean,
 ): string {
     const generatedWordsSet = new Set<string>();
-    console.log('size', size, 'punctuation', punctuation, 'numbers', numbers);
 
     while (generatedWordsSet.size < size) {
         const missingWordsSize = size - generatedWordsSet.size;

@@ -30,7 +30,6 @@ export const handleTestSize = atom(null, (_, set, testSize: number) =>
 
 export const createNewTestAtom = atom(null, (get, set) => {
     const { numbers, punctuation, testSize } = get(testConfiguration);
-    console.log('createNewTest', numbers, punctuation, testSize);
 
     set(textAtom, generateTestWords(testSize ?? 10, punctuation, numbers));
     set(resetTestAtom);

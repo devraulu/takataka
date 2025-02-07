@@ -1,0 +1,10 @@
+.dracula {
+    --bg-color: oklch(28.82% 0.0221 277.51);
+    --main-color: oklch(74.2% 0.1485 301.88);
+    --caret-color: oklch(74.2% 0.1485 301.88);
+    --sub-color: oklch(55.98% 0.0803 270.09);
+    --sub-alt-color: oklch(25.44% 0.0191 276.1);
+    --text-color: oklch(97.75% 0.0079 106.55);
+    --error-color: oklch(68.22% 0.2063 24.43);
+    --error-extra-color: oklch(95.53% 0.1342 112.76);
+}

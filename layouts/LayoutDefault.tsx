@@ -1,50 +1,45 @@
-import "./style.css";
+import React, { useEffect } from "react";
+import Header from "#root/components/layout/Header.js";
+import Footer from "#root/components/layout/Footer.js";
+import Providers from "#root/components/Providers";
+import HideOnSmallHeight from "#root/components/animations/HideOnSmallHeight.js";
+import { useAtomValue } from "jotai";
+import { themeAtom } from "#root/atoms/ui";
 
-import "./tailwind.css";
-
-import React from "react";
-import logoUrl from "../assets/logo.svg";
-import { Link } from "../components/Link.js";
+import "#root/styles/index.css";
+import "#root/styles/fonts.css";
+import "#root/styles/themes/themes.css";
 
 export default function LayoutDefault({ children }: { children: React.ReactNode }) {
-  return (
-    <div className={"flex max-w-5xl m-auto"}>
-      <Sidebar>
-        <Logo />
-        <Link href="/">Welcome</Link>
-        <Link href="/todo">Todo</Link>
-        <Link href="/star-wars">Data Fetching</Link>
-        {""}
-      </Sidebar>
-      <Content>{children}</Content>
-    </div>
-  );
-}
+  const theme = useAtomValue(themeAtom);
 
-function Sidebar({ children }: { children: React.ReactNode }) {
-  return (
-    <div id="sidebar" className={"p-5 flex flex-col shrink-0 border-r-2 border-r-gray-200"}>
-      {children}
-    </div>
-  );
-}
+  useEffect(() => {
+    document.documentElement.classList.add(theme);
 
-function Content({ children }: { children: React.ReactNode }) {
+    return () => {
+      document.documentElement.classList.remove(theme);
+    };
+  }, [theme]);
+
   return (
-    <div id="page-container">
-      <div id="page-content" className={"p-5 pb-12 min-h-screen"}>
-        {children}
+    <Providers>
+      <div className="antialiased">
+        <div className="min-h-svh transition-colors duration-150 ease-out">
+          <div className="max-w-(--breakpoint-xl) xl:mx-auto xl:container content-grid layout-grid">
+            <div className="row-start-[top-start] row-end-[content-start] col-[content]">
+              <HideOnSmallHeight>
+                <Header />
+              </HideOnSmallHeight>
+            </div>
+            <div className="row-start-[content-start] row-end-[content-end] fullbleed">{children}</div>
+            <div className="row-start-[content-end] row-end-[top-end] col-start-[content-start] col-end-[content-end]">
+              <HideOnSmallHeight>
+                <Footer />
+              </HideOnSmallHeight>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  );
-}
-
-function Logo() {
-  return (
-    <div className={"p-5 mb-2"}>
-      <a href="/">
-        <img src={logoUrl} height={64} width={64} alt="logo" />
-      </a>
-    </div>
+    </Providers>
   );
 }

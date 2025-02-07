@@ -10,8 +10,9 @@ export default {
   Layout,
 
   // https://vike.dev/head-tags
-  title: "My Vike App",
-  description: "Demo showcasing Vike",
+  title: "takataka",
+  description: "A typing test app",
 
   extends: vikeReact,
+  prerender: true,
 } satisfies Config;

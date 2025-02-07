@@ -1,10 +1,14 @@
 /// <reference lib="webworker" />
+import { createMiddleware } from "hono/factory";
 import { renderPage } from "vike/server";
-// TODO: stop using universal-middleware and directly integrate server middlewares instead. (Bati generates boilerplates that use universal-middleware https://github.com/magne4000/universal-middleware to make Bati's internal logic easier. This is temporary and will be removed soon.)
-import type { Get, UniversalHandler } from "@universal-middleware/core";
 
-export const vikeHandler: Get<[], UniversalHandler> = () => async (request, context, runtime) => {
-  const pageContextInit = { ...context, ...runtime, urlOriginal: request.url, headersOriginal: request.headers };
+export const vikeHandler = createMiddleware(async (c) => {
+  const pageContextInit = {
+    c,
+    urlOriginal: c.req.url,
+    headersOriginal: c.req.header(),
+    // add user info
+  };
   const pageContext = await renderPage(pageContextInit);
   const response = pageContext.httpResponse;
 
@@ -15,4 +19,4 @@ export const vikeHandler: Get<[], UniversalHandler> = () => async (request, cont
     status: response.statusCode,
     headers: response.headers,
   });
-};
+});

@@ -1,4 +1,4 @@
-import themes from "#root/utils/themes";
+import themes from "#root/lib/utils/themes";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 
-import { cn } from "#root/utils";
+import { cn } from "#root/lib/utils";
 import { useAtomValue } from "jotai";
 import { themeAtom } from "#root/atoms/ui";
 

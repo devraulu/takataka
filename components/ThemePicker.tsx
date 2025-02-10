@@ -6,7 +6,7 @@ import { useAtom, useSetAtom } from "jotai";
 import clsx from "clsx";
 import { Popover, PopoverContent, PopoverTrigger } from "#root/components/ui/popover";
 import { Check } from "lucide-react";
-import themes from "#root/utils/themes";
+import themes from "#root/lib/utils/themes";
 
 interface ThemePickerProps {
   children: (open: () => void) => React.ReactNode;

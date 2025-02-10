@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { resetTestAtom, textAtom } from "#root/atoms/typing";
-import { generateTestWords } from "#root/utils/random-words";
+import { generateTestWords } from "#root/lib/utils/random-words";
 
 const initialTestConfiguration = {
   numbers: false,

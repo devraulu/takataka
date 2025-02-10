@@ -1,4 +1,4 @@
-import { focusInputAndScrollIntoView } from "#root/utils";
+import { focusInputAndScrollIntoView } from "#root/lib/utils";
 import { useRef } from "react";
 
 function useMobileTrigger() {

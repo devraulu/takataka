@@ -9,7 +9,7 @@ import Words from './Words';
 import useCheckAFK from '#root/hooks/useCheckAFK';
 import { useSetAtom } from 'jotai';
 import { closeAfkOverlayAtom } from '#root/atoms/ui';
-import { isMobile } from '#root/utils';
+import { isMobile } from '#root/lib/utils';
 import { testInputRefAtom } from '#root/atoms/typing';
 
 export default function TestContainer() {

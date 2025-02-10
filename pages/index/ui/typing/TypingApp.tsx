@@ -5,7 +5,7 @@ import TestContainer from './TestContainer';
 import { useSetAtom } from 'jotai';
 import { createNewTestAtom } from '#root/atoms/test_configuration';
 import { testInputRefAtom } from '#root/atoms/typing';
-import { focusInputAndScrollIntoView } from '#root/utils';
+import { focusInputAndScrollIntoView } from '#root/lib/utils';
 import ResultsContainer from '../results/ResultsContainer';
 
 function TypingApp() {

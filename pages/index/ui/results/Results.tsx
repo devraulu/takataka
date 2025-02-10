@@ -6,7 +6,7 @@ import useResetTest from "#root/hooks/useResetTest";
 import TestType from "#root/pages/index/ui/typing/TestType.js";
 import { useAtomValue } from "jotai";
 import { lastTestLogsAtom } from "#root/atoms/typing";
-import { calculateStats, computeWpmAndErrors } from "#root/utils/results";
+import { calculateStats, computeWpmAndErrors } from "#root/lib/utils/results";
 import SimpleTooltip from "#root/components/ui/simple-tooltip";
 import { ArrowRight, Repeat2 } from "lucide-react";
 import { Button } from "#root/components/ui/button";

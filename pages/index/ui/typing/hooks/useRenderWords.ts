@@ -1,4 +1,4 @@
-import { findActiveLineIndex, fitsInCurrentLine } from "#root/utils/words";
+import { findActiveLineIndex, fitsInCurrentLine } from "#root/lib/utils/words";
 import { useAtomValue } from "jotai";
 import { checkedWordsAtom, textAtom, typedAtom } from "#root/atoms/typing";
 

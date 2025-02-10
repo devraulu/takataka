@@ -2,7 +2,7 @@ import { atom } from "jotai";
 import Log from "#root/models/Log";
 import { showResultsAtom } from "./results";
 import { Word } from "#root/models/Word";
-import { checkWord } from "#root/utils/words";
+import { checkWord } from "#root/lib/utils/words";
 
 export const INITIAL_TYPED = [""];
 export const typedAtom = atom(INITIAL_TYPED);

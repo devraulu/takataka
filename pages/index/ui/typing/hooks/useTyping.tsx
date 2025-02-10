@@ -16,7 +16,7 @@ import {
     isNumber,
     isPunctuation,
     isSpace,
-} from '#root/utils';
+} from '#root/lib/utils';
 import { toast } from 'sonner';
 import useIsTestFinished from '#root/hooks/useIsTestFinished';
 

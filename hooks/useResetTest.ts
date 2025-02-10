@@ -1,7 +1,7 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { resetBtnRefAtom, resetTestAtom, testInputRefAtom, testLostFocusAtom } from "../atoms/typing";
 import { createNewTestAtom } from "#root/atoms/test_configuration";
-import { focusInputAndScrollIntoView } from "#root/utils";
+import { focusInputAndScrollIntoView } from "#root/lib/utils";
 
 const useResetTest = () => {
   const resetBtnRef = useAtomValue(resetBtnRefAtom);

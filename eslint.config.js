@@ -8,71 +8,71 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  {
-    ignores: [
-      'dist/*',
-      // Temporary compiled files
-      '**/*.ts.build-*.mjs',
+    {
+        ignores: [
+            'dist/*',
+            // Temporary compiled files
+            '**/*.ts.build-*.mjs',
 
-      // JS files at the root of the project
-      '*.js',
-      '*.cjs',
-      '*.mjs',
-    ],
-  },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    languageOptions: {
-      parserOptions: {
-        warnOnUnsupportedTypeScriptVersion: false,
-        sourceType: 'module',
-        ecmaVersion: 'latest',
-      },
+            // JS files at the root of the project
+            '*.js',
+            '*.cjs',
+            '*.mjs',
+        ],
     },
-  },
-  {
-    rules: {
-      '@typescript-eslint/no-unused-vars': [
-        1,
-        {
-          argsIgnorePattern: '^_',
+    eslint.configs.recommended,
+    ...tseslint.configs.recommended,
+    {
+        languageOptions: {
+            parserOptions: {
+                warnOnUnsupportedTypeScriptVersion: false,
+                sourceType: 'module',
+                ecmaVersion: 'latest',
+            },
         },
-      ],
-      '@typescript-eslint/no-namespace': 0,
     },
-  },
-
-  {
-    files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
-    ...react,
-    languageOptions: {
-      ...react.languageOptions,
-      globals: {
-        ...globals.serviceworker,
-        ...globals.browser,
-      },
-    },
-    plugins: {
-      ...react.plugins,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-    },
-    rules: {
-      ...react.rules,
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+    {
+        rules: {
+            '@typescript-eslint/no-unused-vars': [
+                1,
+                {
+                    argsIgnorePattern: '^_',
+                },
+            ],
+            '@typescript-eslint/no-namespace': 0,
+        },
     },
 
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-  },
+    {
+        files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
+        ...react,
+        languageOptions: {
+            ...react.languageOptions,
+            globals: {
+                ...globals.serviceworker,
+                ...globals.browser,
+            },
+        },
+        plugins: {
+            // ...react.plugins,
+            'react-hooks': reactHooks,
+            'react-refresh': reactRefresh,
+        },
+        rules: {
+            ...react.rules,
+            ...reactHooks.configs.recommended.rules,
+            'react-refresh/only-export-components': [
+                'warn',
+                { allowConstantExport: true },
+            ],
+        },
 
-  prettier,
+        settings: {
+            react: {
+                version: 'detect',
+            },
+        },
+    },
+
+    prettier,
 );

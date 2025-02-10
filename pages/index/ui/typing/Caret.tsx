@@ -1,7 +1,7 @@
 import React from "react";
 import { currentlyTypingIndexAtom, typedAtom } from "#root/atoms/typing";
 import useIsTestActive from "#root/hooks/useIsTestActive";
-import { sleep } from "#root/utils/time";
+import { sleep } from "#root/lib/utils/time";
 import clsx from "clsx";
 import { useAtomValue } from "jotai";
 import { motion, SpringOptions, useMotionValue, useSpring } from "motion/react";

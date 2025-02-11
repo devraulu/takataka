@@ -33,11 +33,9 @@ export function isMobile() {
     );
 }
 
-export function focusInputAndScrollIntoView(
-    input: React.RefObject<HTMLInputElement | null>,
-) {
-    if (input?.current) {
-        input.current.focus({ preventScroll: true });
-        window.scrollTo(0, input.current?.offsetTop - 40);
+export function focusInputAndScrollIntoView(input: HTMLInputElement | null) {
+    if (input && document.activeElement !== input) {
+        input.focus({ preventScroll: true });
+        window.scrollTo(0, input.offsetTop - 40);
     }
 }

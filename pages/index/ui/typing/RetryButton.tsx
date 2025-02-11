@@ -1,23 +1,18 @@
-import useResetTest from '../../../../hooks/useResetTest';
-import { useEffect, useRef } from 'react';
+import useResetTest from '#root/hooks/useResetTest';
 import { useSetAtom } from 'jotai';
-import { resetBtnRefAtom } from '../../../../atoms/typing';
-import { Button } from '../../../../components/ui/button';
+import { resetBtnRefAtom } from '#root/atoms/typing';
+import { Button } from '#root/components/ui/button';
 import { Repeat2 } from 'lucide-react';
 
 function RetryButton() {
     const reset = useResetTest();
-    const resetBtn = useRef<HTMLButtonElement | null>(null);
-    const setResetBtnRef = useSetAtom(resetBtnRefAtom);
 
-    useEffect(() => {
-        setResetBtnRef(resetBtn);
-    }, [resetBtn, setResetBtnRef]);
+    const setResetBtnRef = useSetAtom(resetBtnRefAtom);
 
     return (
         <Button
             id='retry-button'
-            ref={resetBtn}
+            ref={ref => setResetBtnRef(ref)}
             className='restart size-9 text-sub'
             onClick={() => reset()}
             variant='ghost'

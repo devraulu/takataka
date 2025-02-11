@@ -192,3 +192,7 @@
         color: var(--text-color);
     }
 }
+
+.wrapper {
+    display: block !important;
+}

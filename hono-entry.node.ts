@@ -27,6 +27,7 @@ nodeApp.route('/', app!);
 const port = envs.PORT ? parseInt(envs.PORT, 10) : 3000;
 
 console.log(`Server listening on http://localhost:${port}`);
+
 serve({
     fetch: nodeApp.fetch,
     port: port,

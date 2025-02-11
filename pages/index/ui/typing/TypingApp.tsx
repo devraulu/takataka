@@ -15,11 +15,9 @@ function TypingApp() {
 
     useEffect(() => {
         createNewTest();
-    }, [createNewTest]);
+    }, []);
 
-    useEffect(() => {
-        if (inputRef) focusInputAndScrollIntoView(inputRef);
-    }, [inputRef]);
+    if (inputRef) focusInputAndScrollIntoView(inputRef);
 
     return (
         <div className={'grid grid-rows-[1fr_auto] content-grid'}>

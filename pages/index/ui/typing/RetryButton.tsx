@@ -15,6 +15,7 @@ function RetryButton() {
             ref={ref => setResetBtnRef(ref)}
             className='restart size-9 text-sub'
             onClick={() => reset()}
+            onKeyDown={e => e.key === 'Enter' && reset()}
             variant='ghost'
             size={'icon'}
             tabIndex={2}

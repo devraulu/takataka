@@ -60,8 +60,6 @@ export default function TestContainer() {
 
     useEffect(() => {
         const handleKeys = (e: KeyboardEvent) => {
-            triggerTouchKeyboard();
-
             const key = e.key;
 
             if (key === 'Tab') {
@@ -73,6 +71,8 @@ export default function TestContainer() {
                 // continue as usual and let the user use the ctrl (cmd) key to navigate etc.
                 return;
             }
+
+            triggerTouchKeyboard();
 
             if (isLetter(key) || isPunctuation(key) || isNumber(key)) {
                 if (typed.length > 0) {

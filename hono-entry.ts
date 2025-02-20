@@ -1,10 +1,12 @@
-import { createTodoHandler } from './server/create-todo-handler';
-import { vikeHandler } from './server/vike-handler';
-import { Hono } from 'hono';
+import { Env, Hono } from 'hono';
+import 'dotenv/config';
+import authMiddleware from './server/middlewares/auth';
+import rateLimitMiddleware from './server/middlewares/rate-limit';
+import vikeHandler from './server/vike-handler';
 
-const app = new Hono();
+const app = new Hono<Env>();
 
-app.post('/api/todo/create', createTodoHandler);
+app.use(authMiddleware, rateLimitMiddleware);
 
 /**
  * Vike route

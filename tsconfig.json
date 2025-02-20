@@ -12,14 +12,27 @@
         "noEmit": true,
         "moduleResolution": "Bundler",
         "target": "ES2022",
-        "lib": ["DOM", "DOM.Iterable", "ESNext"],
-        "types": ["vite/client", "vike-react", "vike-cloudflare/types"],
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ESNext"
+        ],
+        "types": [
+            "vite/client",
+            "vike-react",
+            "vike-cloudflare/types",
+            "bun"
+        ],
         "jsx": "preserve",
         "jsxImportSource": "react",
         "baseUrl": ".",
         "paths": {
-            "#root/*": ["./*"]
+            "#root/*": [
+                "./*"
+            ]
         }
     },
-    "exclude": ["dist"]
+    "exclude": [
+        "dist"
+    ]
 }

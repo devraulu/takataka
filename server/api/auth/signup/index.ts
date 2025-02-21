@@ -7,6 +7,6 @@ const signupRoute = new Hono();
 
 signupRoute.route('/session', sessionRoute);
 signupRoute.route('/user', userRoute);
-signupRoute.route('resend-code', resendCodeRoute);
+signupRoute.route('/resend-code', resendCodeRoute);
 
 export default signupRoute;

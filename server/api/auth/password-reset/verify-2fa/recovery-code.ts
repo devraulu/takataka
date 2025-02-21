@@ -12,17 +12,17 @@ recoveryCodeRoute.post('/', async c => {
     const { session, user } = await validatePasswordResetSessionRequest(c);
 
     if (session == null) {
-        return c.json('Not authenticated', 401);
+        return c.text('Not authenticated', 401);
     }
     if (
         !session.emailVerified ||
         !user.registered2fa ||
         session.twoFactorVerified
     ) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
     if (!userRecoveryCodeVerificationRateLimit.check(session.userId, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     const data: unknown = await c.req.json();
@@ -31,18 +31,18 @@ recoveryCodeRoute.post('/', async c => {
     try {
         code = parser.getString('code');
     } catch {
-        return c.json('Invalid or missing fields', 400);
+        return c.text('Invalid or missing fields', 400);
     }
     if (code === '') {
-        return c.json('Please enter your code', 400);
+        return c.text('Please enter your code', 400);
     }
     if (!userRecoveryCodeVerificationRateLimit.consume(session.userId, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
     try {
         await resetUser2FAWithRecoveryCode(session.userId, code);
     } catch {
-        return c.json('Invalid code', 400);
+        return c.text('Invalid code', 400);
     }
 
     userRecoveryCodeVerificationRateLimit.reset(session.userId);

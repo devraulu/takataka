@@ -23,19 +23,19 @@ updatePasswordRoute.post('/', async c => {
     // TODO: Assumes X-Forwarded-For is always included.
     const clientIP = c.req.header('X-Forwarded-For');
     if (clientIP !== null && !ipPasswordHashRateLimit.check(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     const { session: passwordResetSession, user } =
         await validatePasswordResetSessionRequest(c);
     if (passwordResetSession === null) {
-        return c.json('Please restart the process', 401);
+        return c.text('Please restart the process', 401);
     }
     if (!passwordResetSession.emailVerified) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
     if (user.registered2fa && !passwordResetSession.twoFactorVerified) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
     const data = await c.req.json();
     const parser = new ObjectParser(data);
@@ -44,14 +44,14 @@ updatePasswordRoute.post('/', async c => {
     try {
         password = parser.getString('password');
     } catch {
-        return c.json('Please enter your code', 400);
+        return c.text('Please enter your code', 400);
     }
     const strongPassword = await verifyPasswordStrength(password);
     if (!strongPassword) {
-        return c.json('Weak password', 400);
+        return c.text('Weak password', 400);
     }
     if (clientIP !== null && !ipPasswordHashRateLimit.consume(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     await invalidateUserPasswordResetSessions(passwordResetSession.userId);

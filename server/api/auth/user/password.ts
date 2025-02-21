@@ -23,17 +23,17 @@ passwordRoute.patch('/', async c => {
     const clientIP = c.req.header('X-Forwarded-For');
 
     if (clientIP !== null && !ipPasswordHashRateLimit.check(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     if (c.var.user === null || c.var.session === null) {
-        return c.json('Not authenticated', 401);
+        return c.text('Not authenticated', 401);
     }
     if (c.var.user.registered2fa && !c.var.session.twoFactorVerified) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
     if (!userUpdatePasswordRateLimit.check(c.var.session.userId, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     const data = await c.req.json();
@@ -44,23 +44,23 @@ passwordRoute.patch('/', async c => {
         password = parser.getString('password');
         newPassword = parser.getString('new_password');
     } catch {
-        return c.json('Please enter your password', 400);
+        return c.text('Please enter your password', 400);
     }
     const strongPassword = await verifyPasswordStrength(newPassword);
     if (!strongPassword) {
-        return c.json('Weak password', 400);
+        return c.text('Weak password', 400);
     }
     if (clientIP !== null && !ipPasswordHashRateLimit.consume(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
     if (!userUpdatePasswordRateLimit.consume(c.var.session.userId, 1)) {
-        return c.json('Invalid password', 400);
+        return c.text('Invalid password', 400);
     }
     const passwordHash = await getUserPasswordHash(c.var.user.id);
     const validPassword = await verifyPasswordHash(passwordHash, password);
 
     if (!validPassword) {
-        return c.json('Incorrect password', 400);
+        return c.text('Incorrect password', 400);
     }
 
     userUpdatePasswordRateLimit.reset(c.var.session.userId);

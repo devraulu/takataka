@@ -3,7 +3,7 @@ import { Asterisk, Github, Mail, Paintbrush } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import clsx from 'clsx';
 import useIsTestActive from '#root/hooks/useIsTestActive';
-import ThemePicker from '#root/components/ThemePicker';
+import ThemePicker from '#root/components/theme-picker';
 import { Button } from '#root/components/ui/button';
 import SimpleTooltip from '#root/components/ui/simple-tooltip';
 

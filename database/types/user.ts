@@ -4,6 +4,7 @@ export default interface UserTable {
     id: Generated<number>;
     username: string;
     email: string;
+    emailVerified: boolean;
     passwordHash: string;
     totpKey: Uint8Array | null;
     recoveryCode: Uint8Array | null;

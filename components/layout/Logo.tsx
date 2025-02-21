@@ -32,7 +32,7 @@ function Logo() {
     return (
         <div className='select-none' id='logo'>
             <motion.div variants={smallTextVariants} animate={animate}>
-                <div className='text-xs md:text-sm text-sub font-bold font-sans pl-1 leading-none'>
+                <div className='text-xs md:text-sm text-sub font-bold font-sans pl-1 leading-none '>
                     keys go
                 </div>
             </motion.div>

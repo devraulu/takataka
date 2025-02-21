@@ -17,13 +17,13 @@ const emailVerificationRoute = new Hono<Env>();
 
 emailVerificationRoute.post('/', async c => {
     if (c.var.session === null || c.var.user === null) {
-        return c.json('Unauthorized', 401);
+        return c.text('Unauthorized', 401);
     }
     if (c.var.user.registered2fa && !c.var.session.twoFactorVerified) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
     if (!userVerificationEmailRateLimit.check(c.var.user.id, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     const data: unknown = await c.req.json();
@@ -32,29 +32,30 @@ emailVerificationRoute.post('/', async c => {
     try {
         email = parser.getString('email').toLowerCase();
     } catch {
-        return c.json('Invalid or missing fields', 400);
+        return c.text('Invalid or missing fields', 400);
     }
 
     if (email === '') {
-        return c.json('Please enter your email', 400);
+        return c.text('Please enter your email', 400);
     }
 
     if (!verifyEmailInput(email)) {
-        return c.json('Invalid email', 400);
+        return c.text('Invalid email', 400);
     }
     const emailAvailable = await checkEmailAvailability(email);
     if (!emailAvailable) {
-        return c.json('This email is already used', 400);
+        return c.text('This email is already used', 400);
     }
     if (!userVerificationEmailRateLimit.consume(c.var.user.id, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
     const verificationRequest = await createSessionEmailVerificationRequest(
-        c.var.session.id,
+        c.var.session.token,
         email,
     );
     sendVerificationEmail(verificationRequest.email, verificationRequest.code);
-    return new Response(null, { status: 201 });
+
+    return c.body(null, 201);
 });
 
 emailVerificationRoute.route('/resend-code', resendCodeRoute);

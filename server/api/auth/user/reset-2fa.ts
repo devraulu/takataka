@@ -13,14 +13,14 @@ reset2FARoute.patch('/', async c => {
     const user = c.var.user;
 
     if (session == null || user == null) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
 
     if (!user.registered2fa) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
     if (!userRecoveryCodeVerificationRateLimit.check(user.id, 1)) {
-        return c.json('Invalid recovery code', 429);
+        return c.text('Invalid recovery code', 429);
     }
 
     const data: unknown = await c.req.json();
@@ -29,17 +29,17 @@ reset2FARoute.patch('/', async c => {
     try {
         code = parser.getString('code');
     } catch {
-        return c.json('Please enter your code', 400);
+        return c.text('Please enter your code', 400);
     }
     if (code === '') {
-        return c.json('Invalid recovery code', 400);
+        return c.text('Invalid recovery code', 400);
     }
     if (!userRecoveryCodeVerificationRateLimit.consume(user.id, 1)) {
-        return c.json('Invalid recovery code', 400);
+        return c.text('Invalid recovery code', 400);
     }
     const valid = resetUser2FAWithRecoveryCode(user.id, code);
     if (!valid) {
-        return c.json('Invalid recovery code', 400);
+        return c.text('Invalid recovery code', 400);
     }
 
     userRecoveryCodeVerificationRateLimit.reset(user.id);

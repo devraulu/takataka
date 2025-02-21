@@ -13,14 +13,14 @@ resendCodeRoute.post('/', async c => {
 
     const session = await validateSignUpSessionRequest(c);
     if (session == null) {
-        return c.json('Unauthorized', 401);
+        return c.text('Unauthorized', 401);
     }
 
     if (
         clientIP != null &&
         !ipSendSignupVerificationEmailRateLimit.consume(clientIP, 1)
     ) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     sendVerificationEmail(session.email, session.emailVerificationCode);

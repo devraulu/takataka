@@ -1,7 +1,7 @@
 import { generate } from 'random-words';
 
 const capitalizeFirstLetter = (word: string) =>
-    word[0].toUpperCase() + word.slice(1);
+    word?.[0]?.toUpperCase() + word?.slice(1);
 
 export function generateTestWords(
     size: number,

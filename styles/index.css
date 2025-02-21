@@ -3,11 +3,13 @@
 @plugin 'tailwindcss-animate';
 
 @theme {
-    --font-sans: 'Recursive Variable', ui-sans-serif, system-ui, sans-serif,
+    --font-sans:
+        var(--font-recursive), ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
-    --font-mono: 'Recursive Variable', ui-monospace, SFMono-Regular, Menlo,
-        Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --font-mono:
+        var(--font-recursive), ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, 'Liberation Mono', 'Courier New', monospace;
 
     --animate-blink: blink 1s ease-out infinite;
 

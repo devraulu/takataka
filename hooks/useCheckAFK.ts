@@ -13,7 +13,7 @@ function useCheckAFK() {
     const showResults = useAtomValue(showResultsAtom);
     const run = hasTestStarted && !showResults;
 
-    const afk = useIdle(1000, { initialState: false });
+    const afk = useIdle(10 * 1000, { initialState: false });
 
     useEffect(() => {
         const id: NodeJS.Timeout = setTimeout(() => {

@@ -12,14 +12,15 @@ userRoute.route('/reset-2fa', reset2FARoute);
 userRoute.route('/totp', totpRoute);
 userRoute.post('/recovery-code/reset', async c => {
     if (c.var.session === null || c.var.user === null) {
-        return c.json('Unauthorized', 401);
+        return c.text('Unauthorized', 401);
     }
+
     if (!c.var.user.registered2fa || c.var.session.twoFactorVerified) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
 
     const code = await resetUserRecoveryCode(c.var.session.userId);
-    return c.json(code, 201);
+    return c.json({ code }, 201);
 });
 
 export default userRoute;

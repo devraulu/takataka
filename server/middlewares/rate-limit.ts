@@ -1,17 +1,15 @@
 import { createMiddleware } from 'hono/factory';
-import { TokenBucketRateLimit } from '../lib/rate-limit';
-
-const rateLimit = new TokenBucketRateLimit<string>(100, 1);
+import { globalRateLimit } from '../lib/request';
 
 const rateLimitMiddleware = createMiddleware(async (c, next) => {
-    // TODO: Assumes IP is provided
+    // TODO: Assumes X-Forwarded-For will always be defined.
     const clientIP = c.req.header('X-Forwarded-For');
 
     if (clientIP != null) {
         const cost = ['GET', 'OPTIONS'].includes(c.req.method) ? 1 : 3;
 
-        if (!rateLimit.consume(clientIP, cost)) {
-            return c.json('Too many requests', 429);
+        if (!globalRateLimit.consume(clientIP, cost)) {
+            return c.text('Too many requests', 429);
         }
     }
 

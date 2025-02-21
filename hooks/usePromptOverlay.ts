@@ -5,7 +5,10 @@ import { useAtom, useAtomValue } from 'jotai';
 import { showAfkOverlayAtom } from '../atoms/ui';
 
 function usePromptOverlay() {
-    const idle = useIdle(10 * 1000, { initialState: false });
+    const idle = useIdle(100 * 1000, {
+        initialState: false,
+        events: ['keydown', 'click'],
+    });
     const hasTestStarted = useAtomValue(hasTestStartedAtom);
 
     const [show, setShow] = useAtom(showAfkOverlayAtom);
@@ -17,6 +20,7 @@ function usePromptOverlay() {
     useEffect(() => {
         if (idle && !hasTestStarted) open();
         if (hasTestStarted) close();
+        return () => close();
     }, [idle, hasTestStarted]);
 
     return {
@@ -27,4 +31,28 @@ function usePromptOverlay() {
     };
 }
 
+// function usePromptOverlay() {
+//     const idle = useIdle(2 * 1000, {
+//         initialState: false,
+//         events: ['keydown', 'click'],
+//     });
+//
+//     const hasTestStarted = useAtomValue(hasTestStartedAtom);
+//
+//     const [show, setShow] = useAtom(showAfkOverlayAtom);
+//
+//     const open = () => setShow(true);
+//     const close = () => setShow(false);
+//     const toggle = () => setShow(prev => !prev);
+//
+//     if (idle && !hasTestStarted) open();
+//     if (hasTestStarted) close();
+//
+//     return {
+//         show,
+//         open,
+//         close,
+//         toggle,
+//     };
+// }
 export default usePromptOverlay;

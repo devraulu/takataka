@@ -86,17 +86,17 @@ export async function getUserTOTPKey(
     const row = await db
         .selectFrom('appUser')
         .where('id', '=', userId)
-        .select(['toptKey'])
+        .select(['totpKey'])
         .executeTakeFirst();
 
     if (row == null) {
         throw new Error('Invalid user');
     }
-    if (row.toptKey == null) {
+    if (row.totpKey == null) {
         return null;
     }
 
-    return decrypt(row.toptKey);
+    return decrypt(row.totpKey);
 }
 
 export async function updateUserTOTPKey(
@@ -107,7 +107,7 @@ export async function updateUserTOTPKey(
     await db
         .updateTable('appUser')
         .where('id', '=', userId)
-        .set({ toptKey: encrypted })
+        .set({ totpKey: encrypted })
         .execute();
 }
 
@@ -130,15 +130,13 @@ export async function getUserFromEmail(
     const row = await db
         .selectFrom('appUser')
         .where('email', '=', email)
-        .select(['id', 'username', 'totpKey'])
+        .select(['id', 'username', 'totpKey', 'emailVerified', 'email'])
         .executeTakeFirst();
 
     if (row == null) return null;
 
     return {
-        email,
-        id: row.id,
-        username: row.username,
+        ...row,
         registered2fa: row.totpKey != null,
     };
 }

@@ -9,12 +9,12 @@ import { updateUserTOTPKey } from '#root/server/lib/user';
 
 const totpRoute = new Hono<Env>();
 
-totpRoute.get('/', async c => {
+totpRoute.post('/', async c => {
     if (c.var.session === null || c.var.user === null) {
-        return c.json('Unauthorized', 401);
+        return c.text('Unauthorized', 401);
     }
     if (c.var.user.registered2fa && !c.var.session.twoFactorVerified) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
 
     const data = await c.req.json();
@@ -24,32 +24,31 @@ totpRoute.get('/', async c => {
         encodedKey = parser.getString('key');
         code = parser.getString('code');
     } catch {
-        return c.json('Invalid or missing fields', 400);
+        return c.text('Invalid or missing fields', 400);
     }
     if (code === '') {
-        return c.json('Enter your code', 400);
+        return c.text('Enter your code', 400);
     }
     if (encodedKey.length !== 28) {
-        return c.json('Invalid key', 400);
+        return c.text('Invalid key', 400);
     }
     let key: Uint8Array;
     try {
         key = decodeBase64(encodedKey);
     } catch {
-        return c.json('Invalid key', 400);
+        return c.text('Invalid key', 400);
     }
     if (key.byteLength !== 20) {
-        return c.json('Invalid key', 400);
+        return c.text('Invalid key', 400);
     }
     if (!verifyTOTP(key, 30, 6, code)) {
-        return new Response('Invalid code', {
-            status: 400,
-        });
+        return c.text('Invalid code', 400);
     }
 
     updateUserTOTPKey(c.var.session.userId, key);
-    setSessionAs2FAVerified(c.var.session.id);
-    return new Response(null, { status: 204 });
+    setSessionAs2FAVerified(c.var.session.token);
+
+    return c.redirect('/recovery-code', 307);
 });
 
 totpRoute.route('/verify', verifyToptRoute);

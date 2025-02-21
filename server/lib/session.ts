@@ -9,6 +9,8 @@ import { Context } from 'hono';
 import { setCookie } from 'hono/cookie';
 import { UserResponse } from './user';
 import { jsonObjectFrom } from 'kysely/helpers/postgres';
+import { GetServerSidePropsContext } from 'next';
+import { parseCookies } from 'nookies';
 
 export function generateSessionToken(): string {
     const bytes = new Uint8Array(32);
@@ -77,7 +79,14 @@ export async function validateSessionToken(
             twoFactorVerified,
             id,
             token,
-            user: { email, expiresAt, username, totpKey, id: uid },
+            user: {
+                email,
+                expiresAt,
+                username,
+                totpKey,
+                id: uid,
+                emailVerified,
+            },
         } = queryResult;
 
         const session: SessionResponse = {
@@ -93,6 +102,7 @@ export async function validateSessionToken(
             email,
             registered2fa: Boolean(totpKey),
             username,
+            emailVerified,
         };
 
         if (Date.now() >= session.expiresAt.getTime()) {
@@ -169,6 +179,20 @@ export function setSessionAs2FAVerified(sessionToken: string): void {
             twoFactorVerified: true,
         })
         .execute();
+}
+
+export async function getCurrentSession(
+    c: GetServerSidePropsContext,
+): Promise<SessionValidationResult> {
+    const cookies = parseCookies(c);
+    console.log(cookies);
+    const token =
+        'session' in cookies ? JSON.parse(cookies.session)?.token : null;
+    if (token == null) {
+        return { session: null, user: null };
+    }
+    const result = await validateSessionToken(token);
+    return result;
 }
 
 export interface SessionFlags {

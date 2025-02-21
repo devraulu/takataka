@@ -15,18 +15,19 @@ const verifyRoute = new Hono<Env>();
 
 verifyRoute.post('/', async c => {
     if (c.var.session === null || c.var.user === null) {
-        return c.json('Unathorized', 401);
+        return c.text('Unathorized', 401);
     }
+
     if (c.var.user.registered2fa && !c.var.session.twoFactorVerified) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
 
     const verificationRequest = await getSessionEmailVerificationRequest(
-        c.var.session.id,
+        c.var.session.token,
     );
 
     if (verificationRequest === null) {
-        return c.json('Forbidden', 403);
+        return c.text('Forbidden', 403);
     }
     const data = await c.req.json();
     const parser = new ObjectParser(data);
@@ -35,24 +36,18 @@ verifyRoute.post('/', async c => {
     try {
         code = parser.getString('code');
     } catch {
-        return c.json('Invalid or missing fields', 400);
+        return c.text('Invalid or missing fields', 400);
     }
 
     if (code === '') {
-        return c.json('Enter your code', 400);
+        return c.text('Enter your code', 400);
     }
-    if (
-        !sessionEmailVerificationCounter.increment(
-            verificationRequest.sessionId,
-        )
-    ) {
-        await deleteSessionEmailVerificationRequest(
-            verificationRequest.sessionId,
-        );
-        return c.json('Too many requests', 429);
+    if (!sessionEmailVerificationCounter.increment(verificationRequest.token)) {
+        await deleteSessionEmailVerificationRequest(verificationRequest.token);
+        return c.text('Too many requests', 429);
     }
     if (!constantTimeEqualString(verificationRequest.code, code)) {
-        return c.json('Incorrect code', 400);
+        return c.text('Incorrect code', 400);
     }
 
     await deleteUserEmailVerificationRequests(c.var.user.id);

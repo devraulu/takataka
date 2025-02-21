@@ -20,7 +20,7 @@ const userRoute = new Hono();
 userRoute.post('/', async c => {
     const signupSession = await validateSignUpSessionRequest(c);
     if (!signupSession) {
-        return c.json('Unauthorized', 401);
+        return c.text('Unauthorized', 401);
     }
 
     const data = await c.req.json();
@@ -30,25 +30,21 @@ userRoute.post('/', async c => {
     try {
         code = parser.getString('code');
     } catch {
-        return c.json('Invalid or missing fields', 400);
+        return c.text('Invalid or missing fields', 400);
     }
 
     if (code === '') {
-        return c.json('Enter a code', 400);
+        return c.text('Enter a code', 400);
     }
 
-    if (
-        !signupSessionEmailVerificationCounter.increment(
-            signupSession.sessionId,
-        )
-    ) {
-        await invalidateSignUpSession(signupSession.sessionId);
-        return c.json('Too many requests', 429);
+    if (!signupSessionEmailVerificationCounter.increment(signupSession.token)) {
+        await invalidateSignUpSession(signupSession.token);
+        return c.text('Too many requests', 429);
     }
     if (!constantTimeEqualString(signupSession.emailVerificationCode, code)) {
-        return c.json('Invalid code', 400);
+        return c.text('Invalid code', 400);
     }
-    const user = await createUserWithSignUpSession(signupSession.sessionId);
+    const user = await createUserWithSignUpSession(signupSession.token);
     deleteSessionTokenCookie(c);
 
     const flags: SessionFlags = { twoFactorVerified: false };

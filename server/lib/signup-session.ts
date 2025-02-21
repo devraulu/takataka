@@ -19,14 +19,14 @@ export async function createSignUpSession(
     username: string,
     password: string,
 ): Promise<SignUpSession> {
-    const sessionId = encodeHexLowerCase(
+    const encodedToken = encodeHexLowerCase(
         sha256(new TextEncoder().encode(token)),
     );
     const emailVerificationCode = generateRandomOTP();
     const passwordHash = await hashPassword(password);
 
     const session: SignUpSession = {
-        sessionId,
+        token: encodedToken,
         expiresAt: new Date(Date.now() * 1000 * 60 * 10),
         email,
         username,
@@ -37,7 +37,7 @@ export async function createSignUpSession(
     await db
         .insertInto('signupSession')
         .values({
-            sessionId: sessionId,
+            token: encodedToken,
             expiresAt: new Date(Date.now() * 1000 * 60 * 10).toISOString(),
             email,
             username,
@@ -52,13 +52,13 @@ export async function createSignUpSession(
 export async function validateSignUpSessionToken(
     token: string,
 ): Promise<SignUpSession | null> {
-    const sessionId = encodeHexLowerCase(
+    const encodedToken = encodeHexLowerCase(
         sha256(new TextEncoder().encode(token)),
     );
 
     const session = await db
         .selectFrom('signupSession')
-        .where('sessionId', '=', sessionId)
+        .where('token', '=', encodedToken)
         .selectAll()
         .executeTakeFirst();
 
@@ -75,12 +75,10 @@ export async function validateSignUpSessionToken(
     return session;
 }
 
-export async function invalidateSignUpSession(
-    sessionId: string,
-): Promise<void> {
+export async function invalidateSignUpSession(token: string): Promise<void> {
     await db
         .deleteFrom('signupSession')
-        .where('sessionId', '=', sessionId)
+        .where('token', '=', token)
         .executeTakeFirst();
 }
 
@@ -105,7 +103,7 @@ export async function createUserWithSignUpSession(
     return await db.transaction().execute(async tx => {
         const row = await tx
             .deleteFrom('signupSession')
-            .where('sessionId', '=', sessionId)
+            .where('token', '=', sessionId)
             .returningAll()
             .executeTakeFirst();
 
@@ -123,14 +121,13 @@ export async function createUserWithSignUpSession(
                 username: row.username,
                 passwordHash: row.passwordHash,
                 recoveryCode: encryptedRecoveryCode,
+                emailVerified: true,
             })
             .returningAll()
             .executeTakeFirstOrThrow();
 
         const user: UserResponse = {
-            id: newUser.id,
-            username: row.username,
-            email: row.email,
+            ...newUser,
             registered2fa: false,
         };
 
@@ -170,7 +167,7 @@ export async function sendSignUpEmail(
 }
 
 export interface SignUpSession {
-    sessionId: string;
+    token: string;
     email: string;
     username: string;
     passwordHash: string;

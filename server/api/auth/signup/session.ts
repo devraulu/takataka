@@ -26,15 +26,16 @@ const sessionRoute = new Hono<Env>();
 
 sessionRoute.post('/', async c => {
     const clientIP = c.req.header('X-Forwarded-For');
+
     if (clientIP && !ipPasswordHashRateLimit.check(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     if (
         clientIP &&
         !ipSendSignupVerificationEmailRateLimit.check(clientIP, 1)
     ) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     const data = await c.req.json();
@@ -46,37 +47,37 @@ sessionRoute.post('/', async c => {
         password = parser.getString('password');
         username = parser.getString('username');
     } catch {
-        return c.json('Invalid or missing fields', 400);
+        return c.text('Invalid or missing fields', 400);
     }
 
     if (!email || !password || !username) {
-        return c.json('Please enter your username, email and password', 400);
+        return c.text('Please enter your username, email and password', 400);
     }
 
     if (!verifyEmailInput(email)) {
-        return c.json('Invalid email', 400);
+        return c.text('Invalid email', 400);
     }
     if ((await checkEmailAvailability(email)) === false) {
-        return c.json('Email already in use', 400);
+        return c.text('Email already in use', 400);
     }
 
     if (!verifyUsernameInput(username)) {
-        return c.json('Invalid username', 400);
+        return c.text('Invalid username', 400);
     }
 
     const strongPassword = await verifyPasswordStrength(password);
     if (!strongPassword) {
-        return c.json('Weak password', 400);
+        return c.text('Weak password', 400);
     }
     if (clientIP && !ipPasswordHashRateLimit.consume(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     if (
         clientIP &&
         !ipSendSignupVerificationEmailRateLimit.consume(clientIP, 1)
     ) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     const sessionToken = generateSessionToken();
@@ -91,12 +92,13 @@ sessionRoute.post('/', async c => {
 
     setSignUpSessionTokenCookie(c, sessionToken, session.expiresAt);
 
-    return c.body(null, 204);
+    c.redirect('/2fa/setup', 307);
+    // return c.body(null, 204);
 });
 
 sessionRoute.delete('/', async c => {
     if (c.var.session == null) {
-        return c.json('Not authenticated', 401);
+        return c.text('Not authenticated', 401);
     }
 
     await invalidateSession(c.var.session.token);

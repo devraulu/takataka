@@ -5,12 +5,12 @@ import user from './user';
 import emailVerification from './email-verification';
 import passwordReset from './password-reset';
 
-const app = new Hono();
+const authApp = new Hono();
 
-app.route('/signup', signup);
-app.route('/session', session);
-app.route('/user', user);
-app.route('/email-verification', emailVerification);
-app.route('/password-reset', passwordReset);
+authApp.route('/signup', signup);
+authApp.route('/session', session);
+authApp.route('/user', user);
+authApp.route('/email-verification', emailVerification);
+authApp.route('/password-reset', passwordReset);
 
-export default app;
+export default authApp;

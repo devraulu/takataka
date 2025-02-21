@@ -20,10 +20,10 @@ sessionRoute.post('/', async c => {
     const clientIP = c.req.header('X-Forwarded-For');
 
     if (clientIP != null && !ipPasswordHashRateLimit.check(clientIP, 2)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
     if (clientIP != null && !ipPasswordResetRateLimit.check(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     const data: unknown = await c.req.json();
@@ -33,27 +33,27 @@ sessionRoute.post('/', async c => {
     try {
         email = parser.getString('email').toLowerCase();
     } catch {
-        return c.json('Please restart the process', 400);
+        return c.text('Please restart the process', 400);
     }
     if (!verifyEmailInput(email)) {
-        return c.json('Invalid email', 400);
+        return c.text('Invalid email', 400);
     }
     const user = await getUserFromEmail(email);
     if (user === null) {
-        return c.json('Account does not exist', 400);
+        return c.text('Account does not exist', 400);
     }
     if (!userPasswordResetRateLimit.check(user.id, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
 
     if (clientIP != null && !ipPasswordHashRateLimit.consume(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
     if (clientIP != null && !ipPasswordResetRateLimit.consume(clientIP, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
     if (!userPasswordResetRateLimit.consume(user.id, 1)) {
-        return c.json('Too many requests', 429);
+        return c.text('Too many requests', 429);
     }
     await invalidateUserPasswordResetSessions(user.id);
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import Log from '../models/Log';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { appendTypedLogAtom, textAtom, typedAtom } from '../atoms/typing';
+import Log from '#root/types/Log';
 
 const useTypedLog = () => {
     const text = useAtomValue(textAtom);

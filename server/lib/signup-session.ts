@@ -112,7 +112,7 @@ export async function createUserWithSignUpSession(
         }
 
         const recoveryCode = generateRandomRecoveryCode();
-        const encryptedRecoveryCode = encryptString(recoveryCode);
+        const encryptedRecoveryCode = await encryptString(recoveryCode);
 
         const newUser = await tx
             .insertInto('appUser')

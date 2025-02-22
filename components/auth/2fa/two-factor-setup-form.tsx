@@ -4,7 +4,7 @@ const initial2FASetUpState = {
     message: '',
 };
 
-export async function setup2FAAction(_prev, formData) {
+export async function setup2FAAction(_prev: unknown, formData: FormData) {
     try {
         const response = await fetch('/api/auth/user/totp', {
             method: 'POST',

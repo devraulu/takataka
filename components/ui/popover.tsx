@@ -9,15 +9,16 @@ const Popover = PopoverPrimitive.Root;
 
 const PopoverTrigger = PopoverPrimitive.Trigger;
 
-const PopoverContent = React.forwardRef<
-    React.ElementRef<typeof PopoverPrimitive.Content>,
-    React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = 'center', sideOffset = 4, ...props }, ref) => {
+const PopoverContent = ({
+    className,
+    align = 'center',
+    sideOffset = 4,
+    ...props
+}: React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>) => {
     const theme = useAtomValue(themeAtom);
     return (
         <PopoverPrimitive.Portal>
             <PopoverPrimitive.Content
-                ref={ref}
                 align={align}
                 sideOffset={sideOffset}
                 className={cn(
@@ -29,7 +30,7 @@ const PopoverContent = React.forwardRef<
             />
         </PopoverPrimitive.Portal>
     );
-});
+};
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
 export { Popover, PopoverTrigger, PopoverContent };

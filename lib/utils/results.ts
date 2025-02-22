@@ -1,4 +1,4 @@
-import Log, { WpmErrorLog } from '#root/models/Log';
+import Log, { WpmErrorLog } from '#root/types/log';
 
 export function computeWpmAndErrors(logsArr: Log[]): WpmErrorLog[] {
     // Initializations.

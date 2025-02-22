@@ -1,4 +1,4 @@
-import Layout from '#root/layouts/default-layout';
+import Layout from '#root/components/layouts/default-layout';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 

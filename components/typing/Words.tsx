@@ -3,7 +3,6 @@ import Caret from './Caret';
 import useRenderWords from './hooks/useRenderWords';
 import { useRef } from 'react';
 import clsx from 'clsx';
-import useTypedLog from '#root/hooks/useTypedLog';
 import ShowAfterDelay from '#root/components/animations/show-after-delay';
 import { LetterStat, WordStat } from '#root/types/word-stat';
 
@@ -19,8 +18,6 @@ function Words() {
     const words = useRenderWords(fontWidth, containerWidth);
 
     const fz = 30;
-
-    useTypedLog();
 
     return (
         <div ref={containerRef} className='font-variation-mono relative'>

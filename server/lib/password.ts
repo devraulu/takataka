@@ -1,7 +1,8 @@
-import { hash, verify } from '@node-rs/argon2';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 import { sha1 } from '@oslojs/crypto/sha1';
 import { BasicRateLimit, TokenBucketRateLimit } from './rate-limit';
+// import argon2 from 'argon2';
+import argon2 from '@node-rs/argon2';
 
 export const ipPasswordHashRateLimit = new TokenBucketRateLimit(5, 30);
 export const userUpdatePasswordRateLimit = new BasicRateLimit<number>(
@@ -10,7 +11,7 @@ export const userUpdatePasswordRateLimit = new BasicRateLimit<number>(
 );
 
 export async function hashPassword(password: string): Promise<string> {
-    return hash(password, {
+    return argon2.hash(password, {
         memoryCost: 19456,
         timeCost: 2,
         outputLen: 32,
@@ -22,7 +23,7 @@ export async function verifyPasswordHash(
     hash: string,
     password: string,
 ): Promise<boolean> {
-    return verify(hash, password);
+    return argon2.verify(hash, password);
 }
 
 export async function verifyPasswordStrength(
@@ -32,15 +33,14 @@ export async function verifyPasswordStrength(
         return false;
     }
 
-    const hash = await encodeHexLowerCase(
-        sha1(new TextEncoder().encode(password)),
-    );
+    const hash = encodeHexLowerCase(sha1(new TextEncoder().encode(password)));
     const prefix = hash.slice(0, 5);
 
     const response = await fetch(
         `https://api.pwnedpasswords.com/range/${prefix}`,
     );
-    const data = await response.json();
+
+    const data = await response.json<string>();
     const items = data.split('\n');
 
     for (const item of items) {

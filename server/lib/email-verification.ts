@@ -12,7 +12,7 @@ export const userVerificationEmailRateLimit = new TokenBucketRateLimit<number>(
 );
 
 export async function createSessionEmailVerificationRequest(
-    sessionId: string,
+    token: string,
     email: string,
 ): Promise<SessionEmailVerificationRequest> {
     const code = generateRandomOTP();
@@ -21,13 +21,13 @@ export async function createSessionEmailVerificationRequest(
     const result = await db
         .insertInto('sessionEmailVerificationRequest')
         .values({
-            sessionId,
+            token,
             expiresAt: expiresAt.toISOString(),
             email,
             code,
         })
         .onConflict(oc =>
-            oc.column('sessionId').doUpdateSet({
+            oc.column('token').doUpdateSet({
                 expiresAt: expiresAt.toISOString(),
                 email,
                 code,
@@ -38,7 +38,7 @@ export async function createSessionEmailVerificationRequest(
 
     const request: SessionEmailVerificationRequest = {
         id: result.id,
-        sessionId,
+        token,
         code,
         email,
         expiresAt,
@@ -48,18 +48,18 @@ export async function createSessionEmailVerificationRequest(
 }
 
 export async function getSessionEmailVerificationRequest(
-    sessionId: string,
+    token: string,
 ): Promise<SessionEmailVerificationRequest | null> {
     const row = await db
         .selectFrom('sessionEmailVerificationRequest')
-        .where('sessionId', '=', sessionId)
+        .where('token', '=', token)
         .selectAll()
         .executeTakeFirst();
 
     if (row == null) return null;
 
     if (Date.now() >= row.expiresAt.getTime()) {
-        await deleteSessionEmailVerificationRequest(sessionId);
+        await deleteSessionEmailVerificationRequest(token);
         return null;
     }
 
@@ -67,11 +67,11 @@ export async function getSessionEmailVerificationRequest(
 }
 
 export async function deleteSessionEmailVerificationRequest(
-    sessionId: string,
+    token: string,
 ): Promise<void> {
     await db
         .deleteFrom('sessionEmailVerificationRequest')
-        .where('sessionId', '=', sessionId)
+        .where('token', '=', token)
         .execute();
 }
 
@@ -80,10 +80,10 @@ export async function deleteUserEmailVerificationRequests(
 ): Promise<void> {
     await db
         .deleteFrom('sessionEmailVerificationRequest')
-        .where('sessionId', 'in', qb =>
-            qb
+        .where('token', 'in', cb =>
+            cb
                 .selectFrom('userSession')
-                .select('sessionId')
+                .select('token')
                 .where('userId', '=', userId),
         )
         .execute();

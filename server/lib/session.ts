@@ -186,8 +186,7 @@ export async function getCurrentSession(
 ): Promise<SessionValidationResult> {
     const cookies = parseCookies(c);
     console.log(cookies);
-    const token =
-        'session' in cookies ? JSON.parse(cookies.session)?.token : null;
+    const token = 'session' in cookies ? cookies.session : null;
     if (token == null) {
         return { session: null, user: null };
     }

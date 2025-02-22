@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import useMobileTrigger from '#root/hooks/useMobileTrigger';
+import useMobileTrigger from '#root/lib/hooks/useMobileTrigger';
 import AfkOverlay from './AfkOverlay';
 import RetryButton from './RetryButton';
 import TestConfigBar from './TestConfigBar';
 import TestProgress from './TestProgress';
 import Words from './Words';
-import useCheckAFK from '#root/hooks/useCheckAFK';
+import useCheckAFK from '#root/lib/hooks/useCheckAFK';
 import { closeAfkOverlayAtom } from '#root/atoms/ui';
 
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -26,7 +26,7 @@ import {
     isSpace,
 } from '#root/lib/utils';
 import { toast } from 'sonner';
-import useIsTestFinished from '#root/hooks/useIsTestFinished';
+import useIsTestFinished from '#root/lib/hooks/useIsTestFinished';
 
 export default function TestContainer() {
     const { inputRef, triggerTouchKeyboard } = useMobileTrigger();

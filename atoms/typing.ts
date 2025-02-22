@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 import { showResultsAtom } from './results';
 import { checkWord } from '#root/lib/utils/words';
 import { WordStat } from '#root/types/word-stat';
-import Log from '#root/types/Log';
+import Log from '#root/types/log';
 
 export const INITIAL_TYPED = [''];
 export const typedAtom = atom(INITIAL_TYPED);
@@ -47,12 +47,29 @@ export const setTypedAtom = atom(null, (get, set, typed: string[]) => {
             newCheckedWords[index] = word;
         }
         return newCheckedWords;
-        // return [
-        //     ...prev.slice(0, typed.length - checkedWords.length),
-        //     ...checkedWords,
-        //     ...prev.slice(typed.length),
-        // ];
     });
+
+    if (typed.length > 0) {
+        const currentWordIndex = typed.length - 1;
+        const currentWord = text.split(' ')[currentWordIndex] ?? '';
+        const currentTypedWord = typed[currentWordIndex] ?? '';
+        const lastLetter = currentTypedWord[currentTypedWord.length - 1];
+
+        if (lastLetter) {
+            const isCorrect =
+                lastLetter == currentWord[currentTypedWord.length - 1];
+            const isExtra = currentTypedWord.length > currentWord.length;
+
+            const logEntry: Log = {
+                character: currentTypedWord[currentTypedWord.length - 1],
+                timestamp: Date.now(),
+                error: !isCorrect,
+                extra: isExtra,
+            };
+
+            set(appendTypedLogAtom, logEntry);
+        }
+    }
 
     set(typedAtom, typed);
 });
@@ -61,7 +78,8 @@ export const typedLogAtom = atom<Log[]>([]);
 export const lastTestLogsAtom = atom<Log[]>([]);
 export const historyAtom = atom<string[]>([]);
 export const textAtom = atom('');
-export const resetBtnRefAtom = atom<HTMLButtonElement | null>();
+export const resetBtnRefAtom =
+    atom<React.RefObject<HTMLButtonElement> | null>();
 
 export const checkedWordsAtom = atom<WordStat[]>([]);
 export const appendCheckedWordsAtom = atom(null, (_, set, update: WordStat) =>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { WpmErrorLog } from '#root/models/Log';
 import {
     ChartConfig,
     ChartContainer,
@@ -14,6 +13,7 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
+import { WpmErrorLog } from '#root/types/log';
 
 interface ResultsChartProps {
     data: WpmErrorLog[];

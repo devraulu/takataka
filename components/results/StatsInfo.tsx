@@ -1,4 +1,4 @@
-import Stats from '#root/models/Stats';
+import Stats from '#root/types/stats';
 import SimpleTooltip from '../ui/simple-tooltip';
 
 interface StatsInfoProps {

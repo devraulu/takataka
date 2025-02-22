@@ -1,4 +1,4 @@
-import { Letter, Word } from '#root/models/Word';
+import { LetterStat, WordStat } from '#root/types/word-stat';
 
 export function fitsInCurrentLine(
     word: string,
@@ -59,7 +59,7 @@ export function checkWord(
         const isCorrect = isTyped && letter === typed[j];
         const isExtraLetter = isExtra && j >= word.length;
 
-        const checkedLetter: Letter = {
+        const checkedLetter: LetterStat = {
             letter,
             isTyped,
             isCorrect,
@@ -71,7 +71,7 @@ export function checkWord(
 
     const incorrectlyTypedWord = isTyped && !isWordCorrect && !active;
 
-    const checkedWord: Word = {
+    const checkedWord: WordStat = {
         originalWord: word,
         word: finalWordStr,
         letters: finalWord,

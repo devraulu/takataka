@@ -1,18 +1,13 @@
-import useResetTest from '#root/hooks/useResetTest';
-import { useSetAtom } from 'jotai';
-import { resetBtnRefAtom } from '#root/atoms/typing';
+import useResetTest from '#root/lib/hooks/useResetTest';
 import { Button } from '#root/components/ui/button';
 import { Repeat2 } from 'lucide-react';
 
 function RetryButton() {
     const reset = useResetTest();
 
-    const setResetBtnRef = useSetAtom(resetBtnRefAtom);
-
     return (
         <Button
             id='retry-button'
-            ref={ref => setResetBtnRef(ref)}
             className='restart size-9 text-sub'
             onClick={() => reset()}
             onKeyDown={e => e.key === 'Enter' && reset()}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MousePointerClick } from 'lucide-react';
 import { motion } from 'motion/react';
-import usePromptOverlay from '#root/hooks/usePromptOverlay';
+import usePromptOverlay from '#root/lib/hooks/usePromptOverlay';
 
 interface AfkOverlayProps {
     handleTouch: () => void;

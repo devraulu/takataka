@@ -14,8 +14,10 @@ export default function ShowAfterDelay({
     const [show, setShow] = useState(false);
 
     useEffect(() => {
-        setTimeout(() => setShow(true), delay);
-    }, []);
+        const timeout = setTimeout(() => setShow(true), delay);
+
+        return () => clearTimeout(timeout);
+    }, [delay]);
 
     return (
         <AnimatePresence>

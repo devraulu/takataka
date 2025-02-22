@@ -106,6 +106,7 @@ export async function validatePasswordResetSessionToken(
         email: row.email,
         username: row.username,
         registered2fa: row.totpKey != null,
+        emailVerified: row.emailVerified,
     };
 
     if (Date.now() > session.expiresAt.getTime()) {

@@ -7,7 +7,7 @@ import {
 } from '#root/atoms/test_configuration';
 import clsx from 'clsx';
 import { AtSign, Hash } from 'lucide-react';
-import useIsTestActive from '#root/hooks/useIsTestActive';
+import useIsTestActive from '#root/lib/hooks/useIsTestActive';
 import { motion } from 'motion/react';
 import { showAfkOverlayAtom } from '#root/atoms/ui';
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';

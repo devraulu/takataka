@@ -103,7 +103,7 @@ export async function updateUserTOTPKey(
     userId: number,
     key: Uint8Array,
 ): Promise<void> {
-    const encrypted = encrypt(key);
+    const encrypted = await encrypt(key);
     await db
         .updateTable('appUser')
         .where('id', '=', userId)
@@ -113,7 +113,7 @@ export async function updateUserTOTPKey(
 
 export async function resetUserRecoveryCode(userId: number): Promise<string> {
     const recoveryCode = generateRandomRecoveryCode();
-    const encrypted = encryptString(recoveryCode);
+    const encrypted = await encryptString(recoveryCode);
 
     await db
         .updateTable('appUser')

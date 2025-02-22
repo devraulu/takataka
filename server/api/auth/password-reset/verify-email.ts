@@ -4,7 +4,7 @@ import {
     invalidateUserPasswordResetSessions,
     setPasswordResetSessionAsEmailVerified,
     userPasswordResetVerificationRateLimit,
-    validateUserPasswordResetSessionRequest,
+    validatePasswordResetSessionRequest,
 } from '#root/server/lib/password-reset';
 import { ObjectParser } from '@pilcrowjs/object-parser';
 import { Hono } from 'hono';
@@ -12,7 +12,7 @@ import { Hono } from 'hono';
 const verifyEmailRoute = new Hono();
 
 verifyEmailRoute.post('/', async c => {
-    const { session } = await validateUserPasswordResetSessionRequest(c);
+    const { session } = await validatePasswordResetSessionRequest(c);
 
     if (session == null) {
         return c.text('Please restart the process', 401);
@@ -48,7 +48,7 @@ verifyEmailRoute.post('/', async c => {
     }
 
     const hash = await getPasswordResetSessionEmailVerificationCodeHash(
-        session.id,
+        session.token,
     );
 
     if (hash == null) {
@@ -61,7 +61,7 @@ verifyEmailRoute.post('/', async c => {
     }
 
     userPasswordResetVerificationRateLimit.reset(session.userId);
-    await setPasswordResetSessionAsEmailVerified(session.id);
+    await setPasswordResetSessionAsEmailVerified(session.token);
 
     return c.body(null, 204);
 });

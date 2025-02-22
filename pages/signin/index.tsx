@@ -1,3 +1,4 @@
+import LoginForm from '#root/components/auth/login-form';
 import { SignUpForm } from '#root/components/auth/signup-form';
 import { globalGETRateLimit } from '#root/server/lib/request';
 import { getCurrentSession } from '#root/server/lib/session';
@@ -38,14 +39,20 @@ export const getServerSideProps: GetServerSideProps = async c => {
 
 export default function SignupPage() {
     return (
-        <>
-            <h1>Create an account</h1>
-            <p>
-                Your username must be at least 3 characters long and your
-                password must be at least 8 characters long.
-            </p>
-            <SignUpForm />
-            <Link href='/login'>Sign in</Link>
-        </>
+        <div className='flex'>
+            <div className=''>
+                <h1>Create an account</h1>
+                <p>
+                    Your username must be at least 3 characters long and your
+                    password must be at least 8 characters long.
+                </p>
+                <SignUpForm />
+            </div>
+            <div className=''>
+                <h1>Sign in</h1>
+                <LoginForm />
+                <Link href='/forgot-password'>Forgot password?</Link>
+            </div>
+        </div>
     );
 }

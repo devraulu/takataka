@@ -4,7 +4,7 @@ import {
     textAtom,
     typedAtom,
     typedLogAtom,
-} from '../atoms/typing';
+} from '#root/atoms/typing';
 
 const useIsTestFinished = () => {
     const text = useAtomValue(textAtom);

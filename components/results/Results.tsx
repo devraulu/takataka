@@ -1,5 +1,3 @@
-import Stats from '#root/models/Stats';
-import useResetTest from '#root/hooks/useResetTest';
 import { useAtomValue } from 'jotai';
 import { lastTestLogsAtom } from '#root/atoms/typing';
 import { calculateStats, computeWpmAndErrors } from '#root/lib/utils/results';
@@ -9,6 +7,8 @@ import { Button } from '#root/components/ui/button';
 import TestType from '../typing/TestType';
 import ResultsChart from './ResultsChart';
 import StatsInfo from './StatsInfo';
+import Stats from '#root/types/stats';
+import useResetTest from '#root/lib/hooks/useResetTest';
 
 function Results() {
     const lastTestLogs = useAtomValue(lastTestLogsAtom);

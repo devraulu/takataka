@@ -27,12 +27,12 @@ export async function resetUser2FAWithRecoveryCode(
             throw new Error('Recovery code not found');
         }
         const encryptedRecoveryCode = row.recoveryCode;
-        const recoveryCode = decryptToString(encryptedRecoveryCode);
+        const recoveryCode = await decryptToString(encryptedRecoveryCode);
         if (!constantTimeEqualString(recoveryCode, providedRecoveryCode)) {
             throw new Error('Invalid recovery code');
         }
         const newRecoveryCode = generateRandomRecoveryCode();
-        const encryptedNewRecoveryCode = encryptString(newRecoveryCode);
+        const encryptedNewRecoveryCode = await encryptString(newRecoveryCode);
 
         await tx
             .updateTable('userSession')

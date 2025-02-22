@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { currentlyTypingIndexAtom, typedAtom } from '#root/atoms/typing';
-import useIsTestActive from '#root/hooks/useIsTestActive';
+import useIsTestActive from '#root/lib/hooks/useIsTestActive';
 import clsx from 'clsx';
 import { useAtomValue } from 'jotai';
 import { motion, SpringOptions, useMotionValue, useSpring } from 'motion/react';

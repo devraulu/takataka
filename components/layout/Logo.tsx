@@ -1,6 +1,6 @@
-import useResetTest from '#root/hooks/useResetTest';
+import useResetTest from '#root/lib/hooks/useResetTest';
 import { motion } from 'motion/react';
-import useIsTestActive from '#root/hooks/useIsTestActive';
+import useIsTestActive from '#root/lib/hooks/useIsTestActive';
 import clsx from 'clsx';
 
 function Logo() {

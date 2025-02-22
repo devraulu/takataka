@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
-    resetBtnRefAtom,
+    // resetBtnRefAtom,
     resetTestAtom,
     testInputRefAtom,
     testLostFocusAtom,
@@ -10,7 +10,7 @@ import { focusInputAndScrollIntoView } from '#root/lib/utils';
 import { showAfkOverlayAtom } from '#root/atoms/ui';
 
 const useResetTest = () => {
-    const resetBtnRef = useAtomValue(resetBtnRefAtom);
+    // const resetBtnRef = useAtomValue(resetBtnRefAtom);
     const resetTest = useSetAtom(resetTestAtom);
     const generateNewTest = useSetAtom(createNewTestAtom);
     const setShow = useSetAtom(showAfkOverlayAtom);
@@ -20,7 +20,7 @@ const useResetTest = () => {
 
     const reset = (newTest = true) => {
         resetTest();
-        resetBtnRef?.blur();
+        // resetBtnRef?.blur();
 
         if (newTest) {
             generateNewTest();

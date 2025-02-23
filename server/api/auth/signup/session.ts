@@ -97,8 +97,7 @@ sessionRoute.post('/', async c => {
 
     setSignUpSessionTokenCookie(c, sessionToken, session.expiresAt);
 
-    c.redirect('/2fa/setup', 307);
-    // return c.body(null, 204);
+    return c.body(null, 204);
 });
 
 sessionRoute.delete('/', async c => {

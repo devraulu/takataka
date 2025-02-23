@@ -11,7 +11,6 @@ export async function checkEmailAvailability(email: string): Promise<boolean> {
         .where('email', '=', email)
         .executeTakeFirst();
 
-    console.log('row', row);
     if (!row) throw new Error();
 
     return Number(row.emailCount) === 0;

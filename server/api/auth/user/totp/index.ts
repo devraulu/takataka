@@ -48,7 +48,7 @@ totpRoute.post('/', async c => {
     updateUserTOTPKey(c.var.session.userId, key);
     setSessionAs2FAVerified(c.var.session.token);
 
-    return c.redirect('/recovery-code', 307);
+    return c.body(null, 204);
 });
 
 totpRoute.route('/verify', verifyToptRoute);

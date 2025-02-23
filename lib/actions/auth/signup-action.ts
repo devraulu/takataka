@@ -1,3 +1,5 @@
+import Router from 'next/router';
+
 export default async function signupAction(_prev: unknown, formData: FormData) {
     try {
         const response = await fetch('/api/auth/signup/session', {
@@ -10,6 +12,7 @@ export default async function signupAction(_prev: unknown, formData: FormData) {
                 message: await response.text(),
             };
         }
+        Router.push('/2fa/setup');
     } catch (error) {
         console.error(error);
         // if (error instanceof Error) {

@@ -53,7 +53,10 @@ emailVerificationRoute.post('/', async c => {
         c.var.session.token,
         email,
     );
-    sendVerificationEmail(verificationRequest.email, verificationRequest.code);
+    await sendVerificationEmail(
+        verificationRequest.email,
+        verificationRequest.code,
+    );
 
     return c.body(null, 201);
 });

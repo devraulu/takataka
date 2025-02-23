@@ -41,7 +41,6 @@ export async function verifyPasswordStrength(
     const response = await fetch(
         `https://api.pwnedpasswords.com/range/${prefix}`,
     );
-    console.log('response', response);
 
     const data = await response.text();
     const items = data.split('\n');

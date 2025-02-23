@@ -185,12 +185,13 @@ export async function getCurrentSession(
     c: GetServerSidePropsContext,
 ): Promise<SessionValidationResult> {
     const cookies = parseCookies(c);
-    console.log(cookies);
+
     const token = 'session' in cookies ? cookies.session : null;
     if (token == null) {
         return { session: null, user: null };
     }
     const result = await validateSessionToken(token);
+    console.log('session found:', result);
     return result;
 }
 
@@ -198,7 +199,7 @@ export interface SessionFlags {
     twoFactorVerified: boolean;
 }
 
-export interface SessionResponse extends SessionFlags, Session {}
+export interface SessionResponse extends SessionFlags, Session { }
 
 export type SessionValidationResult =
     | { session: SessionResponse; user: UserResponse }

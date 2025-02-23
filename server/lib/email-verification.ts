@@ -22,13 +22,13 @@ export async function createSessionEmailVerificationRequest(
         .insertInto('sessionEmailVerificationRequest')
         .values({
             token,
-            expiresAt: expiresAt.toISOString(),
+            expiresAt,
             email,
             code,
         })
         .onConflict(oc =>
             oc.column('token').doUpdateSet({
-                expiresAt: expiresAt.toISOString(),
+                expiresAt,
                 email,
                 code,
             }),
@@ -94,6 +94,19 @@ export async function sendVerificationEmail(
     code: string,
 ): Promise<void> {
     console.log(`To ${email}: Your verification code is ${code}`);
+}
+
+export function setEmailVerificationRequestCookie(
+    c: Context,
+    request: SessionEmailVerificationRequest,
+) {
+    setCookie(c, 'email_verification', request.token, {
+        httpOnly: true,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        expires: request.expiresAt,
+    });
 }
 
 export function deleteEmailVerificationRequestCookie(c: Context): void {

@@ -1,4 +1,4 @@
-import './styles.css';
+import './styles.module.css';
 
 FourOhTwoHundredPage.getLayout = (page: React.ReactElement) => page;
 

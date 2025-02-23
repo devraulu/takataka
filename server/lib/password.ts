@@ -1,6 +1,8 @@
+import 'server-only';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 import { sha1 } from '@oslojs/crypto/sha1';
 import { BasicRateLimit, TokenBucketRateLimit } from './rate-limit';
+// import {} from 'argon2-browser/';
 // import argon2 from 'argon2';
 import argon2 from '@node-rs/argon2';
 
@@ -39,8 +41,9 @@ export async function verifyPasswordStrength(
     const response = await fetch(
         `https://api.pwnedpasswords.com/range/${prefix}`,
     );
+    console.log('response', response);
 
-    const data = await response.json<string>();
+    const data = await response.text();
     const items = data.split('\n');
 
     for (const item of items) {

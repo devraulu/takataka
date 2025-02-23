@@ -4,15 +4,24 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
 	"name": "takataka",
-	"compatibility_date": "2025-02-14",
+	"compatibility_date": "2024-12-30",
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
-	"pages_build_output_dir": ".vercel/output/static",
-	"observability": {
-		"enabled": true,
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS",
 	},
+	"kv_namespaces": [
+		// Create a KV binding with the binding name "NEXT_CACHE_WORKERS_KV"
+		// to enable the KV based caching:
+		// {
+		//   "binding": "NEXT_CACHE_WORKERS_KV",
+		//   "id": "<BINDING_ID>"
+		// }
+	],
 	/**
      * Smart Placement
      * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

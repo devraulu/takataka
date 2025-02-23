@@ -1,4 +1,3 @@
-import { ObjectParser } from '@pilcrowjs/object-parser';
 import {
     createSignUpSession,
     ipSendSignupVerificationEmailRateLimit,
@@ -38,19 +37,24 @@ sessionRoute.post('/', async c => {
         return c.text('Too many requests', 429);
     }
 
-    const data = await c.req.json();
-    const parser = new ObjectParser(data);
+    const data = await c.req.formData();
+    console.log('data', data.keys());
+    const email = data.get('email');
+    const password = data.get('password');
+    const username = data.get('username');
 
-    let email, password, username;
-    try {
-        email = parser.getString('email');
-        password = parser.getString('password');
-        username = parser.getString('username');
-    } catch {
+    console.log('email', typeof email, email);
+    console.log('password', typeof password, password);
+    console.log('username', typeof username, username);
+    if (
+        typeof email !== 'string' ||
+        typeof password !== 'string' ||
+        typeof username !== 'string'
+    ) {
         return c.text('Invalid or missing fields', 400);
     }
 
-    if (!email || !password || !username) {
+    if (email === '' || password === '' || username === '') {
         return c.text('Please enter your username, email and password', 400);
     }
 
@@ -69,6 +73,7 @@ sessionRoute.post('/', async c => {
     if (!strongPassword) {
         return c.text('Weak password', 400);
     }
+
     if (clientIP && !ipPasswordHashRateLimit.consume(clientIP, 1)) {
         return c.text('Too many requests', 429);
     }

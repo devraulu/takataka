@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { showResultsAtom } from '#root/atoms/results';
 import TestContainer from './TestContainer';
@@ -13,7 +13,9 @@ function TypingApp() {
     const createNewTest = useSetAtom(createNewTestAtom);
     const inputRef = useAtomValue(testInputRefAtom);
 
-    // createNewTest();
+    useEffect(() => {
+        createNewTest();
+    }, []);
 
     if (inputRef) focusInputAndScrollIntoView(inputRef);
 

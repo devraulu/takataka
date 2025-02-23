@@ -3,11 +3,13 @@ import Env from '#root/server/env';
 import authMiddleware from '#root/server/middlewares/auth';
 import rateLimitMiddleware from '#root/server/middlewares/rate-limit';
 import { Hono } from 'hono';
-import { handle } from 'hono/vercel';
+import { handle } from '@hono/node-server/vercel';
 import type { PageConfig } from 'next';
 
 export const config: PageConfig = {
-    runtime: 'edge',
+    api: {
+        bodyParser: false,
+    },
 };
 
 const app = new Hono<Env>().basePath('/api');

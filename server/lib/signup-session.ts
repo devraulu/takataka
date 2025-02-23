@@ -25,9 +25,11 @@ export async function createSignUpSession(
     const emailVerificationCode = generateRandomOTP();
     const passwordHash = await hashPassword(password);
 
+    const expiresAt = new Date(Date.now() * 60 * 10);
+    console.log('expires at', expiresAt, Date.now());
     const session: SignUpSession = {
         token: encodedToken,
-        expiresAt: new Date(Date.now() * 1000 * 60 * 10),
+        expiresAt: new Date(Date.now() * 60 * 10),
         email,
         username,
         passwordHash,
@@ -37,12 +39,8 @@ export async function createSignUpSession(
     await db
         .insertInto('signupSession')
         .values({
-            token: encodedToken,
-            expiresAt: new Date(Date.now() * 1000 * 60 * 10).toISOString(),
-            email,
-            username,
-            passwordHash: passwordHash,
-            emailVerificationCode: emailVerificationCode,
+            ...session,
+            expiresAt: session.expiresAt.toISOString(),
         })
         .executeTakeFirst();
 

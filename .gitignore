@@ -134,6 +134,9 @@ dist
 # Cloudflare
 .wrangler/
 
+# OpenNext
+.open-next/
+
 # Sentry Vite Plugin
 .env.sentry-build-plugin
 
@@ -144,3 +147,5 @@ cdk.out
 ## Panda
 styled-system
 styled-system-studio
+
+.idea

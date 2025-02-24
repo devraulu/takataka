@@ -83,5 +83,12 @@ export function checkWord(
     return checkedWord;
 }
 
-export const pascalCase = (w: string, i: number) =>
-    i === 0 ? w.toLowerCase() : w.slice(0, 1).toUpperCase() + w.slice(1);
+export const pascalCase = (w: string, i: number) => {
+    console.log(
+        'pascalCase',
+        i,
+        i === 0 ? w.toLowerCase() : w.slice(0, 1).toUpperCase() + w.slice(1),
+    );
+
+    return i === 0 ? w.toLowerCase() : w.slice(0, 1).toUpperCase() + w.slice(1);
+};

@@ -11,6 +11,7 @@ import { jsonObjectFrom } from 'kysely/helpers/postgres';
 import { GetServerSidePropsContext } from 'next';
 import { parseCookies } from 'nookies';
 import { User } from '#root/database/types/user';
+import CookiesEnum from './enum';
 
 export function generateSessionToken(): string {
     const bytes = new Uint8Array(32);
@@ -25,28 +26,23 @@ export async function createSession(
     token: string,
     userId: number,
 ): Promise<Session> {
-    try {
-        const encodedToken = encodeHexLowerCase(
-            sha256(new TextEncoder().encode(token)),
-        );
+    const encodedToken = encodeHexLowerCase(
+        sha256(new TextEncoder().encode(token)),
+    );
 
-        const newSession: NewSession = {
-            token: encodedToken,
-            userId,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
-        };
+    const newSession: NewSession = {
+        token: encodedToken,
+        userId,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+    };
 
-        const session = await db
-            .insertInto('userSession')
-            .values(newSession)
-            .returningAll()
-            .executeTakeFirstOrThrow();
+    const session = await db
+        .insertInto('userSession')
+        .values(newSession)
+        .returningAll()
+        .executeTakeFirstOrThrow();
 
-        return session;
-    } catch (e) {
-        console.error("Couldn't create session", e);
-        throw e;
-    }
+    return session;
 }
 
 export async function validateSessionToken(
@@ -54,15 +50,20 @@ export async function validateSessionToken(
 ): Promise<SessionValidationResult> {
     try {
         const encodedToken = encodeHexLowerCase(
-            new TextEncoder().encode(sessionToken),
+            sha256(new TextEncoder().encode(sessionToken)),
         );
 
         const queryResult = await db
             .selectFrom('userSession')
-            .innerJoin('appUser', 'appUser.id', 'userSession.userId')
+            // .innerJoin('appUser', 'appUser.id', 'userSession.userId')
             .selectAll('userSession')
             .select(eb => [
-                jsonObjectFrom(eb.selectFrom('appUser').selectAll()).as('user'),
+                jsonObjectFrom(
+                    eb
+                        .selectFrom('appUser')
+                        .selectAll()
+                        .whereRef('appUser.id', '=', 'userSession.userId'),
+                ).as('user'),
             ])
             .where('userSession.token', '=', encodedToken)
             .executeTakeFirst();
@@ -70,26 +71,8 @@ export async function validateSessionToken(
         if (queryResult == null || queryResult.user == null)
             return { session: null, user: null };
 
-        const {
-            userId,
-            id,
-            token,
-            user: { email, expiresAt, username, id: uid, picture },
-        } = queryResult;
-
-        const session: Session = {
-            token,
-            expiresAt,
-            id,
-            userId,
-        };
-
-        const user: UserResponse = {
-            id: uid,
-            email,
-            username,
-            picture,
-        };
+        const session: Session = queryResult;
+        const user: UserResponse = queryResult.user;
 
         if (Date.now() >= session.expiresAt.getTime()) {
             await db
@@ -139,7 +122,7 @@ export function setSessionTokenCookie(
     token: string,
     expires: Date,
 ) {
-    setCookie(c, 'session', token, {
+    setCookie(c, CookiesEnum.SESSION, token, {
         httpOnly: true,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
@@ -149,7 +132,7 @@ export function setSessionTokenCookie(
 }
 
 export function deleteSessionTokenCookie(c: Context): void {
-    setCookie(c, 'session', '', {
+    setCookie(c, CookiesEnum.SESSION, '', {
         httpOnly: true,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
@@ -158,27 +141,16 @@ export function deleteSessionTokenCookie(c: Context): void {
     });
 }
 
-// export function setSessionAs2FAVerified(sessionToken: string): void {
-//     db.updateTable('userSession')
-//         .where('token', '=', sessionToken)
-//         .set({
-//             // twoFactorVerified: true,
-//         })
-//         .execute();
-// }
-
 export async function getCurrentSession(
-    c: GetServerSidePropsContext,
+    c: GetServerSidePropsContext | Context,
 ): Promise<SessionValidationResult> {
     const cookies = parseCookies(c);
 
-    const token = 'session' in cookies ? cookies.session : null;
+    const token = CookiesEnum.SESSION in cookies ? cookies.session : null;
     if (token == null) {
         return { session: null, user: null };
     }
     const result = await validateSessionToken(token);
-
-    console.log('session found:', result);
 
     return result;
 }

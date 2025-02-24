@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 import loginApp from './login';
 
-const authApp = new Hono();
+const authRoute = new Hono();
 
-authApp.route('/login', loginApp);
+authRoute.route('/login', loginApp);
 
-export default authApp;
+export default authRoute;

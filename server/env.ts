@@ -1,9 +1,9 @@
-import { SessionResponse } from './lib/session';
-import { UserResponse } from './lib/user';
+import { Session } from '#root/database/types/session';
+import { UserResponse } from '#root/lib/server/session';
 
 type Env = {
     Variables: {
-        session: SessionResponse | null;
+        session: Session | null;
         user: UserResponse | null;
     };
 };

@@ -46,13 +46,17 @@ export async function getUserFromGoogleId(
 }
 
 export async function generateUniqueUsername() {
-    const getCombination = () =>
-        generate({
-            join: '',
-            exactly: 3,
-            formatter: pascalCase,
-        }) + randomInt(4);
+    const getCombination = () => {
+        const words = (
+            generate({
+                exactly: 3,
+            }) as string[]
+        )
+            .map(pascalCase)
+            .join('');
 
+        return words + randomInt(4, 5);
+    };
     let username = getCombination();
 
     while (

@@ -1,5 +1,5 @@
 import { createMiddleware } from 'hono/factory';
-import { globalRateLimit } from '../lib/request';
+import { globalRateLimit } from '../../lib/server/request';
 
 const rateLimitMiddleware = createMiddleware(async (c, next) => {
     // TODO: Assumes X-Forwarded-For will always be defined.

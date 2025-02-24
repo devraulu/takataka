@@ -7,10 +7,10 @@ import { NewSession, Session } from '#root/database/types/session';
 import { db } from '#root/database/dialect';
 import { Context } from 'hono';
 import { setCookie } from 'hono/cookie';
-import { UserResponse } from './user';
 import { jsonObjectFrom } from 'kysely/helpers/postgres';
 import { GetServerSidePropsContext } from 'next';
 import { parseCookies } from 'nookies';
+import { User } from '#root/database/types/user';
 
 export function generateSessionToken(): string {
     const bytes = new Uint8Array(32);
@@ -24,7 +24,6 @@ export function generateSessionToken(): string {
 export async function createSession(
     token: string,
     userId: number,
-    flags: SessionFlags,
 ): Promise<Session> {
     try {
         const encodedToken = encodeHexLowerCase(
@@ -34,10 +33,7 @@ export async function createSession(
         const newSession: NewSession = {
             token: encodedToken,
             userId,
-            expiresAt: new Date(
-                Date.now() + 1000 * 60 * 60 * 24 * 30,
-            ).toISOString(),
-            twoFactorVerified: flags.twoFactorVerified,
+            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
         };
 
         const session = await db
@@ -76,33 +72,23 @@ export async function validateSessionToken(
 
         const {
             userId,
-            twoFactorVerified,
             id,
             token,
-            user: {
-                email,
-                expiresAt,
-                username,
-                totpKey,
-                id: uid,
-                emailVerified,
-            },
+            user: { email, expiresAt, username, id: uid, picture },
         } = queryResult;
 
-        const session: SessionResponse = {
+        const session: Session = {
             token,
             expiresAt,
             id,
-            twoFactorVerified,
             userId,
         };
 
         const user: UserResponse = {
             id: uid,
             email,
-            registered2fa: Boolean(totpKey),
             username,
-            emailVerified,
+            picture,
         };
 
         if (Date.now() >= session.expiresAt.getTime()) {
@@ -172,14 +158,14 @@ export function deleteSessionTokenCookie(c: Context): void {
     });
 }
 
-export function setSessionAs2FAVerified(sessionToken: string): void {
-    db.updateTable('userSession')
-        .where('token', '=', sessionToken)
-        .set({
-            twoFactorVerified: true,
-        })
-        .execute();
-}
+// export function setSessionAs2FAVerified(sessionToken: string): void {
+//     db.updateTable('userSession')
+//         .where('token', '=', sessionToken)
+//         .set({
+//             // twoFactorVerified: true,
+//         })
+//         .execute();
+// }
 
 export async function getCurrentSession(
     c: GetServerSidePropsContext,
@@ -191,16 +177,14 @@ export async function getCurrentSession(
         return { session: null, user: null };
     }
     const result = await validateSessionToken(token);
+
     console.log('session found:', result);
+
     return result;
 }
 
-export interface SessionFlags {
-    twoFactorVerified: boolean;
-}
-
-export interface SessionResponse extends SessionFlags, Session { }
+export type UserResponse = Omit<User, 'googleId'>;
 
 export type SessionValidationResult =
-    | { session: SessionResponse; user: UserResponse }
+    | { session: Session; user: UserResponse }
     | { session: null; user: null };

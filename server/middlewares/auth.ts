@@ -1,11 +1,11 @@
 import { createMiddleware } from 'hono/factory';
+import { getCookie } from 'hono/cookie';
+import Env from '../env';
 import {
     deleteSessionTokenCookie,
     setSessionTokenCookie,
     validateSessionToken,
-} from '../lib/session';
-import { getCookie } from 'hono/cookie';
-import Env from '../env';
+} from '#root/lib/server/session';
 
 const authMiddleware = createMiddleware<Env>(async (c, next) => {
     const token = getCookie(c, 'session');

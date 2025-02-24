@@ -6,7 +6,7 @@ import { recursiveFont } from '#root/lib/fonts';
 import { useAtomValue } from 'jotai';
 import { themeAtom } from '#root/atoms/ui';
 
-import Layout from '#root/components/layouts/default-layout';
+import Layout from '#root/components/layout/default-layout';
 import MetaTags from '#root/components/meta-tags';
 import Providers from '#root/components/Providers';
 

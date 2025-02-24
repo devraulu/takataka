@@ -1,7 +1,7 @@
 import HideOnSmallHeight from '#root/components/animations/hide-on-small-height';
 
-import Header from '#root/components/layout/Header';
-import Footer from '#root/components/layout/Footer';
+import Header from '#root/components/layout/header';
+import Footer from '#root/components/layout/footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (

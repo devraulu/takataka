@@ -1,9 +1,5 @@
-NotFoundPage.getLayout = (page: React.ReactElement) => page;
+import React from 'react';
 
-export default function NotFoundPage() {
-    return (
-        <>
-            <h1>404 - HORRIBLE NOT FOUND PAGE</h1>
-        </>
-    );
+export default function BadRequestPage() {
+  return <div>Bad Request</div>;
 }

@@ -1,14 +1,44 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { currentlyTypingIndexAtom, typedAtom } from '#root/atoms/typing';
 import useIsTestActive from '#root/lib/hooks/useIsTestActive';
 import clsx from 'clsx';
 import { useAtomValue } from 'jotai';
-import { motion, SpringOptions, useMotionValue, useSpring } from 'motion/react';
+import {
+    SequenceOptions,
+    SpringOptions,
+    TargetAndTransition,
+    useAnimate,
+} from 'motion/react';
 
 interface CaretProps {
     containerRef: React.RefObject<HTMLDivElement | null>;
     fontHeight: number;
 }
+
+const springOptions: SpringOptions = {
+    mass: 0.2,
+    stiffness: 300,
+    damping: 40,
+};
+
+const initialAnimation: TargetAndTransition = {
+    left: 0,
+    top: 0,
+    opacity: [null, 0, 1],
+    transition: {
+        repeat: Infinity,
+        duration: 1,
+    },
+};
+
+const initialOptions: SequenceOptions = {
+    repeat: Infinity,
+    duration: 1,
+};
+
+const movingOptions: SequenceOptions = {
+    repeat: undefined,
+};
 
 const Caret: React.FunctionComponent<CaretProps> = ({
     containerRef,
@@ -18,24 +48,23 @@ const Caret: React.FunctionComponent<CaretProps> = ({
     const currentlyTypingIndex = useAtomValue(currentlyTypingIndexAtom);
     const testActive = useIsTestActive();
 
-    const topMotionValue = useMotionValue(0);
-    const leftMotionValue = useMotionValue(0);
+    const [scope, animate] = useAnimate();
 
-    const spring: SpringOptions = {
-        mass: 0.2,
-        stiffness: 500,
-        damping: 20,
-    };
-    const top = useSpring(topMotionValue, spring);
-    const left = useSpring(leftMotionValue, spring);
+    React.useEffect(() => {
+        let animation = initialAnimation;
+        let options = initialOptions;
 
-    useEffect(() => {
         if (typed?.[0].length == 0) {
             const firstLetter =
                 containerRef.current?.querySelector('[data-letter]');
             if (firstLetter && firstLetter instanceof HTMLElement) {
-                topMotionValue.set(firstLetter.offsetTop);
-                leftMotionValue.set(firstLetter?.offsetLeft);
+                animation = {
+                    opacity: 1,
+                    top: firstLetter.offsetTop,
+                    left: firstLetter?.offsetLeft,
+                };
+
+                options = movingOptions;
             }
         } else {
             const activeWord = containerRef.current?.querySelector(
@@ -52,24 +81,28 @@ const Caret: React.FunctionComponent<CaretProps> = ({
 
                 const leftCalc = isTyped ? activeLetter.offsetWidth : 0;
 
-                topMotionValue.set(activeLetter.offsetTop);
-
-                leftMotionValue.set(activeLetter.offsetLeft + leftCalc);
+                animation = {
+                    opacity: 1,
+                    top: activeLetter.offsetTop,
+                    left: activeLetter.offsetLeft + leftCalc,
+                };
+                options = movingOptions;
             }
         }
-    }, [typed, currentlyTypingIndex]);
+
+        console.log('animation', animation, options);
+        const controls = animate([[scope.current, animation]], options);
+
+        return () => controls.stop();
+    }, [typed, currentlyTypingIndex, containerRef, scope, testActive]);
 
     return (
-        <motion.div
-            className={clsx('absolute bg-caret', {
-                'animate-blink': !testActive,
-            })}
+        <div
+            ref={scope}
+            className={clsx('absolute bg-caret')}
             style={{
-                top,
-                left,
                 height: fontHeight - 6,
                 width: 2.5,
-                opacity: 1,
             }}
         />
     );

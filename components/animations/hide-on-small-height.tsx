@@ -24,5 +24,12 @@ export default function HideOnSmallHeight({ children }: Props) {
         return () => window.removeEventListener('resize', handleResize);
     }, [handleResize]);
 
-    return <DisappearAnimation show={show}>{children}</DisappearAnimation>;
+    return (
+        <DisappearAnimation
+            show={show}
+            // exit={{ opacity: 0, scaleY: 0, height: 0 }}
+        >
+            {children}
+        </DisappearAnimation>
+    );
 }

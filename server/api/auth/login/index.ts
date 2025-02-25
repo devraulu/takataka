@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 import googleApp from './google';
 
-const loginApp = new Hono();
+const loginRoute = new Hono();
 
-loginApp.route('/google', googleApp);
+loginRoute.route('/google', googleApp);
 
-export default loginApp;
+export default loginRoute;

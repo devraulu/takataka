@@ -3,7 +3,11 @@ import User from './user';
 
 function Header() {
     return (
-        <div className={'flex justify-between mt-8 lg:mt-16 xl:mt-24'}>
+        <div
+            className={
+                'flex justify-between items-center mt-8 lg:mt-16'
+            }
+        >
             <Logo />
             <User />
         </div>

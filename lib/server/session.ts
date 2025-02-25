@@ -55,7 +55,6 @@ export async function validateSessionToken(
 
         const queryResult = await db
             .selectFrom('userSession')
-            // .innerJoin('appUser', 'appUser.id', 'userSession.userId')
             .selectAll('userSession')
             .select(eb => [
                 jsonObjectFrom(

@@ -27,11 +27,11 @@ export default function UserMenu() {
         return (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button className='flex gap-2 items-center'>
+                    <Button className='flex gap-2 items-center' variant='link'>
                         <Avatar className='size-7'>
-                            <AvatarImage src='https://github.com/shadcn.png' />
+                            <AvatarImage src={data.picture} />
                             <AvatarFallback>
-                                {data.username.slice(0, 1)}
+                                {data.username.slice(0, 1).toUpperCase()}
                             </AvatarFallback>
                         </Avatar>
                         <span className=''>{data.username}</span>

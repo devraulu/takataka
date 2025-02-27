@@ -89,7 +89,6 @@ export default function TestContainer() {
                     toast.dismiss();
                 }
 
-                // blurResetBtn();
             } else if (key === 'Backspace') {
                 if (typed.length > 0) {
                     // If there are any words typed, we get the last one

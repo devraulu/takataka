@@ -6,19 +6,13 @@ import { getCookie } from 'hono/cookie';
 const userRoute = new Hono();
 
 userRoute.get('/profile', async c => {
-    console.log('api/user/profile -->');
-
     const token = getCookie(c, CookiesEnum.SESSION);
-
-    console.log('token', token);
 
     if (token == null) {
         return c.text('Not logged in', 401);
     }
 
     const { user } = await validateSessionToken(token);
-
-    console.log('user', user);
 
     if (user == null) {
         return c.text('Not logged in', 401);

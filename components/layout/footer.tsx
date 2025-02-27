@@ -1,9 +1,10 @@
 import React from 'react';
-import { Asterisk, Github, Mail, Paintbrush } from 'lucide-react';
+import { Asterisk, Mail, Paintbrush } from 'lucide-react';
+import { SiGithub as Github } from '@icons-pack/react-simple-icons';
 import { AnimatePresence, motion } from 'motion/react';
 import clsx from 'clsx';
 import useIsTestActive from '#root/lib/hooks/useIsTestActive';
-import ThemePicker from '#root/components/theme-picker';
+import ThemePicker from './theme-picker';
 import { Button } from '#root/components/ui/button';
 import SimpleTooltip from '#root/components/ui/simple-tooltip';
 
@@ -53,25 +54,22 @@ function Footer() {
 
 const Links = () => (
     <div className='flex gap-2'>
-        <SimpleTooltip
-            label='GitHub'
-            children={
-                <Button
-                    variant='link'
-                    className={btnClasses}
-                    asChild
-                    aria-label="GitHub's repository"
+        <SimpleTooltip label='GitHub'>
+            <Button
+                variant='link'
+                className={btnClasses}
+                asChild
+                aria-label="GitHub's repository"
+            >
+                <a
+                    href='https://github.com/devraulu/takataka'
+                    target='_blank'
+                    rel='noopener noreferrer'
                 >
-                    <a
-                        href='https://github.com/devraulu/takataka'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
-                        <Github />
-                    </a>
-                </Button>
-            }
-        />
+                    <Github />
+                </a>
+            </Button>
+        </SimpleTooltip>
         <SimpleTooltip label='Contact me'>
             <Button
                 variant='link'
@@ -92,7 +90,7 @@ const CraftedBy = () => (
         <div className='flex flex-nowrap'>
             <p className=''>crafted by</p>
             <a
-                className='link flex flex-nowrap items-center'
+                className='link flex flex-nowrap items-center outline-hidden focus-visible:border-main focus-visible:ring-main/50 focus-visible:ring-[3px] rounded-md'
                 href='https://rauluis.com'
                 target='_blank'
                 rel='noreferrer'
@@ -107,7 +105,7 @@ const CraftedBy = () => (
                 href='https://monkeytype.com/'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='link'
+                className='link outline-hidden focus-visible:border-main focus-visible:ring-main/50 focus-visible:ring-[3px] rounded-md'
             >
                 monkeytype.
             </a>

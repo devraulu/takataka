@@ -2,6 +2,7 @@ import useResetTest from '#root/lib/hooks/useResetTest';
 import { motion } from 'motion/react';
 import useIsTestActive from '#root/lib/hooks/useIsTestActive';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 function Logo() {
     const reset = useResetTest();
@@ -30,7 +31,12 @@ function Logo() {
     const animate = isTestActive ? 'subtle' : 'active';
 
     return (
-        <div className='select-none' id='logo'>
+        <Link
+            href='/'
+            className='select-none outline-hidden focus-visible:border-main focus-visible:ring-main/50 focus-visible:ring-[3px] rounded-md'
+            id='logo'
+            onClick={() => reset()}
+        >
             <motion.div variants={smallTextVariants} animate={animate}>
                 <div className='text-xs md:text-sm text-sub font-bold font-sans pl-1 leading-none'>
                     keys go
@@ -42,7 +48,6 @@ function Logo() {
                 style={{
                     cursor: 'pointer',
                 }}
-                onClick={() => reset()}
             >
                 <h1
                     className={clsx(
@@ -53,7 +58,7 @@ function Logo() {
                     takataka
                 </h1>
             </motion.div>
-        </div>
+        </Link>
     );
 }
 

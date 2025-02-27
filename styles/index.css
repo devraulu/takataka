@@ -14,6 +14,10 @@
     --font-mono:
         var(--font-recursive), ui-monospace, SFMono-Regular, Menlo, Monaco,
         Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --font-recursive--font-variation-settings: 'MONO' 1;
+
+    --font-display: var(--font-recursive);
+    --font-display--font-variation-settings: 'CASL' 1;
 
     --animate-blink: blink 1s ease-out infinite;
 
@@ -102,18 +106,6 @@
 /* } */
 /**/
 
-@utility font-variation-mono {
-    font-variation-settings: 'MONO' 1;
-}
-
-@utility font-variation-casual {
-    font-variation-settings: 'CASL' 1;
-}
-
-@utility font-variation-slant {
-    font-variation-settings: 'slnt' 1;
-}
-
 @utility content-grid {
     --padding-inline: 4rem;
     --content-max-width: 1280px;
@@ -164,21 +156,21 @@
 
 @layer utilities {
     :root {
-        --card: 100% 0 106.37;
-        --card-foreground: 14.05% 0.0044 285.82;
-        --popover: 100% 0 106.37;
-        --popover-foreground: 14.05% 0.0044 285.82;
-        --primary: 21.03% 0.0059 285.88;
-        --primary-foreground: 98.48% 0 0;
-        --secondary: 96.76% 0.0013 286.38;
-        --secondary-foreground: 21.03% 0.0059 285.88;
+        --card: var(--color-surface2);
+        --card-foreground: var(--color-text);
+        --popover: var(--color-surface3);
+        --popover-foreground: var(--color-text);
+        --primary: var(--color-main);
+        --primary-foreground: var(--color-surface1);
+        --secondary: var(--color-sub);
+        --secondary-foreground: var(--color-surface1);
         --muted: 96.76% 0.0013 286.38 240 4.8% 95.9%;
         --muted-foreground: 55.19% 0.0137 285.94;
-        --accent: 96.76% 0.0013 286.38;
-        --accent-foreground: 21.03% 0.0059 285.88;
-        --destructive: 63.68% 0.2078 25.33;
-        --destructive-foreground: 98.48% 0 0;
-        --border: 21.03% 0.0059 285.88;
+        --accent: var(--color-text);
+        --accent-foreground: var(--color-surface1);
+        --destructive: var(--color-error);
+        --destructive-foreground: var(--color-surface1);
+        --border: var(--color-border);
         --input: 21.03% 0.0059 285.88;
         --ring: 14.05% 0.0044 285.82;
         --chart-1: 67.72% 0.1571 35.19;
@@ -214,17 +206,15 @@
     body {
         @apply bg-surface1 text-foreground;
     }
-}
 
-/*
-  ---break---
-*/
-
-@layer base {
-    * {
-        @apply border-border outline-ring/50;
-    }
-    body {
-        @apply bg-surface1 text-foreground;
+    a:focus-visible {
+        border-color: var(--main);
+        --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0
+            calc(2px + var(--tw-ring-offset-width))
+            var(--color-main, currentColor);
+        box-shadow:
+            var(--tw-inset-shadow), var(--tw-inset-ring-shadow),
+            var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+            var(--tw-shadow);
     }
 }

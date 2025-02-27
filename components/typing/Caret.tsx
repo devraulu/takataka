@@ -3,23 +3,12 @@ import { currentlyTypingIndexAtom, typedAtom } from '#root/atoms/typing';
 import useIsTestActive from '#root/lib/hooks/useIsTestActive';
 import clsx from 'clsx';
 import { useAtomValue } from 'jotai';
-import {
-    SequenceOptions,
-    SpringOptions,
-    TargetAndTransition,
-    useAnimate,
-} from 'motion/react';
+import { SequenceOptions, TargetAndTransition, useAnimate } from 'motion/react';
 
 interface CaretProps {
     containerRef: React.RefObject<HTMLDivElement | null>;
     fontHeight: number;
 }
-
-const springOptions: SpringOptions = {
-    mass: 0.2,
-    stiffness: 300,
-    damping: 40,
-};
 
 const initialAnimation: TargetAndTransition = {
     left: 0,
@@ -27,7 +16,7 @@ const initialAnimation: TargetAndTransition = {
     opacity: [null, 0, 1],
     transition: {
         repeat: Infinity,
-        duration: 1,
+        duration: 0.5,
     },
 };
 
@@ -90,8 +79,11 @@ const Caret: React.FunctionComponent<CaretProps> = ({
             }
         }
 
-        console.log('animation', animation, options);
-        const controls = animate([[scope.current, animation]], options);
+        const controls = animate(scope.current, animation, {
+            ease: [0.215, 0.61, 0.355, 1],
+            duration: 0.2,
+            ...options,
+        });
 
         return () => controls.stop();
     }, [typed, currentlyTypingIndex, containerRef, scope, testActive]);

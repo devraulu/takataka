@@ -1,29 +1,19 @@
 import { Button } from '#root/components/ui/button';
-import { globalGETRateLimit } from '#root/lib/server/request';
-import { getCurrentSession } from '#root/lib/server/session';
-import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { SiGoogle } from '@icons-pack/react-simple-icons';
 
-// export const getServerSideProps: GetServerSideProps = async c => {
-//     if (!globalGETRateLimit(c)) {
-//         return { redirect: { destination: '/429', permanent: false } };
-//     }
-//
-//     const { user } = await getCurrentSession(c);
-//
-//     if (user != null) {
-//         return { redirect: { destination: '/', permanent: false } };
-//     }
-//     return { props: {} };
-// };
-
-export default function SignupPage() {
+export default function SigninPage() {
     return (
-        <div className=''>
-            <h1 className=''>Welcome back!</h1>
-            <Button asChild variant='secondary'>
-                <Link href='/api/auth/login/google'>Sign in with Google</Link>
-            </Button>
+        <div className='content-grid h-full'>
+            <div className='col-[content] h-full p-4 place-content-center text-center'>
+                <h1 className='text-3xl font-semibold'>Welcome back!</h1>
+                <Button asChild className='mt-12'>
+                    <Link href='/api/auth/login/google'>
+                        <SiGoogle size={20} />
+                        Continue with Google
+                    </Link>
+                </Button>
+            </div>
         </div>
     );
 }

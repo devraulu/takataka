@@ -14,6 +14,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.13.8
         version: 1.13.8(hono@4.7.2)
+      '@icons-pack/react-simple-icons':
+        specifier: ^12.0.0
+        version: 12.0.0(react@19.0.0)
       '@mantine/hooks':
         specifier: ^7.17.0
         version: 7.17.0(react@19.0.0)
@@ -1136,6 +1139,11 @@ packages:
   '@humanwhocodes/retry@0.4.2':
     resolution: {integrity: sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==}
     engines: {node: '>=18.18'}
+
+  '@icons-pack/react-simple-icons@12.0.0':
+    resolution: {integrity: sha512-7MqCY27RLQqzGAGYAcmsIIy/CU64TaFeTIFaFwEMkyeA6FWptg5AXWFm6UV9kvrCDwXYbzcWLz/cbhutLfcUUg==}
+    peerDependencies:
+      react: ^16.13 || ^17 || ^18 || ^19
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -6830,6 +6838,10 @@ snapshots:
   '@humanwhocodes/retry@0.3.1': {}
 
   '@humanwhocodes/retry@0.4.2': {}
+
+  '@icons-pack/react-simple-icons@12.0.0(react@19.0.0)':
+    dependencies:
+      react: 19.0.0
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:

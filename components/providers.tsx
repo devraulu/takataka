@@ -1,12 +1,15 @@
 import { TooltipProvider } from './ui/tooltip';
 import { Toaster } from './ui/sonner';
-import { Provider } from 'jotai';
+import { createStore, Provider } from 'jotai';
 import { SWRConfig } from 'swr';
 import axios from 'axios';
+import ThemeProvider from './theme-provider';
 
 type Props = {
     children: React.ReactNode;
 };
+
+const store = createStore();
 
 export default function Providers({ children }: Props) {
     return (
@@ -16,11 +19,13 @@ export default function Providers({ children }: Props) {
                     axios(resource, init).then(res => res.data),
             }}
         >
-            <Provider>
-                <TooltipProvider>
-                    {children}
-                    <Toaster />
-                </TooltipProvider>
+            <Provider store={store}>
+                <ThemeProvider>
+                    <TooltipProvider>
+                        {children}
+                        <Toaster />
+                    </TooltipProvider>
+                </ThemeProvider>
             </Provider>
         </SWRConfig>
     );

@@ -1,0 +1,94 @@
+import { LetterStat, WordStat } from '#root/types/word-stat';
+
+export function fitsInCurrentLine(
+    word: string,
+    line: string[],
+    fontWidth: number,
+    containerWidth: number,
+) {
+    // We calculate the width of the word using the width of the current font at it's current size
+    // and multiply it by the length of the word plus one space
+
+    const wordWidth = (word.length + 1) * fontWidth;
+
+    // To know the width of the line we calculate the width of each word,
+    //  then add each width
+    const lineWidth = line.reduce(
+        (acc, item) => acc + (item.length + 1) * fontWidth,
+        0,
+    );
+
+    return lineWidth + wordWidth <= containerWidth;
+}
+
+export function findActiveLineIndex(
+    lines: string[][],
+    currentTypingIndex: number,
+) {
+    const index = lines.findIndex((elem, i, arr) => {
+        const previousLinesSize = arr
+            .slice(0, i)
+            .reduce((acc, elem) => (acc += elem.length), 0);
+
+        const isCurrentLine =
+            currentTypingIndex > previousLinesSize &&
+            currentTypingIndex <= previousLinesSize + elem.length;
+
+        return isCurrentLine;
+    });
+
+    return index;
+}
+
+export function checkWord(
+    word: string,
+    typed: string,
+    index: number,
+    active = true,
+) {
+    const typedNotEmpty = typed?.length > 0;
+    const isTyped = typedNotEmpty && !!typed;
+    const isComplete = isTyped && typed.length === word.length;
+
+    const isWordCorrect = typed === word;
+    const isExtra = typedNotEmpty && !!typed && typed.length > word.length;
+    const finalWordStr = `${word}${typed?.slice(word.length) ?? ''}`;
+
+    const finalWord = finalWordStr.split('').map((letter, j) => {
+        const isTyped = typedNotEmpty && !!typed[j];
+        const isCorrect = isTyped && letter === typed[j];
+        const isExtraLetter = isExtra && j >= word.length;
+
+        const checkedLetter: LetterStat = {
+            letter,
+            isTyped,
+            isCorrect,
+            isExtraLetter,
+        };
+
+        return checkedLetter;
+    });
+
+    const incorrectlyTypedWord = isTyped && !isWordCorrect && !active;
+
+    const checkedWord: WordStat = {
+        originalWord: word,
+        word: finalWordStr,
+        letters: finalWord,
+        incorrectlyTypedWord,
+        isComplete,
+        index,
+    };
+
+    return checkedWord;
+}
+
+export const pascalCase = (w: string, i: number) => {
+    console.log(
+        'pascalCase',
+        i,
+        i === 0 ? w.toLowerCase() : w.slice(0, 1).toUpperCase() + w.slice(1),
+    );
+
+    return i === 0 ? w.toLowerCase() : w.slice(0, 1).toUpperCase() + w.slice(1);
+};

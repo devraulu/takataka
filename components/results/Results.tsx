@@ -1,5 +1,3 @@
-import { useAtomValue } from 'jotai';
-import { lastTestLogsAtom } from '#root/atoms/typing';
 import { calculateStats, computeWpmAndErrors } from '#root/lib/utils/results';
 import SimpleTooltip from '#root/components/ui/simple-tooltip';
 import { ArrowRight, Repeat2 } from 'lucide-react';
@@ -9,14 +7,14 @@ import ResultsChart from './ResultsChart';
 import StatsInfo from './StatsInfo';
 import Stats from '#root/types/stats';
 import useResetTest from '#root/lib/hooks/useResetTest';
+import Log from '#root/types/log';
 
-function Results() {
-    const lastTestLogs = useAtomValue(lastTestLogsAtom);
+function Results({ logs }: { logs: Log[] }) {
     const reset = useResetTest();
 
-    const chartData = computeWpmAndErrors(lastTestLogs);
+    const chartData = computeWpmAndErrors(logs ?? []);
 
-    const stats: Stats = calculateStats(chartData, lastTestLogs);
+    const stats: Stats = calculateStats(chartData, logs ?? []);
 
     return (
         <>

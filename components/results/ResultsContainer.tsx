@@ -1,10 +1,11 @@
 import React, { lazy, Suspense } from 'react';
 import DisappearAnimation from '#root/components/animations/dissappear-animation';
 import ResultsSkeleton from './ResultsSkeleton';
+import Log from '#root/types/log';
 
 const Results = lazy(() => import('./Results'));
 
-export default function ResultsContainer() {
+export default function ResultsContainer({ logs }: { logs: Log[] }) {
     return (
         <Suspense
             fallback={
@@ -15,7 +16,7 @@ export default function ResultsContainer() {
                 </div>
             }
         >
-            <Results />
+            <Results logs={logs} />
         </Suspense>
     );
 }

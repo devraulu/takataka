@@ -12,6 +12,7 @@ type Props = {
 const store = createStore();
 
 export default function Providers({ children }: Props) {
+    // Move authentication state here
     return (
         <SWRConfig
             value={{

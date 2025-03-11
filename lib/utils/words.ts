@@ -6,10 +6,7 @@ export function fitsInCurrentLine(
     fontWidth: number,
     containerWidth: number,
 ) {
-    // We calculate the width of the word using the width of the current font at it's current size
-    // and multiply it by the length of the word plus one space
-
-    const wordWidth = (word.length + 1) * fontWidth;
+    // The calculations assume that the font is monospaced
 
     // To know the width of the line we calculate the width of each word,
     //  then add each width
@@ -17,6 +14,10 @@ export function fitsInCurrentLine(
         (acc, item) => acc + (item.length + 1) * fontWidth,
         0,
     );
+
+    // We calculate the width of the word using the width of the current font at it's current size
+    // and multiply it by the length of the word plus one space
+    const wordWidth = (word.length + 1) * fontWidth;
 
     return lineWidth + wordWidth <= containerWidth;
 }
@@ -46,6 +47,16 @@ export function checkWord(
     index: number,
     active = true,
 ) {
+    if (word.length == 0)
+        return {
+            originalWord: word,
+            word: '',
+            letters: [],
+            incorrectlyTypedWord: false,
+            isComplete: true,
+            index,
+        };
+
     const typedNotEmpty = typed?.length > 0;
     const isTyped = typedNotEmpty && !!typed;
     const isComplete = isTyped && typed.length === word.length;
@@ -84,11 +95,5 @@ export function checkWord(
 }
 
 export const pascalCase = (w: string, i: number) => {
-    console.log(
-        'pascalCase',
-        i,
-        i === 0 ? w.toLowerCase() : w.slice(0, 1).toUpperCase() + w.slice(1),
-    );
-
     return i === 0 ? w.toLowerCase() : w.slice(0, 1).toUpperCase() + w.slice(1);
 };

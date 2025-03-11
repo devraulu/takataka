@@ -10,16 +10,23 @@ const useRenderWords = (fontWidth: number, containerWidth: number) => {
     const lines = text.reduce(
         (acc: string[][], item: string) => {
             if (acc.length < 1) acc.push([]);
-            const currentLine = acc[acc.length - 1];
 
             // If the current word fits in the current line without surpassing the width of the container we add it
             // to the current line
             if (
-                fitsInCurrentLine(item, currentLine, fontWidth, containerWidth)
+                fitsInCurrentLine(
+                    item,
+                    acc[acc.length - 1],
+                    fontWidth,
+                    containerWidth,
+                )
             ) {
-                currentLine.push(item);
-                return [...acc.slice(0, -1), currentLine];
-            } else return [...acc, [item]];
+                acc[acc.length - 1].push(item);
+            } else {
+                acc.push([item]);
+            }
+
+            return acc;
         },
         [[]],
     );

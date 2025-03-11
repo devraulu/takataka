@@ -14,7 +14,7 @@
     --font-mono:
         var(--font-recursive), ui-monospace, SFMono-Regular, Menlo, Monaco,
         Consolas, 'Liberation Mono', 'Courier New', monospace;
-    --font-recursive--font-variation-settings: 'MONO' 1;
+    --font-mono--font-variation-settings: 'MONO' 1;
 
     --font-display: var(--font-recursive);
     --font-display--font-variation-settings: 'CASL' 1;

@@ -15,13 +15,20 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '#root/components/ui/dropdown-menu';
-
 import axios from 'axios';
+import { profileAtom } from '#root/atoms/auth';
+import { useSetAtom } from 'jotai';
+
 const logout = async () => axios.post('/api/auth/logout');
 
 export default function UserMenu() {
-    const { data, error, isLoading, mutate } = useSWR('/api/user/profile');
-    console.log('data', data);
+    const { data, error, isLoading, mutate } = useSWR('/api/user/profile', {
+        shouldRetryOnError: false,
+        revalidateOnReconnect: true,
+    });
+    const setUserProfile = useSetAtom(profileAtom);
+
+    setUserProfile(error ? undefined : data);
 
     if (data != null)
         return (

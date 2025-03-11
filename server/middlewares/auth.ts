@@ -12,7 +12,6 @@ const authMiddleware = createMiddleware<Env>(async (c, next) => {
     const token = getCookie(c, CookiesEnum.SESSION);
 
     if (token == null) {
-        console.log('token == null');
         c.set('session', null);
         c.set('user', null);
     } else {

@@ -2,8 +2,11 @@ import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { resetTestAtom, textAtom } from '#root/atoms/typing';
 import { generateTestWords } from '#root/lib/utils/random-words';
+import TestConfiguration, {
+    TestSize,
+} from '#root/lib/models/test-configuration';
 
-const initialTestConfiguration = {
+const initialTestConfiguration: TestConfiguration = {
     numbers: false,
     punctuation: false,
     testSize: 10,
@@ -24,7 +27,7 @@ export const setTestConfigurationAtom = atom(
     },
 );
 
-export const handleTestSize = atom(null, (_, set, testSize: number) =>
+export const handleTestSize = atom(null, (_, set, testSize: TestSize) =>
     set(setTestConfigurationAtom, { testSize }),
 );
 

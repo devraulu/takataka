@@ -3,6 +3,8 @@ import { showResultsAtom } from './results';
 import { checkWord } from '#root/lib/utils/words';
 import { WordStat } from '#root/types/word-stat';
 import Log from '#root/types/log';
+import TestEntry from '#root/lib/models/test-entry';
+import { atomWithStorage } from 'jotai/utils';
 
 export const INITIAL_TYPED = [''];
 export const typedAtom = atom(INITIAL_TYPED);
@@ -10,6 +12,8 @@ export const typedAtom = atom(INITIAL_TYPED);
 export const currentlyTypingIndexAtom = atom(0);
 
 export const setTypedAtom = atom(null, (get, set, typed: string[]) => {
+    set(typedAtom, typed);
+
     const text = get(textAtom);
     const splitText = text.split(' ');
 
@@ -70,12 +74,15 @@ export const setTypedAtom = atom(null, (get, set, typed: string[]) => {
             set(appendTypedLogAtom, logEntry);
         }
     }
-
-    set(typedAtom, typed);
 });
 
 export const typedLogAtom = atom<Log[]>([]);
-export const lastTestLogsAtom = atom<Log[]>([]);
+
+export const lastTestResultsAtom = atomWithStorage<TestEntry | undefined>(
+    'last_results',
+    undefined,
+);
+
 export const historyAtom = atom<string[]>([]);
 export const textAtom = atom('');
 export const resetBtnRefAtom =
@@ -104,7 +111,6 @@ export const resetTestAtom = atom(null, (get, set) => {
     set(setTypedAtom, INITIAL_TYPED);
     set(historyAtom, []);
     set(showResultsAtom, false);
-    set(lastTestLogsAtom, []);
     set(typedLogAtom, []);
     set(
         checkedWordsAtom,

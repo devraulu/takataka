@@ -60,14 +60,12 @@ googleCallbackApp.get('/', async c => {
         const token = generateSessionToken();
         const session = await createSession(token, existingUser.id);
         setSessionTokenCookie(c, token, session.expiresAt);
-        console.log('existingUser: session', session);
         return c.redirect('/');
     }
 
     const user = await createUser(googleId, email);
     const token = generateSessionToken();
     const session = await createSession(token, user.id);
-    console.log('existingUser: session', session, token);
     setSessionTokenCookie(c, token, session.expiresAt);
 
     return c.redirect('/');

@@ -7,20 +7,36 @@ import ShowAfterDelay from '#root/components/animations/show-after-delay';
 import { LetterStat, WordStat } from '#root/types/word-stat';
 
 function Words() {
+    const [{ height: fontHeight, width: fontWidth }, setFontRect] =
+        React.useState<Partial<DOMRect>>({ height: 0, width: 0 });
+
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { width: containerWidth } =
         containerRef.current?.getBoundingClientRect() ?? { width: 0 };
 
     const fontRef = useRef<HTMLSpanElement | null>(null);
-    const { height: fontHeight, width: fontWidth } =
-        fontRef.current?.getBoundingClientRect() ?? { height: 0, width: 0 };
 
-    const words = useRenderWords(fontWidth, containerWidth);
+    const words = useRenderWords(fontWidth ?? 0, containerWidth);
 
-    const fz = 30;
+    const fz = 32;
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            const rect = fontRef.current?.getBoundingClientRect() ?? {
+                height: 0,
+                width: 0,
+            };
+            setFontRect(rect);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
-        <div ref={containerRef} className='font-variation-mono relative'>
+        <div ref={containerRef} className='font-mono relative'>
             {/* We use this letter to measure the current size of the letters and spaces we're displaying */}
             <span
                 ref={fontRef}
@@ -30,7 +46,7 @@ function Words() {
                 a
             </span>
 
-            <Caret containerRef={containerRef} fontHeight={fontHeight} />
+            <Caret containerRef={containerRef} fontHeight={fontHeight ?? 0} />
 
             <ShowAfterDelay>
                 {words.length > 0 && (

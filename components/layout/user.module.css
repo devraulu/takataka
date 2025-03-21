@@ -1,0 +1,25 @@
+.signIn {
+    display: grid;
+    grid-template-areas: 'stack';
+    justify-items: center;
+}
+
+.signIn > span {
+    grid-area: stack;
+}
+
+.signIn .spinner {
+    visibility: hidden;
+}
+
+.signIn .text {
+    visibility: visible;
+}
+
+.loading .text {
+    visibility: hidden;
+}
+
+.loading .spinner {
+    visibility: visible;
+}

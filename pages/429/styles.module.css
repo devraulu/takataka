@@ -1,0 +1,4 @@
+body {
+    background-color: black;
+    color: oklch(90% 0 0);
+}

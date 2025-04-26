@@ -1,0 +1,179 @@
+import { Context } from 'hono';
+import { encodeHexLowerCase } from '@oslojs/encoding';
+import { sha256 } from '@oslojs/crypto/sha2';
+import { generateRandomOTP, generateRandomRecoveryCode } from './utils';
+import { hashPassword } from './password';
+import { db } from '#root/database/dialect';
+import { getCookie, setCookie } from 'hono/cookie';
+import { encryptString } from './encryption';
+import { Counter, TokenBucketRateLimit } from '#root/server/lib/rate-limit';
+import { UserResponse } from './user';
+
+export const signupSessionEmailVerificationCounter = new Counter<string>(5);
+export const ipSendSignupVerificationEmailRateLimit =
+    new TokenBucketRateLimit<string>(5, 60 * 5);
+
+export async function createSignUpSession(
+    token: string,
+    email: string,
+    username: string,
+    password: string,
+): Promise<SignUpSession> {
+    const sessionId = encodeHexLowerCase(
+        sha256(new TextEncoder().encode(token)),
+    );
+    const emailVerificationCode = generateRandomOTP();
+    const passwordHash = await hashPassword(password);
+
+    const session: SignUpSession = {
+        sessionId,
+        expiresAt: new Date(Date.now() * 1000 * 60 * 10),
+        email,
+        username,
+        passwordHash,
+        emailVerificationCode,
+    };
+
+    await db
+        .insertInto('signupSession')
+        .values({
+            sessionId: sessionId,
+            expiresAt: new Date(Date.now() * 1000 * 60 * 10).toISOString(),
+            email,
+            username,
+            passwordHash: passwordHash,
+            emailVerificationCode: emailVerificationCode,
+        })
+        .executeTakeFirst();
+
+    return session;
+}
+
+export async function validateSignUpSessionToken(
+    token: string,
+): Promise<SignUpSession | null> {
+    const sessionId = encodeHexLowerCase(
+        sha256(new TextEncoder().encode(token)),
+    );
+
+    const session = await db
+        .selectFrom('signupSession')
+        .where('sessionId', '=', sessionId)
+        .selectAll()
+        .executeTakeFirst();
+
+    if (!session) return null;
+
+    if (Date.now() >= session.expiresAt.getTime()) {
+        await db
+            .deleteFrom('signupSession')
+            .where('id', '=', session.id)
+            .executeTakeFirst();
+        return null;
+    }
+
+    return session;
+}
+
+export async function invalidateSignUpSession(
+    sessionId: string,
+): Promise<void> {
+    await db
+        .deleteFrom('signupSession')
+        .where('sessionId', '=', sessionId)
+        .executeTakeFirst();
+}
+
+export async function validateSignUpSessionRequest(
+    c: Context,
+): Promise<SignUpSession | null> {
+    const token = getCookie(c, 'signup_session');
+    if (!token) return null;
+
+    const session = await validateSignUpSessionToken(token);
+
+    if (!session) {
+        deleteSignUpSessionTokenCookie(c);
+    }
+
+    return session;
+}
+
+export async function createUserWithSignUpSession(
+    sessionId: string,
+): Promise<UserResponse> {
+    return await db.transaction().execute(async tx => {
+        const row = await tx
+            .deleteFrom('signupSession')
+            .where('sessionId', '=', sessionId)
+            .returningAll()
+            .executeTakeFirst();
+
+        if (!row) {
+            throw new Error('Invalid session');
+        }
+
+        const recoveryCode = generateRandomRecoveryCode();
+        const encryptedRecoveryCode = encryptString(recoveryCode);
+
+        const newUser = await tx
+            .insertInto('appUser')
+            .values({
+                email: row.email,
+                username: row.username,
+                passwordHash: row.passwordHash,
+                recoveryCode: encryptedRecoveryCode,
+            })
+            .returningAll()
+            .executeTakeFirstOrThrow();
+
+        const user: UserResponse = {
+            id: newUser.id,
+            username: row.username,
+            email: row.email,
+            registered2fa: false,
+        };
+
+        return user;
+    });
+}
+
+export function setSignUpSessionTokenCookie(
+    c: Context,
+    token: string,
+    expiresAt: Date,
+): void {
+    setCookie(c, 'signup_session', token, {
+        expires: expiresAt,
+        sameSite: 'lax',
+        httpOnly: true,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+    });
+}
+
+export function deleteSignUpSessionTokenCookie(c: Context): void {
+    setCookie(c, 'signup_session', '', {
+        maxAge: 0,
+        sameSite: 'lax',
+        httpOnly: true,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+    });
+}
+
+export async function sendSignUpEmail(
+    email: string,
+    code: string,
+): Promise<void> {
+    console.log(`To ${email}: Your sign up code is ${code}`);
+}
+
+export interface SignUpSession {
+    sessionId: string;
+    email: string;
+    username: string;
+    passwordHash: string;
+    emailVerificationCode: string;
+    expiresAt: Date;
+}
